@@ -1,0 +1,14 @@
+# RAG Ingestion Scripts Dependencies
+
+# Core dependencies
+python-dotenv==1.0.0
+httpx==0.26.0
+beautifulsoup4==4.12.3
+lxml==5.1.0
+
+# AI and Vector DB
+openai==1.12.0
+pinecone-client==3.0.3
+
+# Note: These scripts use the same dependencies as the ai-service
+# You can also run: pip install -r apps/ai-service/requirements.txt
