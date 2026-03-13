@@ -13,11 +13,18 @@ import {
   createUserWithEmailAndPassword,
   signInWithPopup,
   signOut as firebaseSignOut,
+  sendSignInLinkToEmail,
+  isSignInWithEmailLink,
+  signInWithEmailLink,
+  sendPasswordResetEmail,
   GoogleAuthProvider,
   type User,
+  type ActionCodeSettings,
 } from "firebase/auth";
 import { doc, getDoc, setDoc, serverTimestamp } from "firebase/firestore";
 import { auth, db } from "./firebase";
+
+const MAGIC_LINK_EMAIL_KEY = "migravio_magic_link_email";
 
 interface UserProfile {
   language: string;
@@ -39,6 +46,9 @@ interface AuthContextType {
   signIn: (email: string, password: string) => Promise<void>;
   signUp: (email: string, password: string) => Promise<void>;
   signInWithGoogle: () => Promise<void>;
+  sendMagicLink: (email: string) => Promise<void>;
+  completeMagicLinkSignIn: (url: string) => Promise<boolean>;
+  resetPassword: (email: string) => Promise<void>;
   signOut: () => Promise<void>;
   refreshProfile: () => Promise<void>;
 }
@@ -46,6 +56,37 @@ interface AuthContextType {
 const AuthContext = createContext<AuthContextType | null>(null);
 
 const googleProvider = new GoogleAuthProvider();
+
+function getActionCodeSettings(): ActionCodeSettings {
+  const baseUrl =
+    typeof window !== "undefined"
+      ? window.location.origin
+      : "http://localhost:3000";
+  return {
+    url: `${baseUrl}/en/email-signin`,
+    handleCodeInApp: true,
+  };
+}
+
+async function ensureUserProfile(uid: string, email: string | null, displayName: string | null, photoURL: string | null) {
+  const docRef = doc(db, "users", uid);
+  const docSnap = await getDoc(docRef);
+  if (!docSnap.exists()) {
+    await setDoc(docRef, {
+      email: email || "",
+      displayName: displayName || "",
+      photoURL: photoURL || "",
+      language: "en",
+      visaType: "",
+      onboardingComplete: false,
+      subscription: { plan: "free", status: "active" },
+      messageCount: 0,
+      messageResetDate: serverTimestamp(),
+      createdAt: serverTimestamp(),
+      updatedAt: serverTimestamp(),
+    });
+  }
+}
 
 export function AuthProvider({ children }: { children: ReactNode }) {
   const [user, setUser] = useState<User | null>(null);
@@ -95,44 +136,45 @@ export function AuthProvider({ children }: { children: ReactNode }) {
   };
 
   const signUp = async (email: string, password: string) => {
-    const credential = await createUserWithEmailAndPassword(
-      auth,
-      email,
-      password
-    );
-    await setDoc(doc(db, "users", credential.user.uid), {
-      email: credential.user.email,
-      displayName: credential.user.displayName || "",
-      language: "en",
-      visaType: "",
-      onboardingComplete: false,
-      subscription: { plan: "free", status: "active" },
-      messageCount: 0,
-      messageResetDate: serverTimestamp(),
-      createdAt: serverTimestamp(),
-      updatedAt: serverTimestamp(),
-    });
+    const credential = await createUserWithEmailAndPassword(auth, email, password);
+    await ensureUserProfile(credential.user.uid, credential.user.email, credential.user.displayName, null);
   };
 
   const signInWithGoogle = async () => {
     const credential = await signInWithPopup(auth, googleProvider);
-    const docRef = doc(db, "users", credential.user.uid);
-    const docSnap = await getDoc(docRef);
-    if (!docSnap.exists()) {
-      await setDoc(docRef, {
-        email: credential.user.email,
-        displayName: credential.user.displayName || "",
-        photoURL: credential.user.photoURL || "",
-        language: "en",
-        visaType: "",
-        onboardingComplete: false,
-        subscription: { plan: "free", status: "active" },
-        messageCount: 0,
-        messageResetDate: serverTimestamp(),
-        createdAt: serverTimestamp(),
-        updatedAt: serverTimestamp(),
-      });
+    await ensureUserProfile(credential.user.uid, credential.user.email, credential.user.displayName, credential.user.photoURL);
+  };
+
+  const sendMagicLink = async (email: string) => {
+    await sendSignInLinkToEmail(auth, email, getActionCodeSettings());
+    if (typeof window !== "undefined") {
+      window.localStorage.setItem(MAGIC_LINK_EMAIL_KEY, email);
     }
+  };
+
+  const completeMagicLinkSignIn = async (url: string): Promise<boolean> => {
+    if (!isSignInWithEmailLink(auth, url)) {
+      return false;
+    }
+    let email =
+      typeof window !== "undefined"
+        ? window.localStorage.getItem(MAGIC_LINK_EMAIL_KEY)
+        : null;
+    if (!email) {
+      email = window.prompt("Please enter your email to confirm sign-in:");
+    }
+    if (!email) return false;
+
+    const credential = await signInWithEmailLink(auth, email, url);
+    if (typeof window !== "undefined") {
+      window.localStorage.removeItem(MAGIC_LINK_EMAIL_KEY);
+    }
+    await ensureUserProfile(credential.user.uid, credential.user.email, credential.user.displayName, null);
+    return true;
+  };
+
+  const resetPassword = async (email: string) => {
+    await sendPasswordResetEmail(auth, email);
   };
 
   const signOut = async () => {
@@ -149,6 +191,9 @@ export function AuthProvider({ children }: { children: ReactNode }) {
         signIn,
         signUp,
         signInWithGoogle,
+        sendMagicLink,
+        completeMagicLinkSignIn,
+        resetPassword,
         signOut,
         refreshProfile,
       }}
