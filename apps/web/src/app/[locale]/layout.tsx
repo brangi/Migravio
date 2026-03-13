@@ -2,15 +2,23 @@ import type { Metadata } from "next";
 import { NextIntlClientProvider, hasLocale } from "next-intl";
 import { getMessages } from "next-intl/server";
 import { notFound } from "next/navigation";
-import { Inter } from "next/font/google";
+import { DM_Serif_Display, DM_Sans } from "next/font/google";
 import { routing } from "@/i18n/routing";
 import { AuthProvider } from "@/lib/auth-context";
 import PWARegister from "@/components/pwa-register";
 import "../globals.css";
 
-const inter = Inter({
-  subsets: ["latin"],
-  variable: "--font-inter",
+const dmSerifDisplay = DM_Serif_Display({
+  weight: "400",
+  subsets: ["latin", "latin-ext"],
+  variable: "--font-dm-serif-display",
+  display: "swap",
+});
+
+const dmSans = DM_Sans({
+  subsets: ["latin", "latin-ext"],
+  variable: "--font-dm-sans",
+  display: "swap",
 });
 
 // SEO-optimized metadata with Open Graph and Twitter cards
@@ -116,6 +124,11 @@ export default async function LocaleLayout({
   return (
     <html lang={locale}>
       <head>
+        {/* Favicon & PWA icons */}
+        <link rel="icon" href="/favicon.ico" sizes="32x32" />
+        <link rel="icon" href="/icon.svg" type="image/svg+xml" />
+        <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
+
         {/* PWA manifest */}
         <link rel="manifest" href="/manifest.json" />
 
@@ -130,8 +143,8 @@ export default async function LocaleLayout({
           crossOrigin="anonymous"
         />
 
-        {/* Theme color for mobile browsers */}
-        <meta name="theme-color" content="#2563eb" />
+        {/* Theme color for mobile browsers - Deep Indigo */}
+        <meta name="theme-color" content="#3730a3" />
 
         {/* iOS Web App configuration */}
         <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -162,7 +175,7 @@ export default async function LocaleLayout({
           }}
         />
       </head>
-      <body className={`${inter.variable} font-sans antialiased`}>
+      <body className={`${dmSerifDisplay.variable} ${dmSans.variable} font-sans antialiased`}>
         <NextIntlClientProvider messages={messages}>
           <AuthProvider>
             <PWARegister />

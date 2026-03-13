@@ -6,8 +6,16 @@ import { useAuth } from "@/lib/auth-context";
 import { useRouter } from "@/i18n/navigation";
 import { doc, updateDoc, serverTimestamp, Timestamp } from "firebase/firestore";
 import { db } from "@/lib/firebase";
+import { Logo } from "@/components/logo";
+import { Button } from "@/components/button";
+import { Check, Globe } from "@/components/icons";
 
 const VISA_TYPES = ["H-1B", "F-1", "Family", "GreenCard", "Other"] as const;
+
+const LANGUAGE_OPTIONS = [
+  { code: "en", label: "English", flag: "🇺🇸" },
+  { code: "es", label: "Español", flag: "🇪🇸" },
+];
 
 export default function OnboardingPage() {
   const t = useTranslations("onboarding");
@@ -21,6 +29,8 @@ export default function OnboardingPage() {
   const [visaExpiry, setVisaExpiry] = useState("");
   const [priorityDate, setPriorityDate] = useState("");
   const [saving, setSaving] = useState(false);
+
+  const totalSteps = 3;
 
   const handleComplete = async () => {
     if (!user) return;
@@ -46,154 +56,234 @@ export default function OnboardingPage() {
   };
 
   return (
-    <div className="flex min-h-screen items-center justify-center bg-gray-50 px-4">
-      <div className="w-full max-w-md space-y-8">
+    <div className="flex min-h-screen items-center justify-center bg-surface px-4">
+      <div className="w-full max-w-lg space-y-8">
+        {/* Logo */}
         <div className="text-center">
-          <h1 className="text-2xl font-bold text-blue-700">
+          <Logo className="mx-auto h-10" />
+        </div>
+
+        {/* Progress Section */}
+        <div className="space-y-4">
+          {/* Step Labels */}
+          <div className="flex justify-between text-xs font-medium text-text-tertiary">
+            <span className={step >= 1 ? "text-primary-600" : ""}>
+              Step 1
+            </span>
+            <span className={step >= 2 ? "text-primary-600" : ""}>
+              Step 2
+            </span>
+            <span className={step >= 3 ? "text-primary-600" : ""}>
+              Step 3
+            </span>
+          </div>
+
+          {/* Progress Bar */}
+          <div className="h-2 overflow-hidden rounded-full bg-primary-100">
+            <div
+              className="h-full bg-primary-600 transition-all duration-300 ease-out"
+              style={{ width: `${(step / totalSteps) * 100}%` }}
+            />
+          </div>
+        </div>
+
+        {/* Welcome Header */}
+        <div className="text-center">
+          <h1 className="font-[var(--font-display)] text-3xl text-text-primary">
             {t("welcome")}
           </h1>
-          {/* Progress indicator */}
-          <div className="mt-6 flex justify-center gap-2">
-            {[1, 2, 3].map((s) => (
-              <div
-                key={s}
-                className={`h-2 w-16 rounded-full ${
-                  s <= step ? "bg-blue-600" : "bg-gray-200"
-                }`}
-              />
-            ))}
-          </div>
         </div>
 
         {/* Step 1: Language */}
         {step === 1 && (
-          <div className="space-y-4">
-            <h2 className="text-lg font-semibold text-gray-900">
-              {t("step1Title")}
-            </h2>
-            <p className="text-sm text-gray-600">{t("step1Subtitle")}</p>
+          <div className="space-y-6">
             <div className="space-y-2">
-              {[
-                { code: "en", label: "English" },
-                { code: "es", label: "Espanol" },
-              ].map((lang) => (
+              <h2 className="font-[var(--font-display)] text-xl text-text-primary">
+                {t("step1Title")}
+              </h2>
+              <p className="text-sm text-text-secondary">{t("step1Subtitle")}</p>
+            </div>
+
+            <div className="space-y-3">
+              {LANGUAGE_OPTIONS.map((lang) => (
                 <button
                   key={lang.code}
                   onClick={() => setLanguage(lang.code)}
-                  className={`flex w-full items-center rounded-lg border px-4 py-3 text-left text-sm font-medium transition-colors ${
+                  className={`group relative flex w-full items-center justify-between rounded-xl border-2 px-6 py-4 text-left transition-all duration-200 ${
                     language === lang.code
-                      ? "border-blue-600 bg-blue-50 text-blue-700"
-                      : "border-gray-300 bg-white text-gray-700 hover:bg-gray-50"
+                      ? "border-primary-600 bg-primary-50 shadow-sm"
+                      : "border-border bg-surface hover:border-primary-300 hover:bg-surface-alt"
                   }`}
                 >
-                  {lang.label}
+                  <div className="flex items-center gap-3">
+                    <span className="text-2xl">{lang.flag}</span>
+                    <div>
+                      <span
+                        className={`text-base font-medium ${
+                          language === lang.code
+                            ? "text-primary-700"
+                            : "text-text-primary"
+                        }`}
+                      >
+                        {lang.label}
+                      </span>
+                    </div>
+                  </div>
+                  {language === lang.code && (
+                    <div className="flex h-6 w-6 items-center justify-center rounded-full bg-primary-600">
+                      <Check className="h-4 w-4 text-white" />
+                    </div>
+                  )}
                 </button>
               ))}
             </div>
-            <button
+
+            <Button
               onClick={() => setStep(2)}
-              className="w-full rounded-lg bg-blue-600 px-4 py-2.5 text-sm font-semibold text-white hover:bg-blue-700"
+              variant="primary"
+              className="w-full"
             >
               {tCommon("next")}
-            </button>
+            </Button>
           </div>
         )}
 
         {/* Step 2: Visa Type */}
         {step === 2 && (
-          <div className="space-y-4">
-            <h2 className="text-lg font-semibold text-gray-900">
-              {t("step2Title")}
-            </h2>
-            <p className="text-sm text-gray-600">{t("step2Subtitle")}</p>
+          <div className="space-y-6">
             <div className="space-y-2">
+              <h2 className="font-[var(--font-display)] text-xl text-text-primary">
+                {t("step2Title")}
+              </h2>
+              <p className="text-sm text-text-secondary">{t("step2Subtitle")}</p>
+            </div>
+
+            <div className="space-y-3">
               {VISA_TYPES.map((vt) => (
                 <button
                   key={vt}
                   onClick={() => setVisaType(vt)}
-                  className={`flex w-full items-center rounded-lg border px-4 py-3 text-left text-sm font-medium transition-colors ${
+                  className={`group relative flex w-full items-center justify-between rounded-xl border-2 px-6 py-4 text-left transition-all duration-200 ${
                     visaType === vt
-                      ? "border-blue-600 bg-blue-50 text-blue-700"
-                      : "border-gray-300 bg-white text-gray-700 hover:bg-gray-50"
+                      ? "border-primary-600 bg-primary-50 shadow-sm"
+                      : "border-border bg-surface hover:border-primary-300 hover:bg-surface-alt"
                   }`}
                 >
-                  {t(`visaTypes.${vt}`)}
+                  <span
+                    className={`text-base font-medium ${
+                      visaType === vt
+                        ? "text-primary-700"
+                        : "text-text-primary"
+                    }`}
+                  >
+                    {t(`visaTypes.${vt}`)}
+                  </span>
+                  {visaType === vt && (
+                    <div className="flex h-6 w-6 items-center justify-center rounded-full bg-primary-600">
+                      <Check className="h-4 w-4 text-white" />
+                    </div>
+                  )}
                 </button>
               ))}
             </div>
+
             <div className="flex gap-3">
-              <button
+              <Button
                 onClick={() => setStep(1)}
-                className="flex-1 rounded-lg border border-gray-300 px-4 py-2.5 text-sm font-medium text-gray-700 hover:bg-gray-50"
+                variant="secondary"
+                className="flex-1"
               >
                 {tCommon("back")}
-              </button>
-              <button
+              </Button>
+              <Button
                 onClick={() => setStep(3)}
                 disabled={!visaType}
-                className="flex-1 rounded-lg bg-blue-600 px-4 py-2.5 text-sm font-semibold text-white hover:bg-blue-700 disabled:opacity-50"
+                variant="primary"
+                className="flex-1"
               >
                 {tCommon("next")}
-              </button>
+              </Button>
             </div>
           </div>
         )}
 
         {/* Step 3: Dates */}
         {step === 3 && (
-          <div className="space-y-4">
-            <h2 className="text-lg font-semibold text-gray-900">
-              {t("step3Title")}
-            </h2>
-            <p className="text-sm text-gray-600">{t("step3Subtitle")}</p>
-
-            <div>
-              <label className="block text-sm font-medium text-gray-700">
-                {t("visaExpiry")}
-              </label>
-              <input
-                type="date"
-                value={visaExpiry}
-                onChange={(e) => setVisaExpiry(e.target.value)}
-                className="mt-1 block w-full rounded-lg border border-gray-300 px-3 py-2 text-gray-900 shadow-sm focus:border-blue-500 focus:outline-none focus:ring-1 focus:ring-blue-500"
-              />
+          <div className="space-y-6">
+            <div className="space-y-2">
+              <h2 className="font-[var(--font-display)] text-xl text-text-primary">
+                {t("step3Title")}
+              </h2>
+              <p className="text-sm text-text-secondary">{t("step3Subtitle")}</p>
             </div>
 
-            <div>
-              <label className="block text-sm font-medium text-gray-700">
-                {t("priorityDate")}
-              </label>
-              <input
-                type="date"
-                value={priorityDate}
-                onChange={(e) => setPriorityDate(e.target.value)}
-                className="mt-1 block w-full rounded-lg border border-gray-300 px-3 py-2 text-gray-900 shadow-sm focus:border-blue-500 focus:outline-none focus:ring-1 focus:ring-blue-500"
-              />
+            <div className="space-y-5">
+              <div>
+                <label
+                  htmlFor="visaExpiry"
+                  className="block text-sm font-medium text-text-secondary"
+                >
+                  {t("visaExpiry")}
+                </label>
+                <input
+                  type="date"
+                  id="visaExpiry"
+                  value={visaExpiry}
+                  onChange={(e) => setVisaExpiry(e.target.value)}
+                  className="mt-2 block w-full rounded-lg border border-border bg-surface px-4 py-3 text-text-primary shadow-sm transition-colors focus:border-primary-500 focus:outline-none focus:ring-2 focus:ring-primary-500/20"
+                />
+              </div>
+
+              <div>
+                <label
+                  htmlFor="priorityDate"
+                  className="block text-sm font-medium text-text-secondary"
+                >
+                  {t("priorityDate")}
+                </label>
+                <input
+                  type="date"
+                  id="priorityDate"
+                  value={priorityDate}
+                  onChange={(e) => setPriorityDate(e.target.value)}
+                  className="mt-2 block w-full rounded-lg border border-border bg-surface px-4 py-3 text-text-primary shadow-sm transition-colors focus:border-primary-500 focus:outline-none focus:ring-2 focus:ring-primary-500/20"
+                />
+              </div>
             </div>
 
             <div className="flex gap-3">
-              <button
+              <Button
                 onClick={() => setStep(2)}
-                className="flex-1 rounded-lg border border-gray-300 px-4 py-2.5 text-sm font-medium text-gray-700 hover:bg-gray-50"
+                variant="secondary"
+                className="flex-1"
               >
                 {tCommon("back")}
-              </button>
-              <button
+              </Button>
+              <Button
                 onClick={handleComplete}
                 disabled={saving}
-                className="flex-1 rounded-lg bg-blue-600 px-4 py-2.5 text-sm font-semibold text-white hover:bg-blue-700 disabled:opacity-50"
+                variant="primary"
+                className="flex-1"
               >
-                {saving ? "..." : tCommon("getStarted")}
-              </button>
+                {saving ? (
+                  <div className="flex items-center gap-2">
+                    <div className="h-4 w-4 animate-spin rounded-full border-2 border-white border-t-transparent" />
+                    <span>Saving...</span>
+                  </div>
+                ) : (
+                  tCommon("getStarted")
+                )}
+              </Button>
             </div>
 
-            <button
+            <Button
               onClick={handleComplete}
               disabled={saving}
-              className="w-full text-center text-sm text-gray-500 hover:text-gray-700"
+              variant="ghost"
+              className="w-full"
             >
               {t("skip")}
-            </button>
+            </Button>
           </div>
         )}
       </div>

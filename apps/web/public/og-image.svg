@@ -1,0 +1,30 @@
+<svg width="1200" height="630" viewBox="0 0 1200 630" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <!-- Background: Deep Indigo gradient -->
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="1200" y2="630" gradientUnits="userSpaceOnUse">
+      <stop offset="0%" stop-color="#312e81"/>
+      <stop offset="100%" stop-color="#1e1b4b"/>
+    </linearGradient>
+  </defs>
+  <rect width="1200" height="630" fill="url(#bg)"/>
+
+  <!-- Subtle path decoration -->
+  <path d="M200 530 Q320 400, 400 315 Q480 230, 520 150" stroke="#4338ca" stroke-width="3" stroke-linecap="round" opacity="0.3"/>
+  <path d="M350 530 Q420 400, 460 315 Q500 230, 520 150" stroke="#f59e0b" stroke-width="3" stroke-linecap="round" opacity="0.3"/>
+
+  <!-- Logo mark (centered upper) -->
+  <g transform="translate(548, 120)">
+    <path d="M0 150 Q30 100, 52 75 Q74 50, 104 0" stroke="#a5b4fc" stroke-width="12" stroke-linecap="round" stroke-linejoin="round"/>
+    <path d="M208 150 Q178 100, 156 75 Q134 50, 104 0" stroke="#f59e0b" stroke-width="12" stroke-linecap="round" stroke-linejoin="round"/>
+    <circle cx="104" cy="0" r="14" fill="#f59e0b"/>
+  </g>
+
+  <!-- Brand name -->
+  <text x="600" y="350" text-anchor="middle" font-family="serif" font-size="72" font-weight="bold" fill="white">Migravio</text>
+
+  <!-- Tagline -->
+  <text x="600" y="410" text-anchor="middle" font-family="sans-serif" font-size="28" fill="#a5b4fc">Navigate U.S. Immigration in Your Language</text>
+
+  <!-- URL -->
+  <text x="600" y="530" text-anchor="middle" font-family="sans-serif" font-size="22" fill="#6366f1">migravio.ai</text>
+</svg>

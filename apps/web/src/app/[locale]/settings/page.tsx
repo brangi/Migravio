@@ -6,7 +6,12 @@ import { Link, useRouter } from "@/i18n/navigation";
 import { useEffect, useState } from "react";
 import { doc, updateDoc, serverTimestamp, Timestamp } from "firebase/firestore";
 import { db } from "@/lib/firebase";
-import LanguageSwitcher from "@/components/language-switcher";
+import { AppHeader } from "@/components/app-header";
+import { MobileNav } from "@/components/mobile-nav";
+import { AppFooter } from "@/components/footer";
+import { Button } from "@/components/button";
+import { Input } from "@/components/input";
+import { Save, LogOut, Globe } from "@/components/icons";
 
 const VISA_TYPES = [
   { value: "H-1B", label: "H-1B" },
@@ -24,7 +29,6 @@ const LANGUAGE_OPTIONS = [
 export default function SettingsPage() {
   const t = useTranslations("settings");
   const tNav = useTranslations("nav");
-  const tFooter = useTranslations("footer");
   const tOnboarding = useTranslations("onboarding");
   const { user, profile, loading, signOut, refreshProfile } = useAuth();
   const router = useRouter();
@@ -141,92 +145,55 @@ export default function SettingsPage() {
   if (loading || !user || !profile) {
     return (
       <div className="flex min-h-screen items-center justify-center">
-        <div className="h-8 w-8 animate-spin rounded-full border-2 border-blue-600 border-t-transparent" />
+        <div className="h-8 w-8 animate-spin rounded-full border-2 border-primary-600 border-t-transparent" />
       </div>
     );
   }
 
   return (
-    <div className="flex min-h-screen flex-col bg-gray-50 pb-16 md:pb-0">
+    <div className="flex min-h-screen flex-col bg-surface pb-16 md:pb-0">
       {/* Success banner */}
       {showSuccessBanner && (
-        <div className="fixed left-0 right-0 top-0 z-50 animate-[slideDown_0.3s_ease-out] bg-green-600 px-4 py-3 text-center text-sm font-medium text-white">
+        <div className="fixed left-0 right-0 top-0 z-50 animate-[slideDown_0.3s_ease-out] bg-success px-4 py-3 text-center text-sm font-medium text-white">
           {t("saved")}
         </div>
       )}
 
       {/* Top nav */}
-      <header className="border-b border-gray-200 bg-white">
-        <div className="mx-auto flex h-16 max-w-6xl items-center justify-between px-4">
-          <span className="text-xl font-bold text-blue-700">Migravio</span>
-          <nav className="hidden items-center gap-6 md:flex">
-            <Link
-              href="/dashboard"
-              className="text-sm font-medium text-gray-600 hover:text-gray-900"
-            >
-              {tNav("dashboard")}
-            </Link>
-            <Link
-              href="/chat"
-              className="text-sm font-medium text-gray-600 hover:text-gray-900"
-            >
-              {tNav("chat")}
-            </Link>
-            <Link
-              href="/attorneys"
-              className="text-sm font-medium text-gray-600 hover:text-gray-900"
-            >
-              {tNav("attorneys")}
-            </Link>
-            <Link
-              href="/settings"
-              className="text-sm font-medium text-blue-600"
-            >
-              {tNav("settings")}
-            </Link>
-          </nav>
-          <div className="flex items-center gap-3">
-            <LanguageSwitcher />
-            <button
-              onClick={handleSignOut}
-              className="text-sm text-gray-500 hover:text-gray-700"
-            >
-              {tNav("signOut")}
-            </button>
-          </div>
-        </div>
-      </header>
+      <AppHeader activePage="settings" />
 
       {/* Main content */}
       <main className="mx-auto w-full max-w-4xl flex-1 px-4 py-8">
-        <h1 className="text-2xl font-bold text-gray-900">{t("title")}</h1>
+        <h1 className="font-[var(--font-display)] text-3xl text-text-primary">
+          {t("title")}
+        </h1>
 
-        <form onSubmit={handleSave} className="mt-6 space-y-6">
+        <form onSubmit={handleSave} className="mt-8 space-y-8">
           {/* Profile Section */}
-          <div className="rounded-xl border border-gray-200 bg-white p-6 shadow-sm">
-            <h2 className="text-lg font-semibold text-gray-900">
+          <section className="border-b border-border pb-8">
+            <h2 className="font-[var(--font-display)] text-xl text-text-primary">
               {t("profile")}
             </h2>
 
-            <div className="mt-4 space-y-4">
+            <div className="mt-6 space-y-6">
               {/* Display Name */}
               <div>
                 <label
                   htmlFor="displayName"
-                  className="block text-sm font-medium text-gray-700"
+                  className="block text-sm font-medium text-text-secondary"
                 >
                   {t("displayName")}
                 </label>
-                <input
+                <Input
                   type="text"
                   id="displayName"
                   value={displayName}
                   onChange={(e) => setDisplayName(e.target.value)}
-                  className="mt-1 block w-full rounded-lg border border-gray-300 px-4 py-2 text-sm focus:border-blue-500 focus:outline-none focus:ring-1 focus:ring-blue-500"
                   placeholder="Your name"
                   disabled
+                  className="mt-2"
                 />
-                <p className="mt-1 text-xs text-gray-500">
+                <p className="mt-2 text-xs text-text-tertiary">
                   Display name cannot be changed after signup
                 </p>
               </div>
@@ -235,15 +202,16 @@ export default function SettingsPage() {
               <div>
                 <label
                   htmlFor="language"
-                  className="block text-sm font-medium text-gray-700"
+                  className="flex items-center gap-2 text-sm font-medium text-text-secondary"
                 >
+                  <Globe className="h-4 w-4" />
                   {t("language")}
                 </label>
                 <select
                   id="language"
                   value={language}
                   onChange={(e) => setLanguage(e.target.value)}
-                  className="mt-1 block w-full rounded-lg border border-gray-300 px-4 py-2 text-sm focus:border-blue-500 focus:outline-none focus:ring-1 focus:ring-blue-500"
+                  className="mt-2 block w-full rounded-lg border border-border bg-surface px-4 py-2.5 text-sm text-text-primary shadow-sm transition-colors focus:border-primary-500 focus:outline-none focus:ring-2 focus:ring-primary-500/20"
                 >
                   {LANGUAGE_OPTIONS.map((lang) => (
                     <option key={lang.value} value={lang.value}>
@@ -257,7 +225,7 @@ export default function SettingsPage() {
               <div>
                 <label
                   htmlFor="visaType"
-                  className="block text-sm font-medium text-gray-700"
+                  className="block text-sm font-medium text-text-secondary"
                 >
                   {t("visaType")}
                 </label>
@@ -265,7 +233,7 @@ export default function SettingsPage() {
                   id="visaType"
                   value={visaType}
                   onChange={(e) => setVisaType(e.target.value)}
-                  className="mt-1 block w-full rounded-lg border border-gray-300 px-4 py-2 text-sm focus:border-blue-500 focus:outline-none focus:ring-1 focus:ring-blue-500"
+                  className="mt-2 block w-full rounded-lg border border-border bg-surface px-4 py-2.5 text-sm text-text-primary shadow-sm transition-colors focus:border-primary-500 focus:outline-none focus:ring-2 focus:ring-primary-500/20"
                 >
                   <option value="">Select visa type</option>
                   {VISA_TYPES.map((visa) => (
@@ -280,16 +248,16 @@ export default function SettingsPage() {
               <div>
                 <label
                   htmlFor="visaExpiry"
-                  className="block text-sm font-medium text-gray-700"
+                  className="block text-sm font-medium text-text-secondary"
                 >
                   {t("visaExpiry")}
                 </label>
-                <input
+                <Input
                   type="date"
                   id="visaExpiry"
                   value={visaExpiry}
                   onChange={(e) => setVisaExpiry(e.target.value)}
-                  className="mt-1 block w-full rounded-lg border border-gray-300 px-4 py-2 text-sm focus:border-blue-500 focus:outline-none focus:ring-1 focus:ring-blue-500"
+                  className="mt-2"
                 />
               </div>
 
@@ -297,42 +265,42 @@ export default function SettingsPage() {
               <div>
                 <label
                   htmlFor="priorityDate"
-                  className="block text-sm font-medium text-gray-700"
+                  className="block text-sm font-medium text-text-secondary"
                 >
                   {t("priorityDate")}
                 </label>
-                <input
+                <Input
                   type="date"
                   id="priorityDate"
                   value={priorityDate}
                   onChange={(e) => setPriorityDate(e.target.value)}
-                  className="mt-1 block w-full rounded-lg border border-gray-300 px-4 py-2 text-sm focus:border-blue-500 focus:outline-none focus:ring-1 focus:ring-blue-500"
+                  className="mt-2"
                 />
               </div>
             </div>
-          </div>
+          </section>
 
           {/* Subscription Section */}
-          <div className="rounded-xl border border-gray-200 bg-white p-6 shadow-sm">
-            <h2 className="text-lg font-semibold text-gray-900">
+          <section className="border-b border-border pb-8">
+            <h2 className="font-[var(--font-display)] text-xl text-text-primary">
               {t("subscription")}
             </h2>
 
-            <div className="mt-4">
+            <div className="mt-6">
               <div className="flex items-center justify-between">
                 <div>
-                  <p className="text-sm font-medium text-gray-700">
+                  <p className="text-sm font-medium text-text-secondary">
                     {t("currentPlan")}
                   </p>
-                  <p className="mt-1 text-lg font-semibold capitalize text-gray-900">
+                  <p className="mt-1 text-lg font-semibold capitalize text-text-primary">
                     {profile.subscription.plan}
                   </p>
                 </div>
                 <span
                   className={`rounded-full px-3 py-1 text-sm font-medium ${
                     profile.subscription.plan === "free"
-                      ? "bg-gray-100 text-gray-600"
-                      : "bg-green-100 text-green-700"
+                      ? "bg-surface-alt text-text-secondary"
+                      : "bg-success/10 text-success"
                   }`}
                 >
                   {profile.subscription.status}
@@ -342,7 +310,7 @@ export default function SettingsPage() {
               {profile.subscription.plan === "free" ? (
                 <Link
                   href="/pricing"
-                  className="mt-4 inline-block rounded-lg bg-blue-600 px-5 py-2.5 text-sm font-semibold text-white shadow-sm hover:bg-blue-700"
+                  className="mt-6 inline-block rounded-lg bg-primary-600 px-6 py-3 text-sm font-semibold text-white shadow-sm transition-colors hover:bg-primary-700"
                 >
                   Upgrade to Pro
                 </Link>
@@ -350,156 +318,75 @@ export default function SettingsPage() {
                 <button
                   type="button"
                   onClick={handleManageSubscription}
-                  className="mt-4 inline-block rounded-lg border border-gray-300 bg-white px-5 py-2.5 text-sm font-semibold text-gray-700 shadow-sm hover:bg-gray-50"
+                  className="mt-6 inline-block rounded-lg border border-border bg-surface px-6 py-3 text-sm font-semibold text-text-primary shadow-sm transition-colors hover:bg-surface-alt"
                 >
                   Manage Subscription
                 </button>
               )}
             </div>
-          </div>
+          </section>
 
           {/* Account Section */}
-          <div className="rounded-xl border border-gray-200 bg-white p-6 shadow-sm">
-            <h2 className="text-lg font-semibold text-gray-900">
+          <section className="pb-8">
+            <h2 className="font-[var(--font-display)] text-xl text-text-primary">
               {t("account")}
             </h2>
 
-            <div className="mt-4">
-              <label className="block text-sm font-medium text-gray-700">
+            <div className="mt-6">
+              <label className="block text-sm font-medium text-text-secondary">
                 {t("email")}
               </label>
-              <input
+              <Input
                 type="email"
                 value={user.email || ""}
                 disabled
-                className="mt-1 block w-full rounded-lg border border-gray-300 bg-gray-50 px-4 py-2 text-sm text-gray-500"
+                className="mt-2 bg-surface-alt text-text-tertiary"
               />
-              <p className="mt-1 text-xs text-gray-500">
+              <p className="mt-2 text-xs text-text-tertiary">
                 Email address cannot be changed
               </p>
             </div>
-          </div>
+          </section>
 
-          {/* Save Button */}
-          <div className="flex items-center justify-between">
-            <button
+          {/* Action Buttons */}
+          <div className="flex items-center justify-between border-t border-border pt-8">
+            <Button
               type="submit"
+              variant="primary"
               disabled={isSaving}
-              className="inline-flex items-center rounded-lg bg-blue-600 px-6 py-3 text-sm font-semibold text-white shadow-sm hover:bg-blue-700 disabled:bg-blue-400"
+              className="inline-flex items-center gap-2"
             >
               {isSaving ? (
                 <>
-                  <div className="mr-2 h-4 w-4 animate-spin rounded-full border-2 border-white border-t-transparent" />
+                  <div className="h-4 w-4 animate-spin rounded-full border-2 border-white border-t-transparent" />
                   {t("saving")}
                 </>
               ) : (
-                t("save")
+                <>
+                  <Save className="h-4 w-4" />
+                  {t("save")}
+                </>
               )}
-            </button>
+            </Button>
 
-            <button
+            <Button
               type="button"
+              variant="ghost"
               onClick={handleSignOut}
-              className="text-sm font-medium text-red-600 hover:text-red-700"
+              className="inline-flex items-center gap-2 text-danger hover:bg-red-50"
             >
+              <LogOut className="h-4 w-4" />
               {tNav("signOut")}
-            </button>
+            </Button>
           </div>
         </form>
       </main>
 
       {/* Mobile bottom nav */}
-      <nav className="fixed bottom-0 left-0 right-0 border-t border-gray-200 bg-white md:hidden">
-        <div className="flex justify-around py-2">
-          <Link
-            href="/dashboard"
-            className="flex flex-col items-center p-2 text-xs font-medium text-gray-500"
-          >
-            <svg
-              className="h-5 w-5"
-              fill="none"
-              stroke="currentColor"
-              viewBox="0 0 24 24"
-            >
-              <path
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                strokeWidth={2}
-                d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6"
-              />
-            </svg>
-            {tNav("dashboard")}
-          </Link>
-          <Link
-            href="/chat"
-            className="flex flex-col items-center p-2 text-xs font-medium text-gray-500"
-          >
-            <svg
-              className="h-5 w-5"
-              fill="none"
-              stroke="currentColor"
-              viewBox="0 0 24 24"
-            >
-              <path
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                strokeWidth={2}
-                d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z"
-              />
-            </svg>
-            {tNav("chat")}
-          </Link>
-          <Link
-            href="/attorneys"
-            className="flex flex-col items-center p-2 text-xs font-medium text-gray-500"
-          >
-            <svg
-              className="h-5 w-5"
-              fill="none"
-              stroke="currentColor"
-              viewBox="0 0 24 24"
-            >
-              <path
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                strokeWidth={2}
-                d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0z"
-              />
-            </svg>
-            {tNav("attorneys")}
-          </Link>
-          <Link
-            href="/settings"
-            className="flex flex-col items-center p-2 text-xs font-medium text-blue-600"
-          >
-            <svg
-              className="h-5 w-5"
-              fill="none"
-              stroke="currentColor"
-              viewBox="0 0 24 24"
-            >
-              <path
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                strokeWidth={2}
-                d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z"
-              />
-              <path
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                strokeWidth={2}
-                d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"
-              />
-            </svg>
-            {tNav("settings")}
-          </Link>
-        </div>
-      </nav>
+      <MobileNav activePage="settings" />
 
       {/* Footer */}
-      <footer className="border-t border-gray-100 bg-gray-50 py-6 text-center text-sm text-gray-500 md:block">
-        {tFooter("disclaimer")}
-      </footer>
+      <AppFooter />
     </div>
   );
 }

@@ -5,6 +5,10 @@ import { useTranslations } from "next-intl";
 import { useAuth } from "@/lib/auth-context";
 import { Link, useRouter } from "@/i18n/navigation";
 import { FirebaseError } from "firebase/app";
+import { Logo } from "@/components/logo";
+import { Button } from "@/components/button";
+import { Input } from "@/components/input";
+import { Mail, ArrowRight } from "@/components/icons";
 
 type AuthTab = "magic-link" | "password";
 
@@ -75,20 +79,20 @@ export default function LoginPage() {
 
   if (magicLinkSent) {
     return (
-      <div className="flex min-h-screen items-center justify-center bg-gray-50 px-4">
+      <div className="flex min-h-screen items-center justify-center bg-surface px-4">
         <div className="w-full max-w-md space-y-6 text-center">
-          <div className="mx-auto flex h-16 w-16 items-center justify-center rounded-full bg-blue-100">
-            <svg className="h-8 w-8 text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
-            </svg>
+          <div className="mx-auto flex h-16 w-16 items-center justify-center rounded-full bg-primary-100">
+            <Mail className="h-8 w-8 text-primary-600" />
           </div>
-          <h2 className="text-xl font-semibold text-gray-900">{t("magicLinkSent")}</h2>
-          <p className="text-sm text-gray-600">
+          <h2 className="text-xl font-semibold font-[var(--font-display)] text-text-primary">
+            {t("magicLinkSent")}
+          </h2>
+          <p className="text-sm text-text-secondary">
             {t("magicLinkSentDescription", { email })}
           </p>
           <button
             onClick={() => { setMagicLinkSent(false); setEmail(""); }}
-            className="text-sm font-medium text-blue-600 hover:text-blue-700"
+            className="text-sm font-medium text-primary-600 hover:text-primary-700"
           >
             {t("backToLogin")}
           </button>
@@ -98,142 +102,173 @@ export default function LoginPage() {
   }
 
   return (
-    <div className="flex min-h-screen items-center justify-center bg-gray-50 px-4">
-      <div className="w-full max-w-md space-y-6">
-        <div className="text-center">
-          <h1 className="text-2xl font-bold text-blue-700">Migravio</h1>
-          <h2 className="mt-4 text-xl font-semibold text-gray-900">{t("login")}</h2>
+    <div className="flex min-h-screen">
+      {/* Left Branded Panel - Hidden on mobile */}
+      <div className="hidden lg:flex lg:w-1/2 bg-primary-900 relative overflow-hidden items-center justify-center p-12">
+        {/* Decorative Pattern */}
+        <div className="absolute inset-0 opacity-10">
+          <svg className="absolute top-0 left-0 w-96 h-96" viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg">
+            <path fill="currentColor" className="text-white" d="M44.7,-76.4C58.8,-69.2,71.8,-59.1,79.6,-45.8C87.4,-32.6,90,-16.3,88.5,-0.9C87,14.6,81.4,29.2,73.1,42.8C64.8,56.4,53.8,69,40.1,76.8C26.4,84.6,10,87.6,-5.8,87.2C-21.6,86.8,-36.8,82.9,-50.4,75.3C-64,67.7,-76,56.4,-83.8,42.8C-91.6,29.2,-95.2,13.3,-94.6,-2.8C-94,-18.9,-89.2,-35.2,-80.1,-48.8C-71,-62.4,-57.6,-73.3,-42.8,-80.1C-28,-86.9,-11.8,-89.6,2.4,-93.5C16.6,-97.4,30.6,-83.6,44.7,-76.4Z" transform="translate(100 100)" />
+          </svg>
+          <svg className="absolute bottom-0 right-0 w-80 h-80" viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg">
+            <path fill="currentColor" className="text-white" d="M39.5,-65.6C51.4,-58.1,61.5,-47.3,68.7,-34.8C75.9,-22.3,80.2,-8.1,79.8,5.9C79.4,19.9,74.3,33.7,66.2,45.8C58.1,57.9,47,68.3,34.1,74.4C21.2,80.5,6.5,82.3,-7.8,80.8C-22.1,79.3,-36,74.5,-48.3,67.9C-60.6,61.3,-71.3,53,-77.8,41.8C-84.3,30.6,-86.6,16.5,-85.4,2.9C-84.2,-10.7,-79.5,-23.8,-72.3,-35.4C-65.1,-47,-55.4,-57.1,-43.5,-64.6C-31.6,-72.1,-17.5,-77,0.1,-77.2C17.7,-77.4,27.6,-73.1,39.5,-65.6Z" transform="translate(100 100)" />
+          </svg>
         </div>
 
-        {/* Tab selector */}
-        <div className="flex rounded-lg bg-gray-100 p-1">
-          <button
-            onClick={() => { setTab("magic-link"); setError(""); }}
-            className={`flex-1 rounded-md px-3 py-2 text-sm font-medium transition-colors ${
-              tab === "magic-link"
-                ? "bg-white text-gray-900 shadow-sm"
-                : "text-gray-500 hover:text-gray-700"
-            }`}
-          >
-            {t("tabMagicLink")}
-          </button>
-          <button
-            onClick={() => { setTab("password"); setError(""); }}
-            className={`flex-1 rounded-md px-3 py-2 text-sm font-medium transition-colors ${
-              tab === "password"
-                ? "bg-white text-gray-900 shadow-sm"
-                : "text-gray-500 hover:text-gray-700"
-            }`}
-          >
-            {t("tabPassword")}
-          </button>
+        <div className="relative z-10 text-white max-w-md">
+          <Logo variant="full" size="lg" />
+          <h1 className="mt-8 text-3xl font-[var(--font-display)] leading-tight">
+            Your immigration journey, simplified
+          </h1>
+          <p className="mt-4 text-primary-100 text-lg">
+            Expert guidance in your language, whenever you need it.
+          </p>
         </div>
+      </div>
 
-        {error && (
-          <div className="rounded-lg bg-red-50 p-3 text-sm text-red-700">{error}</div>
-        )}
+      {/* Right Form Panel */}
+      <div className="flex w-full lg:w-1/2 items-center justify-center bg-surface px-4 py-12">
+        <div className="w-full max-w-md space-y-8">
+          {/* Mobile Logo */}
+          <div className="lg:hidden text-center">
+            <Logo variant="full" size="md" />
+          </div>
 
-        {/* Magic Link tab */}
-        {tab === "magic-link" && (
-          <form onSubmit={handleMagicLink} className="space-y-4">
-            <p className="text-sm text-gray-500">{t("magicLinkEnterEmail")}</p>
-            <div>
-              <label htmlFor="email-magic" className="block text-sm font-medium text-gray-700">
-                {t("email")}
-              </label>
-              <input
+          <div className="text-center lg:text-left">
+            <h2 className="text-2xl font-semibold font-[var(--font-display)] text-text-primary">
+              {t("login")}
+            </h2>
+          </div>
+
+          {/* Tab selector with underline style */}
+          <div className="border-b border-border">
+            <div className="flex gap-8">
+              <button
+                onClick={() => { setTab("magic-link"); setError(""); }}
+                className={`pb-3 text-sm font-medium transition-colors relative ${
+                  tab === "magic-link"
+                    ? "text-primary-600"
+                    : "text-text-tertiary hover:text-text-secondary"
+                }`}
+              >
+                {t("tabMagicLink")}
+                {tab === "magic-link" && (
+                  <span className="absolute bottom-0 left-0 right-0 h-0.5 bg-primary-600" />
+                )}
+              </button>
+              <button
+                onClick={() => { setTab("password"); setError(""); }}
+                className={`pb-3 text-sm font-medium transition-colors relative ${
+                  tab === "password"
+                    ? "text-primary-600"
+                    : "text-text-tertiary hover:text-text-secondary"
+                }`}
+              >
+                {t("tabPassword")}
+                {tab === "password" && (
+                  <span className="absolute bottom-0 left-0 right-0 h-0.5 bg-primary-600" />
+                )}
+              </button>
+            </div>
+          </div>
+
+          {error && (
+            <div className="rounded-lg bg-red-50 border border-red-200 p-3 text-sm text-red-700">
+              {error}
+            </div>
+          )}
+
+          {/* Magic Link tab */}
+          {tab === "magic-link" && (
+            <form onSubmit={handleMagicLink} className="space-y-6">
+              <p className="text-sm text-text-secondary">{t("magicLinkEnterEmail")}</p>
+              <Input
                 id="email-magic"
                 type="email"
                 required
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
-                className="mt-1 block w-full rounded-lg border border-gray-300 px-3 py-2 text-gray-900 shadow-sm focus:border-blue-500 focus:outline-none focus:ring-1 focus:ring-blue-500"
+                label={t("email")}
               />
-            </div>
-            <button
-              type="submit"
-              disabled={loading}
-              className="w-full rounded-lg bg-blue-600 px-4 py-2.5 text-sm font-semibold text-white shadow-sm hover:bg-blue-700 disabled:opacity-50"
-            >
-              {loading ? "..." : t("magicLinkSend")}
-            </button>
-          </form>
-        )}
+              <Button
+                type="submit"
+                variant="primary"
+                isLoading={loading}
+                icon={<ArrowRight />}
+                className="w-full"
+              >
+                {t("magicLinkSend")}
+              </Button>
+            </form>
+          )}
 
-        {/* Password tab */}
-        {tab === "password" && (
-          <form onSubmit={handlePasswordSubmit} className="space-y-4">
-            <div>
-              <label htmlFor="email-pw" className="block text-sm font-medium text-gray-700">
-                {t("email")}
-              </label>
-              <input
+          {/* Password tab */}
+          {tab === "password" && (
+            <form onSubmit={handlePasswordSubmit} className="space-y-6">
+              <Input
                 id="email-pw"
                 type="email"
                 required
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
-                className="mt-1 block w-full rounded-lg border border-gray-300 px-3 py-2 text-gray-900 shadow-sm focus:border-blue-500 focus:outline-none focus:ring-1 focus:ring-blue-500"
+                label={t("email")}
               />
-            </div>
-            <div>
-              <label htmlFor="password" className="block text-sm font-medium text-gray-700">
-                {t("password")}
-              </label>
-              <input
+              <Input
                 id="password"
                 type="password"
                 required
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
-                className="mt-1 block w-full rounded-lg border border-gray-300 px-3 py-2 text-gray-900 shadow-sm focus:border-blue-500 focus:outline-none focus:ring-1 focus:ring-blue-500"
+                label={t("password")}
               />
-            </div>
-            <div className="text-right">
-              <Link href="/forgot-password" className="text-sm text-blue-600 hover:text-blue-700">
-                {t("forgotPassword")}
-              </Link>
-            </div>
-            <button
-              type="submit"
-              disabled={loading}
-              className="w-full rounded-lg bg-blue-600 px-4 py-2.5 text-sm font-semibold text-white shadow-sm hover:bg-blue-700 disabled:opacity-50"
-            >
-              {loading ? "..." : t("emailSignIn")}
-            </button>
-          </form>
-        )}
+              <div className="text-right">
+                <Link href="/forgot-password" className="text-sm text-primary-600 hover:text-primary-700">
+                  {t("forgotPassword")}
+                </Link>
+              </div>
+              <Button
+                type="submit"
+                variant="primary"
+                isLoading={loading}
+                icon={<ArrowRight />}
+                className="w-full"
+              >
+                {t("emailSignIn")}
+              </Button>
+            </form>
+          )}
 
-        {/* Divider */}
-        <div className="relative">
-          <div className="absolute inset-0 flex items-center">
-            <div className="w-full border-t border-gray-300" />
+          {/* Divider */}
+          <div className="relative">
+            <div className="absolute inset-0 flex items-center">
+              <div className="w-full border-t border-border" />
+            </div>
+            <div className="relative flex justify-center text-sm">
+              <span className="bg-surface px-2 text-text-tertiary">{t("orContinueWith")}</span>
+            </div>
           </div>
-          <div className="relative flex justify-center text-sm">
-            <span className="bg-gray-50 px-2 text-gray-500">{t("orContinueWith")}</span>
-          </div>
+
+          {/* Google button */}
+          <button
+            onClick={handleGoogle}
+            className="flex w-full items-center justify-center gap-2 rounded-lg border border-border bg-white px-4 py-2.5 text-sm font-medium text-text-primary shadow-sm hover:bg-surface-alt transition-colors"
+          >
+            <svg className="h-5 w-5" viewBox="0 0 24 24">
+              <path d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92a5.06 5.06 0 01-2.2 3.32v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.1z" fill="#4285F4" />
+              <path d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z" fill="#34A853" />
+              <path d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l2.85-2.22.81-.62z" fill="#FBBC05" />
+              <path d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z" fill="#EA4335" />
+            </svg>
+            {t("googleSignIn")}
+          </button>
+
+          <p className="text-center text-sm text-text-secondary">
+            {t("noAccount")}{" "}
+            <Link href="/signup" className="font-medium text-primary-600 hover:text-primary-700">
+              {t("signup")}
+            </Link>
+          </p>
         </div>
-
-        {/* Google button */}
-        <button
-          onClick={handleGoogle}
-          className="flex w-full items-center justify-center gap-2 rounded-lg border border-gray-300 bg-white px-4 py-2.5 text-sm font-medium text-gray-700 shadow-sm hover:bg-gray-50"
-        >
-          <svg className="h-5 w-5" viewBox="0 0 24 24">
-            <path d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92a5.06 5.06 0 01-2.2 3.32v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.1z" fill="#4285F4" />
-            <path d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z" fill="#34A853" />
-            <path d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l2.85-2.22.81-.62z" fill="#FBBC05" />
-            <path d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z" fill="#EA4335" />
-          </svg>
-          {t("googleSignIn")}
-        </button>
-
-        <p className="text-center text-sm text-gray-600">
-          {t("noAccount")}{" "}
-          <Link href="/signup" className="font-medium text-blue-600 hover:text-blue-700">
-            {t("signup")}
-          </Link>
-        </p>
       </div>
     </div>
   );

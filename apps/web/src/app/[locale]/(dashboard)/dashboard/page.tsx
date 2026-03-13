@@ -13,7 +13,11 @@ import {
   where,
 } from "firebase/firestore";
 import { db } from "@/lib/firebase";
-import LanguageSwitcher from "@/components/language-switcher";
+import { AppHeader } from "@/components/app-header";
+import { MobileNav } from "@/components/mobile-nav";
+import { AppFooter } from "@/components/footer";
+import { Badge } from "@/components/badge";
+import { Sparkles, Clock, AlertTriangle, CheckCircle2, ArrowRight } from "@/components/icons";
 
 interface ChatSession {
   id: string;
@@ -48,25 +52,11 @@ function DaysRemainingBadge({ expiryDate }: { expiryDate: Date | null }) {
   );
 
   if (diff < 0) {
-    return (
-      <span className="rounded-full bg-red-100 px-3 py-1 text-sm font-medium text-red-700">
-        {t("expired")}
-      </span>
-    );
+    return <Badge variant="danger">{t("expired")}</Badge>;
   }
 
-  const color =
-    diff > 90
-      ? "bg-green-100 text-green-700"
-      : diff > 30
-        ? "bg-yellow-100 text-yellow-700"
-        : "bg-red-100 text-red-700";
-
-  return (
-    <span className={`rounded-full px-3 py-1 text-sm font-medium ${color}`}>
-      {t("daysRemaining", { count: diff })}
-    </span>
-  );
+  const variant = diff > 90 ? "success" : diff > 30 ? "warning" : "danger";
+  return <Badge variant={variant}>{t("daysRemaining", { count: diff })}</Badge>;
 }
 
 function getActionChecklist(
@@ -205,9 +195,7 @@ function getActionChecklist(
 
 export default function DashboardPage() {
   const t = useTranslations("dashboard");
-  const tNav = useTranslations("nav");
-  const tFooter = useTranslations("footer");
-  const { user, profile, loading, signOut } = useAuth();
+  const { user, profile, loading } = useAuth();
   const router = useRouter();
 
   const [recentChats, setRecentChats] = useState<ChatSession[]>([]);
@@ -300,7 +288,7 @@ export default function DashboardPage() {
   if (loading || !user || !profile) {
     return (
       <div className="flex min-h-screen items-center justify-center">
-        <div className="h-8 w-8 animate-spin rounded-full border-2 border-blue-600 border-t-transparent" />
+        <div className="h-8 w-8 animate-spin rounded-full border-2 border-primary-600 border-t-transparent" />
       </div>
     );
   }
@@ -312,91 +300,51 @@ export default function DashboardPage() {
   );
 
   return (
-    <div className="flex min-h-screen flex-col bg-gray-50 pb-16 md:pb-0">
-      {/* Top nav */}
-      <header className="border-b border-gray-200 bg-white">
-        <div className="mx-auto flex h-16 max-w-6xl items-center justify-between px-4">
-          <span className="text-xl font-bold text-blue-700">Migravio</span>
-          <nav className="hidden items-center gap-6 md:flex">
-            <Link
-              href="/dashboard"
-              className="text-sm font-medium text-blue-600"
-            >
-              {tNav("dashboard")}
-            </Link>
-            <Link
-              href="/chat"
-              className="text-sm font-medium text-gray-600 hover:text-gray-900"
-            >
-              {tNav("chat")}
-            </Link>
-            <Link
-              href="/attorneys"
-              className="text-sm font-medium text-gray-600 hover:text-gray-900"
-            >
-              {tNav("attorneys")}
-            </Link>
-          </nav>
-          <div className="flex items-center gap-3">
-            <LanguageSwitcher />
-            <button
-              onClick={signOut}
-              className="text-sm text-gray-500 hover:text-gray-700"
-            >
-              {tNav("signOut")}
-            </button>
-          </div>
-        </div>
-      </header>
+    <div className="flex min-h-screen flex-col bg-surface pb-16 md:pb-0">
+      <AppHeader activePage="dashboard" />
 
       {/* Main content */}
       <main className="mx-auto w-full max-w-6xl flex-1 px-4 py-8">
-        <h1 className="text-2xl font-bold text-gray-900">{t("title")}</h1>
+        <h1 className="font-[var(--font-display)] text-2xl font-bold text-text-primary">{t("title")}</h1>
 
-        <div className="mt-6 grid gap-6 md:grid-cols-2 lg:grid-cols-3">
+        <div className="mt-6 grid animate-stagger gap-6 md:grid-cols-2 lg:grid-cols-3">
           {/* Visa Status Card */}
-          <div className="rounded-xl border border-gray-200 bg-white p-6 shadow-sm">
-            <h2 className="text-sm font-medium text-gray-500">
+          <div className="rounded-xl border-l-4 border-primary-500 bg-surface-alt p-6 shadow-sm">
+            <h2 className="text-sm font-medium text-text-secondary">
               {t("visaStatus")}
             </h2>
             <div className="mt-3 flex items-center justify-between">
-              <span className="text-lg font-semibold text-gray-900">
-                {profile.visaType || "\u2014"}
+              <span className="font-[var(--font-display)] text-lg font-semibold text-text-primary">
+                {profile.visaType || "—"}
               </span>
               <DaysRemainingBadge expiryDate={profile.visaExpiry} />
             </div>
             {profile.priorityDate && (
-              <p className="mt-2 text-xs text-gray-400">
+              <p className="mt-2 text-xs text-text-tertiary">
                 Priority date: {profile.priorityDate.toLocaleDateString()}
               </p>
             )}
           </div>
 
           {/* Subscription Card */}
-          <div className="rounded-xl border border-gray-200 bg-white p-6 shadow-sm">
-            <h2 className="text-sm font-medium text-gray-500">
+          <div className="rounded-xl bg-surface-alt border border-border p-6 shadow-sm">
+            <h2 className="text-sm font-medium text-text-secondary">
               {t("subscription")}
             </h2>
             <div className="mt-3 flex items-center justify-between">
-              <span className="text-lg font-semibold capitalize text-gray-900">
+              <span className="font-[var(--font-display)] text-lg font-semibold capitalize text-text-primary">
                 {profile.subscription.plan}
               </span>
-              <span
-                className={`rounded-full px-2 py-0.5 text-xs font-medium ${
-                  profile.subscription.plan === "free"
-                    ? "bg-gray-100 text-gray-600"
-                    : "bg-green-100 text-green-700"
-                }`}
-              >
+              <Badge variant={profile.subscription.plan === "free" ? "default" : "success"}>
                 {profile.subscription.plan === "free" ? t("freePlan") : t("activePlan")}
-              </span>
+              </Badge>
             </div>
             {profile.subscription.plan === "free" ? (
               <Link
                 href="/pricing"
-                className="mt-3 inline-block text-sm font-medium text-blue-600 hover:text-blue-700"
+                className="mt-3 inline-flex items-center gap-1 text-sm font-medium text-primary-600 hover:text-primary-700"
               >
-                {t("upgradePlan")} &rarr;
+                {t("upgradePlan")} <ArrowRight className="h-4 w-4" />
               </Link>
             ) : (
               <button
@@ -416,26 +364,26 @@ export default function DashboardPage() {
                     // Portal not available
                   }
                 }}
-                className="mt-3 text-sm font-medium text-blue-600 hover:text-blue-700"
+                className="mt-3 inline-flex items-center gap-1 text-sm font-medium text-primary-600 hover:text-primary-700"
               >
-                {t("managePlan")} &rarr;
+                {t("managePlan")} <ArrowRight className="h-4 w-4" />
               </button>
             )}
           </div>
 
           {/* Recent Chats Card */}
-          <div className="rounded-xl border border-gray-200 bg-white p-6 shadow-sm">
-            <h2 className="text-sm font-medium text-gray-500">
+          <div className="rounded-xl bg-surface-alt border border-border p-6 shadow-sm">
+            <h2 className="text-sm font-medium text-text-secondary">
               {t("recentChats")}
             </h2>
             {recentChats.length === 0 ? (
               <>
-                <p className="mt-3 text-sm text-gray-400">{t("noChats")}</p>
+                <p className="mt-3 text-sm text-text-tertiary">{t("noChats")}</p>
                 <Link
                   href="/chat"
-                  className="mt-4 inline-block text-sm font-medium text-blue-600 hover:text-blue-700"
+                  className="mt-4 inline-flex items-center gap-1 text-sm font-medium text-primary-600 hover:text-primary-700"
                 >
-                  {t("startChat")} &rarr;
+                  {t("startChat")} <ArrowRight className="h-4 w-4" />
                 </Link>
               </>
             ) : (
@@ -444,12 +392,12 @@ export default function DashboardPage() {
                   <li key={session.id}>
                     <Link
                       href={`/chat?session=${session.id}`}
-                      className="block rounded-lg p-2 text-sm text-gray-700 hover:bg-gray-50"
+                      className="block rounded-lg p-2 text-sm text-text-primary hover:bg-surface"
                     >
                       <span className="line-clamp-1 font-medium">
                         {session.title}
                       </span>
-                      <span className="text-xs text-gray-400">
+                      <span className="text-xs text-text-tertiary">
                         {session.updatedAt.toLocaleDateString()}
                       </span>
                     </Link>
@@ -458,9 +406,9 @@ export default function DashboardPage() {
                 <li>
                   <Link
                     href="/chat"
-                    className="mt-1 inline-block text-sm font-medium text-blue-600 hover:text-blue-700"
+                    className="mt-1 inline-flex items-center gap-1 text-sm font-medium text-primary-600 hover:text-primary-700"
                   >
-                    {t("startChat")} &rarr;
+                    {t("startChat")} <ArrowRight className="h-4 w-4" />
                   </Link>
                 </li>
               </ul>
@@ -468,55 +416,57 @@ export default function DashboardPage() {
           </div>
 
           {/* Policy Alerts Card */}
-          <div className="rounded-xl border border-gray-200 bg-white p-6 shadow-sm">
-            <h2 className="text-sm font-medium text-gray-500">
+          <div className="rounded-xl bg-surface-alt border border-border p-6 shadow-sm">
+            <h2 className="text-sm font-medium text-text-secondary">
               {t("policyAlerts")}
             </h2>
             {alerts.length === 0 ? (
-              <p className="mt-3 text-sm text-gray-400">{t("noAlerts")}</p>
+              <p className="mt-3 text-sm text-text-tertiary">{t("noAlerts")}</p>
             ) : (
               <ul className="mt-3 space-y-3">
-                {alerts.slice(0, 3).map((alert) => (
-                  <li key={alert.id}>
-                    <a
-                      href={alert.sourceUrl}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="block rounded-lg border border-gray-100 p-3 hover:bg-gray-50"
-                    >
-                      <p className="line-clamp-2 text-sm font-medium text-gray-800">
-                        {alert.title}
-                      </p>
-                      <p className="mt-1 line-clamp-2 text-xs text-gray-500">
-                        {alert.summary}
-                      </p>
-                      <div className="mt-2 flex flex-wrap gap-1">
-                        {alert.affectsVisaTypes.slice(0, 3).map((vt) => (
-                          <span
-                            key={vt}
-                            className="rounded-full bg-blue-50 px-2 py-0.5 text-xs text-blue-600"
-                          >
-                            {vt}
+                {alerts.slice(0, 3).map((alert) => {
+                  const borderColor = alert.affectsVisaTypes.includes(profile.visaType)
+                    ? "border-l-accent-500"
+                    : "border-l-primary-500";
+                  return (
+                    <li key={alert.id}>
+                      <a
+                        href={alert.sourceUrl}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className={`block rounded-lg border border-border border-l-2 ${borderColor} p-3 hover:bg-surface`}
+                      >
+                        <p className="line-clamp-2 text-sm font-medium text-text-primary">
+                          {alert.title}
+                        </p>
+                        <p className="mt-1 line-clamp-2 text-xs text-text-secondary">
+                          {alert.summary}
+                        </p>
+                        <div className="mt-2 flex flex-wrap gap-1">
+                          {alert.affectsVisaTypes.slice(0, 3).map((vt) => (
+                            <Badge key={vt} variant="info" className="text-xs">
+                              {vt}
+                            </Badge>
+                          ))}
+                          <span className="text-xs text-text-tertiary">
+                            {alert.source}
                           </span>
-                        ))}
-                        <span className="text-xs text-gray-400">
-                          {alert.source}
-                        </span>
-                      </div>
-                    </a>
-                  </li>
-                ))}
+                        </div>
+                      </a>
+                    </li>
+                  );
+                })}
               </ul>
             )}
           </div>
 
           {/* Action Checklist Card */}
-          <div className="rounded-xl border border-gray-200 bg-white p-6 shadow-sm md:col-span-2 lg:col-span-3">
-            <h2 className="text-sm font-medium text-gray-500">
+          <div className="rounded-xl bg-surface-alt border border-border p-6 shadow-sm md:col-span-2 lg:col-span-3">
+            <h2 className="text-sm font-medium text-text-secondary">
               {t("actionChecklist")}
             </h2>
             {checklist.length === 0 ? (
-              <p className="mt-3 text-sm text-gray-400">
+              <p className="mt-3 text-sm text-text-tertiary">
                 No action items right now.
               </p>
             ) : (
@@ -524,19 +474,19 @@ export default function DashboardPage() {
                 {checklist.map((item) => (
                   <li key={item.id} className="flex items-start gap-3">
                     <span
-                      className={`mt-0.5 flex h-5 w-5 shrink-0 items-center justify-center rounded-full text-xs ${
+                      className={`mt-0.5 flex h-5 w-5 shrink-0 items-center justify-center rounded-full text-xs border-2 ${
                         item.urgent
-                          ? "bg-red-100 text-red-600"
-                          : "bg-gray-100 text-gray-400"
+                          ? "border-danger bg-danger/10 text-danger"
+                          : "border-success bg-success/10 text-success"
                       }`}
                     >
-                      {item.urgent ? "!" : "\u2713"}
+                      {item.urgent ? <AlertTriangle className="h-3 w-3" /> : <CheckCircle2 className="h-3 w-3" />}
                     </span>
                     <span
                       className={`text-sm ${
                         item.urgent
-                          ? "font-medium text-red-700"
-                          : "text-gray-700"
+                          ? "font-medium text-danger"
+                          : "text-text-primary"
                       }`}
                     >
                       {item.text}
@@ -552,105 +502,16 @@ export default function DashboardPage() {
         <div className="mt-8">
           <Link
             href="/attorneys"
-            className="inline-flex items-center rounded-lg bg-blue-600 px-5 py-3 text-sm font-semibold text-white shadow-sm hover:bg-blue-700"
+            className="inline-flex items-center gap-2 rounded-lg bg-primary-600 px-5 py-3 text-sm font-semibold text-white shadow-sm hover:bg-primary-700"
           >
+            <Sparkles className="h-4 w-4" />
             {t("talkToAttorney")}
           </Link>
         </div>
       </main>
 
-      {/* Mobile bottom nav */}
-      <nav className="fixed bottom-0 left-0 right-0 border-t border-gray-200 bg-white md:hidden">
-        <div className="flex justify-around py-2">
-          <Link
-            href="/dashboard"
-            className="flex flex-col items-center p-2 text-xs font-medium text-blue-600"
-          >
-            <svg
-              className="h-5 w-5"
-              fill="none"
-              stroke="currentColor"
-              viewBox="0 0 24 24"
-            >
-              <path
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                strokeWidth={2}
-                d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6"
-              />
-            </svg>
-            {tNav("dashboard")}
-          </Link>
-          <Link
-            href="/chat"
-            className="flex flex-col items-center p-2 text-xs font-medium text-gray-500"
-          >
-            <svg
-              className="h-5 w-5"
-              fill="none"
-              stroke="currentColor"
-              viewBox="0 0 24 24"
-            >
-              <path
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                strokeWidth={2}
-                d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z"
-              />
-            </svg>
-            {tNav("chat")}
-          </Link>
-          <Link
-            href="/attorneys"
-            className="flex flex-col items-center p-2 text-xs font-medium text-gray-500"
-          >
-            <svg
-              className="h-5 w-5"
-              fill="none"
-              stroke="currentColor"
-              viewBox="0 0 24 24"
-            >
-              <path
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                strokeWidth={2}
-                d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0z"
-              />
-            </svg>
-            {tNav("attorneys")}
-          </Link>
-          <Link
-            href="/settings"
-            className="flex flex-col items-center p-2 text-xs font-medium text-gray-500"
-          >
-            <svg
-              className="h-5 w-5"
-              fill="none"
-              stroke="currentColor"
-              viewBox="0 0 24 24"
-            >
-              <path
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                strokeWidth={2}
-                d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z"
-              />
-              <path
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                strokeWidth={2}
-                d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"
-              />
-            </svg>
-            {tNav("settings")}
-          </Link>
-        </div>
-      </nav>
-
-      {/* Footer */}
-      <footer className="border-t border-gray-100 bg-gray-50 py-6 text-center text-sm text-gray-500 md:block">
-        {tFooter("disclaimer")}
-      </footer>
+      <MobileNav activePage="dashboard" />
+      <AppFooter />
     </div>
   );
 }

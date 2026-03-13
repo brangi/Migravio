@@ -3,17 +3,18 @@
 import { useTranslations } from "next-intl";
 import { Link } from "@/i18n/navigation";
 import LanguageSwitcher from "@/components/language-switcher";
+import { Logo } from "@/components/logo";
 
 export default function TermsPage() {
   const t = useTranslations();
 
   return (
-    <div className="min-h-screen bg-white">
+    <div className="min-h-screen bg-surface">
       {/* Header */}
-      <header className="border-b border-gray-200 bg-white">
+      <header className="border-b border-border bg-surface">
         <div className="mx-auto flex h-16 max-w-4xl items-center justify-between px-4">
-          <Link href="/" className="text-xl font-bold text-blue-700">
-            {t("common.appName")}
+          <Link href="/" className="transition-opacity hover:opacity-80">
+            <Logo size="sm" variant="full" />
           </Link>
           <LanguageSwitcher />
         </div>
@@ -24,30 +25,30 @@ export default function TermsPage() {
         <div className="mb-8">
           <Link
             href="/"
-            className="text-sm text-blue-600 hover:text-blue-800"
+            className="text-sm text-primary-600 hover:text-primary-700"
           >
             ← {t("legal.backToHome")}
           </Link>
         </div>
 
         <article className="prose prose-gray max-w-none">
-          <h1 className="mb-2 text-4xl font-bold text-gray-900">
+          <h1 className="mb-2 text-4xl font-[var(--font-display)] font-bold text-text-primary">
             {t("legal.termsTitle")}
           </h1>
-          <p className="mb-12 text-sm text-gray-500">
+          <p className="mb-12 text-sm text-text-tertiary">
             {t("legal.lastUpdated")}
           </p>
 
           {/* Acceptance of Terms */}
           <section className="mb-10">
-            <h2 className="mb-4 text-2xl font-semibold text-gray-900">
+            <h2 className="mb-4 text-2xl font-[var(--font-display)] font-semibold text-text-primary">
               1. Acceptance of Terms
             </h2>
-            <p className="mb-4 text-base leading-relaxed text-gray-700">
+            <p className="mb-4 text-base leading-relaxed text-text-secondary">
               By accessing or using Migravio (the "Service"), you agree to be bound by these Terms of Service ("Terms").
               If you do not agree to these Terms, please do not use the Service.
             </p>
-            <p className="text-base leading-relaxed text-gray-700">
+            <p className="text-base leading-relaxed text-text-secondary">
               These Terms constitute a legally binding agreement between you and Migravio. By creating an account or
               using any part of our Service, you confirm that you have read, understood, and agree to these Terms.
             </p>
@@ -55,15 +56,15 @@ export default function TermsPage() {
 
           {/* Service Description */}
           <section className="mb-10">
-            <h2 className="mb-4 text-2xl font-semibold text-gray-900">
+            <h2 className="mb-4 text-2xl font-[var(--font-display)] font-semibold text-text-primary">
               2. Service Description
             </h2>
-            <p className="mb-4 text-base leading-relaxed text-gray-700">
+            <p className="mb-4 text-base leading-relaxed text-text-secondary">
               Migravio is an AI-powered immigration information platform designed to help immigrants in the United States
               navigate the immigration system. We provide educational content, informational tools, and connections to
               licensed immigration attorneys.
             </p>
-            <div className="mb-4 rounded-lg border-l-4 border-amber-500 bg-amber-50 p-4">
+            <div className="mb-4 rounded-r-lg border-l-4 border-warning bg-amber-50 p-4">
               <p className="font-semibold text-amber-900">Important Disclaimer</p>
               <p className="mt-2 text-base text-amber-800">
                 <strong>Migravio is NOT a law firm.</strong> We do NOT provide legal advice, legal representation,
@@ -72,7 +73,7 @@ export default function TermsPage() {
                 specific situation.
               </p>
             </div>
-            <p className="text-base leading-relaxed text-gray-700">
+            <p className="text-base leading-relaxed text-text-secondary">
               Any information, answers, or guidance provided by our AI assistant are generated based on publicly
               available immigration information and should not be relied upon as a substitute for consultation with
               a qualified immigration attorney.
@@ -81,20 +82,20 @@ export default function TermsPage() {
 
           {/* User Accounts */}
           <section className="mb-10">
-            <h2 className="mb-4 text-2xl font-semibold text-gray-900">
+            <h2 className="mb-4 text-2xl font-[var(--font-display)] font-semibold text-text-primary">
               3. User Accounts
             </h2>
-            <p className="mb-4 text-base leading-relaxed text-gray-700">
+            <p className="mb-4 text-base leading-relaxed text-text-secondary">
               To access certain features of the Service, you must create an account. You agree to:
             </p>
-            <ul className="mb-4 list-inside list-disc space-y-2 text-base text-gray-700">
+            <ul className="mb-4 list-inside list-disc space-y-2 text-base text-text-secondary">
               <li>Provide accurate, current, and complete information during registration</li>
               <li>Maintain and promptly update your account information</li>
               <li>Maintain the security of your password and account credentials</li>
               <li>Immediately notify us of any unauthorized use of your account</li>
               <li>Accept responsibility for all activities that occur under your account</li>
             </ul>
-            <p className="text-base leading-relaxed text-gray-700">
+            <p className="text-base leading-relaxed text-text-secondary">
               You must be at least 18 years old to create an account. We reserve the right to suspend or terminate
               accounts that violate these Terms or are used for fraudulent or illegal purposes.
             </p>
@@ -102,37 +103,37 @@ export default function TermsPage() {
 
           {/* AI Disclaimers */}
           <section className="mb-10">
-            <h2 className="mb-4 text-2xl font-semibold text-gray-900">
+            <h2 className="mb-4 text-2xl font-[var(--font-display)] font-semibold text-text-primary">
               4. AI Assistant Disclaimers
             </h2>
-            <p className="mb-4 text-base leading-relaxed text-gray-700">
+            <p className="mb-4 text-base leading-relaxed text-text-secondary">
               Our AI assistant is designed to provide general immigration information based on publicly available
               resources, including USCIS policy manuals, form instructions, and immigration law overviews.
             </p>
             <div className="mb-4 space-y-3">
-              <div className="rounded-lg bg-gray-50 p-4">
-                <p className="font-medium text-gray-900">No Legal Advice</p>
-                <p className="mt-1 text-base text-gray-700">
+              <div className="rounded-lg bg-surface-alt p-4">
+                <p className="font-medium text-text-primary">No Legal Advice</p>
+                <p className="mt-1 text-base text-text-secondary">
                   The AI assistant does not provide legal advice. Responses are for informational purposes only
                   and should not be construed as legal guidance for your specific case.
                 </p>
               </div>
-              <div className="rounded-lg bg-gray-50 p-4">
-                <p className="font-medium text-gray-900">Potential Errors</p>
-                <p className="mt-1 text-base text-gray-700">
+              <div className="rounded-lg bg-surface-alt p-4">
+                <p className="font-medium text-text-primary">Potential Errors</p>
+                <p className="mt-1 text-base text-text-secondary">
                   While we strive for accuracy, AI-generated responses may contain errors, omissions, or outdated
                   information. Always verify critical information with official USCIS sources or a licensed attorney.
                 </p>
               </div>
-              <div className="rounded-lg bg-gray-50 p-4">
-                <p className="font-medium text-gray-900">No Guaranteed Outcomes</p>
-                <p className="mt-1 text-base text-gray-700">
+              <div className="rounded-lg bg-surface-alt p-4">
+                <p className="font-medium text-text-primary">No Guaranteed Outcomes</p>
+                <p className="mt-1 text-base text-text-secondary">
                   Using our Service does not guarantee any particular outcome in your immigration case. Immigration
                   decisions are made solely by USCIS and other government agencies.
                 </p>
               </div>
             </div>
-            <p className="text-base leading-relaxed text-gray-700">
+            <p className="text-base leading-relaxed text-text-secondary">
               For complex legal matters, court proceedings, removal defense, asylum cases, appeals, or any situation
               involving an RFE (Request for Evidence), NOID (Notice of Intent to Deny), or denial, we strongly
               recommend consulting with a licensed immigration attorney.
@@ -141,14 +142,14 @@ export default function TermsPage() {
 
           {/* Attorney Referrals */}
           <section className="mb-10">
-            <h2 className="mb-4 text-2xl font-semibold text-gray-900">
+            <h2 className="mb-4 text-2xl font-[var(--font-display)] font-semibold text-text-primary">
               5. Attorney Referrals
             </h2>
-            <p className="mb-4 text-base leading-relaxed text-gray-700">
+            <p className="mb-4 text-base leading-relaxed text-text-secondary">
               Migravio facilitates introductions between users and licensed immigration attorneys. When you request
               an introduction to an attorney through our platform:
             </p>
-            <ul className="mb-4 list-inside list-disc space-y-2 text-base text-gray-700">
+            <ul className="mb-4 list-inside list-disc space-y-2 text-base text-text-secondary">
               <li>
                 Migravio acts solely as an intermediary to connect you with attorneys in our network
               </li>
@@ -165,7 +166,7 @@ export default function TermsPage() {
                 Fees, engagement terms, and scope of representation are between you and the attorney
               </li>
             </ul>
-            <p className="text-base leading-relaxed text-gray-700">
+            <p className="text-base leading-relaxed text-text-secondary">
               While we vet attorneys in our network for proper licensing and good standing, we make no guarantees
               about their performance or suitability for your specific case.
             </p>
@@ -173,13 +174,13 @@ export default function TermsPage() {
 
           {/* Subscription & Payments */}
           <section className="mb-10">
-            <h2 className="mb-4 text-2xl font-semibold text-gray-900">
+            <h2 className="mb-4 text-2xl font-[var(--font-display)] font-semibold text-text-primary">
               6. Subscription & Payments
             </h2>
-            <p className="mb-4 text-base leading-relaxed text-gray-700">
+            <p className="mb-4 text-base leading-relaxed text-text-secondary">
               Migravio offers free and paid subscription plans. By subscribing to a paid plan, you agree to:
             </p>
-            <ul className="mb-4 list-inside list-disc space-y-2 text-base text-gray-700">
+            <ul className="mb-4 list-inside list-disc space-y-2 text-base text-text-secondary">
               <li>
                 Pay all fees associated with your chosen subscription plan
               </li>
@@ -190,9 +191,9 @@ export default function TermsPage() {
                 Authorize recurring charges for monthly or annual subscriptions until canceled
               </li>
             </ul>
-            <div className="mb-4 rounded-lg border border-gray-200 bg-gray-50 p-4">
-              <p className="mb-2 font-medium text-gray-900">Billing & Cancellation</p>
-              <ul className="list-inside list-disc space-y-2 text-base text-gray-700">
+            <div className="mb-4 rounded-lg border border-border bg-surface-alt p-4">
+              <p className="mb-2 font-medium text-text-primary">Billing & Cancellation</p>
+              <ul className="list-inside list-disc space-y-2 text-base text-text-secondary">
                 <li>Monthly subscriptions renew automatically each month</li>
                 <li>Annual subscriptions renew automatically each year</li>
                 <li>You may cancel your subscription at any time through your account settings</li>
@@ -201,7 +202,7 @@ export default function TermsPage() {
                 <li>Annual plans may be eligible for pro-rated refunds within the first 30 days</li>
               </ul>
             </div>
-            <p className="text-base leading-relaxed text-gray-700">
+            <p className="text-base leading-relaxed text-text-secondary">
               We reserve the right to modify pricing with 30 days' notice to active subscribers. Price changes
               do not affect your current billing cycle but will apply upon renewal.
             </p>
@@ -209,26 +210,26 @@ export default function TermsPage() {
 
           {/* User Data & Privacy */}
           <section className="mb-10">
-            <h2 className="mb-4 text-2xl font-semibold text-gray-900">
+            <h2 className="mb-4 text-2xl font-[var(--font-display)] font-semibold text-text-primary">
               7. User Data & Privacy
             </h2>
-            <p className="mb-4 text-base leading-relaxed text-gray-700">
+            <p className="mb-4 text-base leading-relaxed text-text-secondary">
               Your privacy is important to us. Our collection, use, and protection of your personal information
               is governed by our{" "}
-              <Link href="/privacy" className="text-blue-600 hover:text-blue-800 underline">
+              <Link href="/privacy" className="text-primary-600 hover:text-primary-700 underline">
                 Privacy Policy
               </Link>
               , which is incorporated into these Terms by reference.
             </p>
-            <div className="mb-4 rounded-lg border-l-4 border-blue-500 bg-blue-50 p-4">
-              <p className="font-semibold text-blue-900">Our Privacy Commitment</p>
-              <p className="mt-2 text-base text-blue-800">
+            <div className="mb-4 rounded-r-lg border-l-4 border-primary-300 bg-primary-50 p-4">
+              <p className="font-semibold text-primary-900">Our Privacy Commitment</p>
+              <p className="mt-2 text-base text-primary-800">
                 We do NOT sell your data. We do NOT share your immigration information with third parties except
                 as necessary to provide the Service (e.g., AI processing, payment processing) or when YOU
                 explicitly request an attorney introduction.
               </p>
             </div>
-            <p className="text-base leading-relaxed text-gray-700">
+            <p className="text-base leading-relaxed text-text-secondary">
               You retain ownership of all content you submit to the Service, including chat messages and profile
               information. By using the Service, you grant us a limited license to use this content solely to
               provide and improve the Service.
@@ -237,18 +238,18 @@ export default function TermsPage() {
 
           {/* Limitation of Liability */}
           <section className="mb-10">
-            <h2 className="mb-4 text-2xl font-semibold text-gray-900">
+            <h2 className="mb-4 text-2xl font-[var(--font-display)] font-semibold text-text-primary">
               8. Limitation of Liability
             </h2>
-            <p className="mb-4 text-base font-medium uppercase tracking-wide text-gray-900">
+            <p className="mb-4 text-base font-medium uppercase tracking-wide text-text-primary">
               IMPORTANT LEGAL DISCLAIMER
             </p>
-            <div className="mb-4 rounded-lg border-2 border-gray-300 bg-gray-50 p-6">
-              <p className="mb-4 text-base leading-relaxed text-gray-700">
+            <div className="mb-4 rounded-lg border-2 border-border-strong bg-surface-alt p-6">
+              <p className="mb-4 text-base leading-relaxed text-text-secondary">
                 TO THE MAXIMUM EXTENT PERMITTED BY LAW, MIGRAVIO AND ITS AFFILIATES, OFFICERS, EMPLOYEES, AND
                 PARTNERS SHALL NOT BE LIABLE FOR:
               </p>
-              <ul className="mb-4 list-inside list-disc space-y-2 text-base text-gray-700">
+              <ul className="mb-4 list-inside list-disc space-y-2 text-base text-text-secondary">
                 <li>
                   Any immigration outcomes, case decisions, denials, or delays resulting from information
                   obtained through the Service
@@ -270,7 +271,7 @@ export default function TermsPage() {
                 </li>
               </ul>
             </div>
-            <p className="text-base leading-relaxed text-gray-700">
+            <p className="text-base leading-relaxed text-text-secondary">
               Our total liability to you for any claims arising from your use of the Service shall not exceed
               the amount you paid to Migravio in the twelve (12) months preceding the claim.
             </p>
@@ -278,18 +279,18 @@ export default function TermsPage() {
 
           {/* Modifications to Terms */}
           <section className="mb-10">
-            <h2 className="mb-4 text-2xl font-semibold text-gray-900">
+            <h2 className="mb-4 text-2xl font-[var(--font-display)] font-semibold text-text-primary">
               9. Modifications to Terms
             </h2>
-            <p className="mb-4 text-base leading-relaxed text-gray-700">
+            <p className="mb-4 text-base leading-relaxed text-text-secondary">
               We reserve the right to modify these Terms at any time. When we make material changes, we will:
             </p>
-            <ul className="mb-4 list-inside list-disc space-y-2 text-base text-gray-700">
+            <ul className="mb-4 list-inside list-disc space-y-2 text-base text-text-secondary">
               <li>Update the "Last updated" date at the top of this page</li>
               <li>Notify you via email if you have an active account</li>
               <li>Provide prominent notice on our platform for significant changes</li>
             </ul>
-            <p className="text-base leading-relaxed text-gray-700">
+            <p className="text-base leading-relaxed text-text-secondary">
               Your continued use of the Service after changes take effect constitutes acceptance of the modified
               Terms. If you do not agree to the changes, you must stop using the Service and cancel your account.
             </p>
@@ -297,14 +298,14 @@ export default function TermsPage() {
 
           {/* Governing Law */}
           <section className="mb-10">
-            <h2 className="mb-4 text-2xl font-semibold text-gray-900">
+            <h2 className="mb-4 text-2xl font-[var(--font-display)] font-semibold text-text-primary">
               10. Governing Law
             </h2>
-            <p className="mb-4 text-base leading-relaxed text-gray-700">
+            <p className="mb-4 text-base leading-relaxed text-text-secondary">
               These Terms shall be governed by and construed in accordance with the laws of the State of California,
               United States, without regard to its conflict of law provisions.
             </p>
-            <p className="text-base leading-relaxed text-gray-700">
+            <p className="text-base leading-relaxed text-text-secondary">
               Any disputes arising from these Terms or your use of the Service shall be resolved in the state or
               federal courts located in California, and you consent to the exclusive jurisdiction of such courts.
             </p>
@@ -312,16 +313,16 @@ export default function TermsPage() {
 
           {/* Contact */}
           <section className="mb-10">
-            <h2 className="mb-4 text-2xl font-semibold text-gray-900">
+            <h2 className="mb-4 text-2xl font-[var(--font-display)] font-semibold text-text-primary">
               11. Contact Information
             </h2>
-            <p className="mb-4 text-base leading-relaxed text-gray-700">
+            <p className="mb-4 text-base leading-relaxed text-text-secondary">
               If you have questions about these Terms of Service, please contact us at:
             </p>
-            <div className="rounded-lg border border-gray-200 bg-gray-50 p-4">
-              <p className="text-base text-gray-900">
+            <div className="rounded-lg border border-border bg-surface-alt p-4">
+              <p className="text-base text-text-primary">
                 <strong>Email:</strong>{" "}
-                <a href="mailto:support@migravio.ai" className="text-blue-600 hover:text-blue-800">
+                <a href="mailto:support@migravio.ai" className="text-primary-600 hover:text-primary-700">
                   support@migravio.ai
                 </a>
               </p>
@@ -330,21 +331,21 @@ export default function TermsPage() {
 
           {/* Entire Agreement */}
           <section className="mb-10">
-            <h2 className="mb-4 text-2xl font-semibold text-gray-900">
+            <h2 className="mb-4 text-2xl font-[var(--font-display)] font-semibold text-text-primary">
               12. Entire Agreement
             </h2>
-            <p className="text-base leading-relaxed text-gray-700">
+            <p className="text-base leading-relaxed text-text-secondary">
               These Terms, together with our Privacy Policy, constitute the entire agreement between you and
               Migravio regarding your use of the Service and supersede all prior agreements and understandings.
             </p>
           </section>
 
           {/* Final Disclaimer */}
-          <div className="mt-12 rounded-lg border-2 border-blue-200 bg-blue-50 p-6">
-            <p className="mb-2 text-lg font-semibold text-blue-900">
+          <div className="mt-12 rounded-lg border-2 border-primary-300 bg-primary-50 p-6">
+            <p className="mb-2 text-lg font-[var(--font-display)] font-semibold text-primary-900">
               Remember
             </p>
-            <p className="text-base leading-relaxed text-blue-800">
+            <p className="text-base leading-relaxed text-primary-800">
               Migravio provides legal information, not legal advice. We are not a law firm. For complex
               immigration matters, always consult with a licensed immigration attorney who can evaluate
               your specific situation and provide personalized legal guidance.
@@ -353,10 +354,10 @@ export default function TermsPage() {
         </article>
 
         {/* Back to Home Link */}
-        <div className="mt-12 border-t border-gray-200 pt-8">
+        <div className="mt-12 border-t border-border pt-8">
           <Link
             href="/"
-            className="inline-flex items-center text-sm font-medium text-blue-600 hover:text-blue-800"
+            className="inline-flex items-center text-sm font-medium text-primary-600 hover:text-primary-700"
           >
             ← {t("legal.backToHome")}
           </Link>
@@ -364,21 +365,21 @@ export default function TermsPage() {
       </main>
 
       {/* Footer */}
-      <footer className="border-t border-gray-100 bg-gray-50 py-8">
+      <footer className="border-t border-border bg-surface-alt py-8">
         <div className="mx-auto max-w-4xl px-4 text-center">
-          <p className="mb-4 text-sm text-gray-600">
+          <p className="mb-4 text-sm text-text-secondary">
             {t("footer.disclaimer")}
           </p>
           <div className="flex justify-center gap-6 text-sm">
             <Link
               href="/terms"
-              className="text-gray-600 hover:text-gray-900"
+              className="text-text-secondary hover:text-text-primary"
             >
               {t("footer.terms")}
             </Link>
             <Link
               href="/privacy"
-              className="text-gray-600 hover:text-gray-900"
+              className="text-text-secondary hover:text-text-primary"
             >
               {t("footer.privacy")}
             </Link>

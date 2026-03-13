@@ -1,11 +1,16 @@
 "use client";
 
 import { useTranslations } from "next-intl";
-import { Link, useRouter } from "@/i18n/navigation";
+import { useRouter } from "@/i18n/navigation";
 import { useAuth } from "@/lib/auth-context";
 import { useEffect, useState } from "react";
 import { collection, addDoc, serverTimestamp, query, where, getDocs } from "firebase/firestore";
 import { db } from "@/lib/firebase";
+import { AppHeader } from "@/components/app-header";
+import { MobileNav } from "@/components/mobile-nav";
+import { AppFooter } from "@/components/footer";
+import { Button } from "@/components/button";
+import { Globe, MapPin, CheckCircle2, Loader2 } from "@/components/icons";
 
 // Attorney data
 const ATTORNEYS = [
@@ -66,24 +71,17 @@ function AttorneyCard({
 }) {
   const t = useTranslations("attorneys");
 
-  const specialtyColors = [
-    "bg-blue-100 text-blue-700",
-    "bg-green-100 text-green-700",
-    "bg-purple-100 text-purple-700",
-    "bg-orange-100 text-orange-700",
-  ];
-
   return (
-    <div className="flex flex-col rounded-xl border border-gray-200 bg-white p-6 shadow-sm transition-shadow hover:shadow-md">
+    <div className="flex flex-col rounded-xl border border-border bg-white p-6 shadow-warm-sm hover:shadow-warm-md transition-shadow">
       {/* Name */}
-      <h3 className="text-xl font-bold text-gray-900">{attorney.name}</h3>
+      <h3 className="text-xl font-bold font-display text-text-primary">{attorney.name}</h3>
 
       {/* Specialties */}
       <div className="mt-3 flex flex-wrap gap-2">
-        {attorney.specialties.map((specialty, idx) => (
+        {attorney.specialties.map((specialty) => (
           <span
             key={specialty}
-            className={`rounded-full px-3 py-1 text-xs font-medium ${specialtyColors[idx % specialtyColors.length]}`}
+            className="rounded-full px-3 py-1 text-xs font-medium bg-primary-50 text-primary-700"
           >
             {specialty}
           </span>
@@ -91,18 +89,20 @@ function AttorneyCard({
       </div>
 
       {/* Bio */}
-      <p className="mt-4 flex-1 text-sm text-gray-600">{attorney.bio}</p>
+      <p className="mt-4 flex-1 text-sm text-text-secondary">{attorney.bio}</p>
 
       {/* Languages */}
-      <div className="mt-4 text-sm">
-        <span className="font-medium text-gray-700">{t("languages")}:</span>{" "}
-        <span className="text-gray-600">{attorney.languages.join(", ")}</span>
+      <div className="mt-4 text-sm flex items-center gap-2">
+        <Globe className="h-4 w-4 text-text-tertiary flex-shrink-0" />
+        <span className="font-medium text-text-secondary">{t("languages")}:</span>{" "}
+        <span className="text-text-tertiary">{attorney.languages.join(", ")}</span>
       </div>
 
       {/* States */}
-      <div className="mt-2 text-sm">
-        <span className="font-medium text-gray-700">{t("states")}:</span>{" "}
-        <span className="text-gray-600">{attorney.states.join(", ")}</span>
+      <div className="mt-2 text-sm flex items-center gap-2">
+        <MapPin className="h-4 w-4 text-text-tertiary flex-shrink-0" />
+        <span className="font-medium text-text-secondary">{t("states")}:</span>{" "}
+        <span className="text-text-tertiary">{attorney.states.join(", ")}</span>
       </div>
 
       {/* CTA Button */}
@@ -111,27 +111,15 @@ function AttorneyCard({
         disabled={isRequested}
         className={`mt-6 w-full rounded-lg px-4 py-2.5 text-sm font-semibold transition-colors ${
           isRequested
-            ? "cursor-not-allowed bg-green-100 text-green-700"
-            : "bg-blue-600 text-white hover:bg-blue-700"
+            ? "cursor-not-allowed bg-green-50 text-green-700 border border-green-200 flex items-center justify-center gap-2"
+            : "bg-primary-600 text-white hover:bg-primary-700"
         }`}
       >
         {isRequested ? (
-          <span className="flex items-center justify-center gap-2">
-            <svg
-              className="h-4 w-4"
-              fill="none"
-              stroke="currentColor"
-              viewBox="0 0 24 24"
-            >
-              <path
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                strokeWidth={2}
-                d="M5 13l4 4L19 7"
-              />
-            </svg>
+          <>
+            <CheckCircle2 className="h-4 w-4" />
             {t("introSent")}
-          </span>
+          </>
         ) : (
           t("requestIntro")
         )}
@@ -154,26 +142,20 @@ function ConfirmationModal({
   if (!attorney) return null;
 
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-50 px-4">
-      <div className="w-full max-w-md rounded-xl bg-white p-6 shadow-xl">
-        <h3 className="text-lg font-bold text-gray-900">
+    <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/50 px-4">
+      <div className="w-full max-w-md rounded-xl bg-white p-6 shadow-warm-xl">
+        <h3 className="text-lg font-bold font-display text-text-primary">
           Request introduction to {attorney.name}?
         </h3>
-        <p className="mt-3 text-sm text-gray-600">{t("introDescription")}</p>
+        <p className="mt-3 text-sm text-text-secondary">{t("introDescription")}</p>
 
         <div className="mt-6 flex gap-3">
-          <button
-            onClick={onCancel}
-            className="flex-1 rounded-lg border border-gray-300 px-4 py-2.5 text-sm font-semibold text-gray-700 transition-colors hover:bg-gray-50"
-          >
+          <Button variant="secondary" onClick={onCancel} className="flex-1">
             Cancel
-          </button>
-          <button
-            onClick={onConfirm}
-            className="flex-1 rounded-lg bg-blue-600 px-4 py-2.5 text-sm font-semibold text-white transition-colors hover:bg-blue-700"
-          >
+          </Button>
+          <Button variant="primary" onClick={onConfirm} className="flex-1">
             Confirm
-          </button>
+          </Button>
         </div>
       </div>
     </div>
@@ -182,9 +164,7 @@ function ConfirmationModal({
 
 export default function AttorneysPage() {
   const t = useTranslations("attorneys");
-  const tNav = useTranslations("nav");
-  const tFooter = useTranslations("footer");
-  const { user, profile, loading, signOut } = useAuth();
+  const { user, profile, loading } = useAuth();
   const router = useRouter();
 
   const [selectedSpecialty, setSelectedSpecialty] = useState<string | null>(null);
@@ -224,7 +204,7 @@ export default function AttorneysPage() {
   if (loading || !user || !profile) {
     return (
       <div className="flex min-h-screen items-center justify-center">
-        <div className="h-8 w-8 animate-spin rounded-full border-2 border-blue-600 border-t-transparent" />
+        <Loader2 className="h-8 w-8 animate-spin text-primary-600" />
       </div>
     );
   }
@@ -263,44 +243,13 @@ export default function AttorneysPage() {
   };
 
   return (
-    <div className="flex min-h-screen flex-col bg-gray-50">
-      {/* Top nav */}
-      <header className="border-b border-gray-200 bg-white">
-        <div className="mx-auto flex h-16 max-w-6xl items-center justify-between px-4">
-          <span className="text-xl font-bold text-blue-700">Migravio</span>
-          <nav className="hidden items-center gap-6 md:flex">
-            <Link
-              href="/dashboard"
-              className="text-sm font-medium text-gray-600 hover:text-gray-900"
-            >
-              {tNav("dashboard")}
-            </Link>
-            <Link
-              href="/chat"
-              className="text-sm font-medium text-gray-600 hover:text-gray-900"
-            >
-              {tNav("chat")}
-            </Link>
-            <Link
-              href="/attorneys"
-              className="text-sm font-medium text-blue-600"
-            >
-              {tNav("attorneys")}
-            </Link>
-          </nav>
-          <button
-            onClick={signOut}
-            className="text-sm text-gray-500 hover:text-gray-700"
-          >
-            {tNav("signOut")}
-          </button>
-        </div>
-      </header>
+    <div className="flex min-h-screen flex-col bg-surface">
+      <AppHeader activePage="attorneys" />
 
       {/* Main content */}
-      <main className="mx-auto w-full max-w-6xl flex-1 px-4 py-8 pb-24 md:pb-8">
-        <h1 className="text-3xl font-bold text-gray-900">{t("title")}</h1>
-        <p className="mt-2 text-gray-600">{t("subtitle")}</p>
+      <main className="mx-auto w-full max-w-6xl flex-1 px-4 py-8 pb-16 md:pb-8">
+        <h1 className="text-3xl font-bold font-display text-text-primary">{t("title")}</h1>
+        <p className="mt-2 text-text-secondary">{t("subtitle")}</p>
 
         {/* Filter pills */}
         <div className="mt-6 flex flex-wrap gap-2">
@@ -308,8 +257,8 @@ export default function AttorneysPage() {
             onClick={() => setSelectedSpecialty(null)}
             className={`rounded-full px-4 py-2 text-sm font-medium transition-colors ${
               selectedSpecialty === null
-                ? "bg-blue-600 text-white"
-                : "bg-white text-gray-700 hover:bg-gray-100 border border-gray-300"
+                ? "bg-primary-600 text-white"
+                : "bg-white text-text-secondary hover:bg-surface-alt border border-border"
             }`}
           >
             All specialties
@@ -320,8 +269,8 @@ export default function AttorneysPage() {
               onClick={() => setSelectedSpecialty(specialty)}
               className={`rounded-full px-4 py-2 text-sm font-medium transition-colors ${
                 selectedSpecialty === specialty
-                  ? "bg-blue-600 text-white"
-                  : "bg-white text-gray-700 hover:bg-gray-100 border border-gray-300"
+                  ? "bg-primary-600 text-white"
+                  : "bg-white text-text-secondary hover:bg-surface-alt border border-border"
               }`}
             >
               {specialty}
@@ -342,106 +291,16 @@ export default function AttorneysPage() {
         </div>
 
         {filteredAttorneys.length === 0 && (
-          <div className="mt-8 rounded-lg border border-gray-200 bg-white p-8 text-center">
-            <p className="text-gray-600">
+          <div className="mt-8 rounded-lg border border-border bg-white p-8 text-center">
+            <p className="text-text-secondary">
               No attorneys found for this specialty. Try a different filter.
             </p>
           </div>
         )}
       </main>
 
-      {/* Mobile bottom nav */}
-      <nav className="fixed bottom-0 left-0 right-0 border-t border-gray-200 bg-white md:hidden">
-        <div className="flex justify-around py-2">
-          <Link
-            href="/dashboard"
-            className="flex flex-col items-center p-2 text-xs font-medium text-gray-500"
-          >
-            <svg
-              className="h-5 w-5"
-              fill="none"
-              stroke="currentColor"
-              viewBox="0 0 24 24"
-            >
-              <path
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                strokeWidth={2}
-                d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6"
-              />
-            </svg>
-            {tNav("dashboard")}
-          </Link>
-          <Link
-            href="/chat"
-            className="flex flex-col items-center p-2 text-xs font-medium text-gray-500"
-          >
-            <svg
-              className="h-5 w-5"
-              fill="none"
-              stroke="currentColor"
-              viewBox="0 0 24 24"
-            >
-              <path
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                strokeWidth={2}
-                d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z"
-              />
-            </svg>
-            {tNav("chat")}
-          </Link>
-          <Link
-            href="/attorneys"
-            className="flex flex-col items-center p-2 text-xs font-medium text-blue-600"
-          >
-            <svg
-              className="h-5 w-5"
-              fill="none"
-              stroke="currentColor"
-              viewBox="0 0 24 24"
-            >
-              <path
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                strokeWidth={2}
-                d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0z"
-              />
-            </svg>
-            {tNav("attorneys")}
-          </Link>
-          <Link
-            href="/settings"
-            className="flex flex-col items-center p-2 text-xs font-medium text-gray-500"
-          >
-            <svg
-              className="h-5 w-5"
-              fill="none"
-              stroke="currentColor"
-              viewBox="0 0 24 24"
-            >
-              <path
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                strokeWidth={2}
-                d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z"
-              />
-              <path
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                strokeWidth={2}
-                d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"
-              />
-            </svg>
-            {tNav("settings")}
-          </Link>
-        </div>
-      </nav>
-
-      {/* Footer */}
-      <footer className="border-t border-gray-100 bg-gray-50 py-6 text-center text-sm text-gray-500">
-        {tFooter("disclaimer")}
-      </footer>
+      <MobileNav activePage="attorneys" />
+      <AppFooter />
 
       {/* Confirmation Modal */}
       {confirmAttorney && (

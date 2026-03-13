@@ -2,6 +2,8 @@
 
 import { Link } from '@/i18n/navigation';
 import { useEffect } from 'react';
+import { Button } from '@/components/button';
+import { AlertTriangle } from 'lucide-react';
 
 export default function Error({
   error,
@@ -16,27 +18,32 @@ export default function Error({
   }, [error]);
 
   return (
-    <div className="flex min-h-screen items-center justify-center bg-gray-50 px-4">
+    <div className="flex min-h-screen items-center justify-center bg-surface px-4">
       <div className="text-center">
-        <h1 className="text-6xl font-bold text-red-600">Error</h1>
-        <h2 className="mt-4 text-2xl font-semibold text-gray-900">
+        <div className="mb-6 flex justify-center">
+          <AlertTriangle className="h-16 w-16 text-danger" strokeWidth={1.5} />
+        </div>
+        <h1 className="text-3xl font-[var(--font-display)] font-bold text-text-primary">
           Something went wrong
-        </h2>
-        <p className="mt-2 text-gray-600">
+        </h1>
+        <p className="mt-2 text-text-secondary">
           We encountered an error while loading this page.
         </p>
         <div className="mt-6 flex items-center justify-center gap-4">
-          <button
+          <Button
             onClick={reset}
-            className="rounded-lg bg-blue-700 px-6 py-3 text-sm font-semibold text-white transition-colors hover:bg-blue-800"
+            variant="primary"
+            size="md"
           >
             Try again
-          </button>
-          <Link
-            href="/"
-            className="rounded-lg border border-gray-300 bg-white px-6 py-3 text-sm font-semibold text-gray-700 transition-colors hover:bg-gray-50"
-          >
-            Go back home
+          </Button>
+          <Link href="/">
+            <Button
+              variant="secondary"
+              size="md"
+            >
+              Go back home
+            </Button>
           </Link>
         </div>
       </div>

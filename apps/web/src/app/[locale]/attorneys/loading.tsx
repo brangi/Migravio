@@ -1,11 +1,13 @@
+import { Skeleton, SkeletonAvatar } from "@/components/skeleton";
+
 export default function AttorneysLoading() {
   return (
-    <div className="min-h-screen bg-gray-50 py-8">
+    <div className="min-h-screen bg-surface py-8">
       <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
         {/* Header skeleton */}
         <div className="mb-8">
-          <div className="h-8 w-56 animate-pulse rounded bg-gray-200"></div>
-          <div className="mt-2 h-4 w-96 animate-pulse rounded bg-gray-200"></div>
+          <Skeleton className="h-8 w-56 mb-2" />
+          <Skeleton className="h-4 w-96" />
         </div>
 
         {/* Attorney cards skeleton */}
@@ -13,28 +15,30 @@ export default function AttorneysLoading() {
           {[1, 2, 3].map((i) => (
             <div
               key={i}
-              className="rounded-lg border border-gray-200 bg-white p-6 shadow-sm"
+              className="rounded-lg border border-border bg-surface p-6 shadow-sm"
             >
               {/* Avatar */}
-              <div className="mx-auto h-20 w-20 animate-pulse rounded-full bg-gray-200"></div>
+              <div className="flex justify-center mb-4">
+                <SkeletonAvatar size="lg" />
+              </div>
 
               {/* Name */}
-              <div className="mt-4 h-6 w-3/4 animate-pulse rounded bg-gray-200 mx-auto"></div>
+              <Skeleton className="h-6 w-3/4 mx-auto mb-2" />
 
               {/* Specialty */}
-              <div className="mt-2 h-4 w-1/2 animate-pulse rounded bg-gray-200 mx-auto"></div>
+              <Skeleton className="h-4 w-1/2 mx-auto mb-4" />
 
               {/* Languages */}
-              <div className="mt-4 flex justify-center gap-2">
-                <div className="h-6 w-16 animate-pulse rounded-full bg-gray-200"></div>
-                <div className="h-6 w-16 animate-pulse rounded-full bg-gray-200"></div>
+              <div className="flex justify-center gap-2 mb-3">
+                <Skeleton className="h-6 w-16 rounded-full" />
+                <Skeleton className="h-6 w-16 rounded-full" />
               </div>
 
               {/* States */}
-              <div className="mt-3 h-4 w-2/3 animate-pulse rounded bg-gray-200 mx-auto"></div>
+              <Skeleton className="h-4 w-2/3 mx-auto mb-6" />
 
               {/* Button */}
-              <div className="mt-6 h-10 w-full animate-pulse rounded-lg bg-gray-200"></div>
+              <Skeleton className="h-10 w-full rounded-lg" />
             </div>
           ))}
         </div>
