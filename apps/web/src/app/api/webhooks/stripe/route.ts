@@ -2,16 +2,22 @@ import { NextRequest, NextResponse } from "next/server";
 import Stripe from "stripe";
 import { getAdminDb } from "@/lib/firebase-admin";
 
-const stripe = new Stripe(process.env.STRIPE_SECRET_KEY!);
+// Lazy init — avoid module-level env access during Next.js build
+function getStripe() {
+  return new Stripe(process.env.STRIPE_SECRET_KEY!);
+}
 
-const webhookSecret = process.env.STRIPE_WEBHOOK_SECRET!;
+function getWebhookSecret() {
+  return process.env.STRIPE_WEBHOOK_SECRET!;
+}
 
-// Price IDs for plan identification
-const PRICE_IDS = {
-  PRO_MONTHLY: process.env.STRIPE_PRICE_PRO_MONTHLY!,
-  PRO_YEARLY: process.env.STRIPE_PRICE_PRO_YEARLY!,
-  PREMIUM_MONTHLY: process.env.STRIPE_PRICE_PREMIUM_MONTHLY!,
-} as const;
+function getPriceIds() {
+  return {
+    PRO_MONTHLY: process.env.STRIPE_PRICE_PRO_MONTHLY!,
+    PRO_YEARLY: process.env.STRIPE_PRICE_PRO_YEARLY!,
+    PREMIUM_MONTHLY: process.env.STRIPE_PRICE_PREMIUM_MONTHLY!,
+  } as const;
+}
 
 type SubscriptionPlan = "free" | "pro" | "premium";
 type SubscriptionStatus = "active" | "past_due" | "canceled" | "incomplete";
@@ -29,11 +35,12 @@ interface SubscriptionData {
  * Determine subscription plan from Stripe price ID
  */
 function getPlanFromPriceId(priceId: string): SubscriptionPlan {
+  const prices = getPriceIds();
   switch (priceId) {
-    case PRICE_IDS.PRO_MONTHLY:
-    case PRICE_IDS.PRO_YEARLY:
+    case prices.PRO_MONTHLY:
+    case prices.PRO_YEARLY:
       return "pro";
-    case PRICE_IDS.PREMIUM_MONTHLY:
+    case prices.PREMIUM_MONTHLY:
       return "premium";
     default:
       console.warn(`Unknown price ID: ${priceId}, defaulting to free`);
@@ -100,7 +107,7 @@ async function handleCheckoutCompleted(
   }
 
   // Fetch the subscription to get price details
-  const subscription = await stripe.subscriptions.retrieve(
+  const subscription = await getStripe().subscriptions.retrieve(
     session.subscription as string
   ) as unknown as Stripe.Subscription;
 
@@ -228,7 +235,7 @@ export async function POST(request: NextRequest) {
     // Verify webhook signature
     let event: Stripe.Event;
     try {
-      event = stripe.webhooks.constructEvent(body, signature, webhookSecret);
+      event = getStripe().webhooks.constructEvent(body, signature, getWebhookSecret());
     } catch (err) {
       console.error(
         "Webhook signature verification failed:",
