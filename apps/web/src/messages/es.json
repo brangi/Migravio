@@ -144,6 +144,24 @@
     "lastUpdated": "Ultima actualizacion: Marzo 2026",
     "backToHome": "Volver al inicio"
   },
+  "settings": {
+    "title": "Configuracion",
+    "profile": "Perfil",
+    "displayName": "Nombre",
+    "language": "Idioma",
+    "visaType": "Tipo de visa",
+    "visaExpiry": "Fecha de vencimiento de visa",
+    "priorityDate": "Fecha de prioridad (opcional)",
+    "subscription": "Suscripcion",
+    "currentPlan": "Plan actual",
+    "account": "Cuenta",
+    "email": "Correo electronico",
+    "save": "Guardar cambios",
+    "saving": "Guardando...",
+    "saved": "Cambios guardados exitosamente!",
+    "dangerZone": "Zona de peligro",
+    "signOutConfirm": "Estas seguro de que quieres cerrar sesion?"
+  },
   "landing": {
     "hero": {
       "headline": "Navega la Inmigración de EE.UU. — En Tu Idioma",
