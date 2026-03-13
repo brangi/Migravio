@@ -84,7 +84,12 @@
     "policyAlerts": "Policy Alerts",
     "noAlerts": "No alerts for your visa type",
     "actionChecklist": "Action Checklist",
-    "talkToAttorney": "Talk to an Attorney"
+    "talkToAttorney": "Talk to an Attorney",
+    "subscription": "Your Plan",
+    "freePlan": "Free",
+    "activePlan": "Active",
+    "upgradePlan": "Upgrade your plan",
+    "managePlan": "Manage subscription"
   },
   "chat": {
     "title": "AI Immigration Assistant",

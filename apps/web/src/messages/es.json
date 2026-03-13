@@ -84,7 +84,12 @@
     "policyAlerts": "Alertas de politica",
     "noAlerts": "Sin alertas para tu tipo de visa",
     "actionChecklist": "Lista de acciones",
-    "talkToAttorney": "Hablar con un abogado"
+    "talkToAttorney": "Hablar con un abogado",
+    "subscription": "Tu plan",
+    "freePlan": "Gratis",
+    "activePlan": "Activo",
+    "upgradePlan": "Mejorar tu plan",
+    "managePlan": "Administrar suscripcion"
   },
   "chat": {
     "title": "Asistente de inmigracion IA",

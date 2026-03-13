@@ -372,6 +372,57 @@ export default function DashboardPage() {
             )}
           </div>
 
+          {/* Subscription Card */}
+          <div className="rounded-xl border border-gray-200 bg-white p-6 shadow-sm">
+            <h2 className="text-sm font-medium text-gray-500">
+              {t("subscription")}
+            </h2>
+            <div className="mt-3 flex items-center justify-between">
+              <span className="text-lg font-semibold capitalize text-gray-900">
+                {profile.subscription.plan}
+              </span>
+              <span
+                className={`rounded-full px-2 py-0.5 text-xs font-medium ${
+                  profile.subscription.plan === "free"
+                    ? "bg-gray-100 text-gray-600"
+                    : "bg-green-100 text-green-700"
+                }`}
+              >
+                {profile.subscription.plan === "free" ? t("freePlan") : t("activePlan")}
+              </span>
+            </div>
+            {profile.subscription.plan === "free" ? (
+              <Link
+                href="/pricing"
+                className="mt-3 inline-block text-sm font-medium text-blue-600 hover:text-blue-700"
+              >
+                {t("upgradePlan")} &rarr;
+              </Link>
+            ) : (
+              <button
+                onClick={async () => {
+                  try {
+                    const res = await fetch("/api/stripe/portal", {
+                      method: "POST",
+                      headers: { "Content-Type": "application/json" },
+                      body: JSON.stringify({
+                        customerId: (profile as unknown as Record<string, unknown>)?.stripeCustomerId,
+                        locale: profile.language,
+                      }),
+                    });
+                    const { url } = await res.json();
+                    if (url) window.location.href = url;
+                  } catch {
+                    // Portal not available
+                  }
+                }}
+                className="mt-3 text-sm font-medium text-blue-600 hover:text-blue-700"
+              >
+                {t("managePlan")} &rarr;
+              </button>
+            )}
+          </div>
+
           {/* Recent Chats Card */}
           <div className="rounded-xl border border-gray-200 bg-white p-6 shadow-sm">
             <h2 className="text-sm font-medium text-gray-500">
