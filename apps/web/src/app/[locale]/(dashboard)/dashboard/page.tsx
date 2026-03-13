@@ -2,9 +2,40 @@
 
 import { useTranslations } from "next-intl";
 import { useAuth } from "@/lib/auth-context";
-import { Link } from "@/i18n/navigation";
-import { useRouter } from "@/i18n/navigation";
-import { useEffect } from "react";
+import { Link, useRouter } from "@/i18n/navigation";
+import { useEffect, useState } from "react";
+import {
+  collection,
+  query,
+  orderBy,
+  limit,
+  getDocs,
+  where,
+} from "firebase/firestore";
+import { db } from "@/lib/firebase";
+import LanguageSwitcher from "@/components/language-switcher";
+
+interface ChatSession {
+  id: string;
+  title: string;
+  updatedAt: Date;
+}
+
+interface PolicyAlert {
+  id: string;
+  title: string;
+  summary: string;
+  source: string;
+  sourceUrl: string;
+  affectsVisaTypes: string[];
+  publishedAt: string;
+}
+
+interface ChecklistItem {
+  id: string;
+  text: string;
+  urgent: boolean;
+}
 
 function DaysRemainingBadge({ expiryDate }: { expiryDate: Date | null }) {
   const t = useTranslations("dashboard");
@@ -38,12 +69,149 @@ function DaysRemainingBadge({ expiryDate }: { expiryDate: Date | null }) {
   );
 }
 
+function getActionChecklist(
+  visaType: string,
+  visaExpiry: Date | null,
+  priorityDate: Date | null
+): ChecklistItem[] {
+  const items: ChecklistItem[] = [];
+  const now = new Date();
+
+  if (visaExpiry) {
+    const daysLeft = Math.ceil(
+      (visaExpiry.getTime() - now.getTime()) / (1000 * 60 * 60 * 24)
+    );
+
+    if (daysLeft < 0) {
+      items.push({
+        id: "expired",
+        text: "Your visa has expired. Consult an immigration attorney immediately.",
+        urgent: true,
+      });
+    } else if (daysLeft <= 30) {
+      items.push({
+        id: "expiry-30",
+        text: "Your visa expires in less than 30 days. Take action now.",
+        urgent: true,
+      });
+    } else if (daysLeft <= 90) {
+      items.push({
+        id: "expiry-90",
+        text: "Your visa expires in less than 90 days. Start your renewal process.",
+        urgent: true,
+      });
+    } else if (daysLeft <= 180) {
+      items.push({
+        id: "expiry-180",
+        text: "Consider starting your renewal paperwork soon (visa expires in ~6 months).",
+        urgent: false,
+      });
+    }
+  }
+
+  switch (visaType) {
+    case "H-1B":
+      items.push(
+        {
+          id: "h1b-1",
+          text: "Keep I-797 approval notice in a safe place",
+          urgent: false,
+        },
+        {
+          id: "h1b-2",
+          text: "Verify your employer is maintaining your H-1B status",
+          urgent: false,
+        },
+        {
+          id: "h1b-3",
+          text: "Track your 6-year H-1B limit and plan for extensions or green card",
+          urgent: false,
+        }
+      );
+      if (priorityDate) {
+        items.push({
+          id: "h1b-gc",
+          text: "Check the monthly Visa Bulletin for your priority date progress",
+          urgent: false,
+        });
+      }
+      break;
+
+    case "F-1":
+      items.push(
+        {
+          id: "f1-1",
+          text: "Maintain full-time enrollment to keep F-1 status",
+          urgent: false,
+        },
+        {
+          id: "f1-2",
+          text: "Apply for OPT/CPT before your program end date",
+          urgent: false,
+        },
+        {
+          id: "f1-3",
+          text: "Keep your I-20 updated with your DSO",
+          urgent: false,
+        }
+      );
+      break;
+
+    case "Family":
+      items.push(
+        {
+          id: "fam-1",
+          text: "Gather supporting documents (proof of relationship, financial affidavit)",
+          urgent: false,
+        },
+        {
+          id: "fam-2",
+          text: "Check Visa Bulletin for your priority date category",
+          urgent: false,
+        }
+      );
+      break;
+
+    case "GreenCard":
+      items.push(
+        {
+          id: "gc-1",
+          text: "Maintain your permanent resident status (don't travel abroad for 6+ months without re-entry permit)",
+          urgent: false,
+        },
+        {
+          id: "gc-2",
+          text: "Renew your green card (Form I-90) before it expires",
+          urgent: false,
+        },
+        {
+          id: "gc-3",
+          text: "Consider applying for naturalization if eligible (5 years as LPR, or 3 years if married to US citizen)",
+          urgent: false,
+        }
+      );
+      break;
+
+    default:
+      items.push({
+        id: "default-1",
+        text: "Update your visa type in settings for personalized action items",
+        urgent: false,
+      });
+  }
+
+  return items;
+}
+
 export default function DashboardPage() {
   const t = useTranslations("dashboard");
   const tNav = useTranslations("nav");
   const tFooter = useTranslations("footer");
   const { user, profile, loading, signOut } = useAuth();
   const router = useRouter();
+
+  const [recentChats, setRecentChats] = useState<ChatSession[]>([]);
+  const [alerts, setAlerts] = useState<PolicyAlert[]>([]);
 
   useEffect(() => {
     if (!loading && !user) {
@@ -54,6 +222,81 @@ export default function DashboardPage() {
     }
   }, [loading, user, profile, router]);
 
+  // Load recent chat sessions
+  useEffect(() => {
+    if (!user) return;
+
+    const loadChats = async () => {
+      try {
+        const sessionsRef = collection(
+          db,
+          "users",
+          user.uid,
+          "chatSessions"
+        );
+        const q = query(sessionsRef, orderBy("updatedAt", "desc"), limit(5));
+        const snap = await getDocs(q);
+        const sessions: ChatSession[] = [];
+        snap.forEach((doc) => {
+          const data = doc.data();
+          sessions.push({
+            id: doc.id,
+            title: data.title || "Untitled",
+            updatedAt: data.updatedAt?.toDate() || new Date(),
+          });
+        });
+        setRecentChats(sessions);
+      } catch {
+        // Firestore not available or no sessions yet
+      }
+    };
+
+    loadChats();
+  }, [user]);
+
+  // Load policy alerts filtered by visa type
+  useEffect(() => {
+    if (!user || !profile?.visaType) return;
+
+    const loadAlerts = async () => {
+      try {
+        const alertsRef = collection(db, "policyAlerts");
+        const q = query(
+          alertsRef,
+          where("active", "==", true),
+          orderBy("scrapedAt", "desc"),
+          limit(5)
+        );
+        const snap = await getDocs(q);
+        const items: PolicyAlert[] = [];
+        snap.forEach((doc) => {
+          const data = doc.data();
+          // Client-side filter by visa type (includes "General" alerts for everyone)
+          const affects = data.affectsVisaTypes || ["General"];
+          if (
+            affects.includes("General") ||
+            affects.includes(profile.visaType)
+          ) {
+            items.push({
+              id: doc.id,
+              title: data.title || "",
+              summary: data.aiSummary || data.summary || "",
+              source: data.source || "",
+              sourceUrl: data.sourceUrl || "",
+              affectsVisaTypes: affects,
+              publishedAt: data.publishedAt || "",
+            });
+          }
+        });
+        setAlerts(items);
+      } catch {
+        // Alerts collection may not exist yet
+      }
+    };
+
+    loadAlerts();
+  }, [user, profile?.visaType]);
+
   if (loading || !user || !profile) {
     return (
       <div className="flex min-h-screen items-center justify-center">
@@ -62,8 +305,14 @@ export default function DashboardPage() {
     );
   }
 
+  const checklist = getActionChecklist(
+    profile.visaType,
+    profile.visaExpiry,
+    profile.priorityDate
+  );
+
   return (
-    <div className="flex min-h-screen flex-col bg-gray-50">
+    <div className="flex min-h-screen flex-col bg-gray-50 pb-16 md:pb-0">
       {/* Top nav */}
       <header className="border-b border-gray-200 bg-white">
         <div className="mx-auto flex h-16 max-w-6xl items-center justify-between px-4">
@@ -88,12 +337,15 @@ export default function DashboardPage() {
               {tNav("attorneys")}
             </Link>
           </nav>
-          <button
-            onClick={signOut}
-            className="text-sm text-gray-500 hover:text-gray-700"
-          >
-            {tNav("signOut")}
-          </button>
+          <div className="flex items-center gap-3">
+            <LanguageSwitcher />
+            <button
+              onClick={signOut}
+              className="text-sm text-gray-500 hover:text-gray-700"
+            >
+              {tNav("signOut")}
+            </button>
+          </div>
         </div>
       </header>
 
@@ -109,10 +361,15 @@ export default function DashboardPage() {
             </h2>
             <div className="mt-3 flex items-center justify-between">
               <span className="text-lg font-semibold text-gray-900">
-                {profile.visaType || "—"}
+                {profile.visaType || "\u2014"}
               </span>
               <DaysRemainingBadge expiryDate={profile.visaExpiry} />
             </div>
+            {profile.priorityDate && (
+              <p className="mt-2 text-xs text-gray-400">
+                Priority date: {profile.priorityDate.toLocaleDateString()}
+              </p>
+            )}
           </div>
 
           {/* Recent Chats Card */}
@@ -120,13 +377,43 @@ export default function DashboardPage() {
             <h2 className="text-sm font-medium text-gray-500">
               {t("recentChats")}
             </h2>
-            <p className="mt-3 text-sm text-gray-400">{t("noChats")}</p>
-            <Link
-              href="/chat"
-              className="mt-4 inline-block text-sm font-medium text-blue-600 hover:text-blue-700"
-            >
-              {t("startChat")} &rarr;
-            </Link>
+            {recentChats.length === 0 ? (
+              <>
+                <p className="mt-3 text-sm text-gray-400">{t("noChats")}</p>
+                <Link
+                  href="/chat"
+                  className="mt-4 inline-block text-sm font-medium text-blue-600 hover:text-blue-700"
+                >
+                  {t("startChat")} &rarr;
+                </Link>
+              </>
+            ) : (
+              <ul className="mt-3 space-y-2">
+                {recentChats.map((session) => (
+                  <li key={session.id}>
+                    <Link
+                      href={`/chat?session=${session.id}`}
+                      className="block rounded-lg p-2 text-sm text-gray-700 hover:bg-gray-50"
+                    >
+                      <span className="line-clamp-1 font-medium">
+                        {session.title}
+                      </span>
+                      <span className="text-xs text-gray-400">
+                        {session.updatedAt.toLocaleDateString()}
+                      </span>
+                    </Link>
+                  </li>
+                ))}
+                <li>
+                  <Link
+                    href="/chat"
+                    className="mt-1 inline-block text-sm font-medium text-blue-600 hover:text-blue-700"
+                  >
+                    {t("startChat")} &rarr;
+                  </Link>
+                </li>
+              </ul>
+            )}
           </div>
 
           {/* Policy Alerts Card */}
@@ -134,7 +421,42 @@ export default function DashboardPage() {
             <h2 className="text-sm font-medium text-gray-500">
               {t("policyAlerts")}
             </h2>
-            <p className="mt-3 text-sm text-gray-400">{t("noAlerts")}</p>
+            {alerts.length === 0 ? (
+              <p className="mt-3 text-sm text-gray-400">{t("noAlerts")}</p>
+            ) : (
+              <ul className="mt-3 space-y-3">
+                {alerts.slice(0, 3).map((alert) => (
+                  <li key={alert.id}>
+                    <a
+                      href={alert.sourceUrl}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="block rounded-lg border border-gray-100 p-3 hover:bg-gray-50"
+                    >
+                      <p className="line-clamp-2 text-sm font-medium text-gray-800">
+                        {alert.title}
+                      </p>
+                      <p className="mt-1 line-clamp-2 text-xs text-gray-500">
+                        {alert.summary}
+                      </p>
+                      <div className="mt-2 flex flex-wrap gap-1">
+                        {alert.affectsVisaTypes.slice(0, 3).map((vt) => (
+                          <span
+                            key={vt}
+                            className="rounded-full bg-blue-50 px-2 py-0.5 text-xs text-blue-600"
+                          >
+                            {vt}
+                          </span>
+                        ))}
+                        <span className="text-xs text-gray-400">
+                          {alert.source}
+                        </span>
+                      </div>
+                    </a>
+                  </li>
+                ))}
+              </ul>
+            )}
           </div>
 
           {/* Action Checklist Card */}
@@ -142,10 +464,36 @@ export default function DashboardPage() {
             <h2 className="text-sm font-medium text-gray-500">
               {t("actionChecklist")}
             </h2>
-            <div className="mt-3 text-sm text-gray-400">
-              Coming soon — personalized action items based on your visa type
-              and dates.
-            </div>
+            {checklist.length === 0 ? (
+              <p className="mt-3 text-sm text-gray-400">
+                No action items right now.
+              </p>
+            ) : (
+              <ul className="mt-3 space-y-2">
+                {checklist.map((item) => (
+                  <li key={item.id} className="flex items-start gap-3">
+                    <span
+                      className={`mt-0.5 flex h-5 w-5 shrink-0 items-center justify-center rounded-full text-xs ${
+                        item.urgent
+                          ? "bg-red-100 text-red-600"
+                          : "bg-gray-100 text-gray-400"
+                      }`}
+                    >
+                      {item.urgent ? "!" : "\u2713"}
+                    </span>
+                    <span
+                      className={`text-sm ${
+                        item.urgent
+                          ? "font-medium text-red-700"
+                          : "text-gray-700"
+                      }`}
+                    >
+                      {item.text}
+                    </span>
+                  </li>
+                ))}
+              </ul>
+            )}
           </div>
         </div>
 
