@@ -5,6 +5,7 @@ import { notFound } from "next/navigation";
 import { Inter } from "next/font/google";
 import { routing } from "@/i18n/routing";
 import { AuthProvider } from "@/lib/auth-context";
+import PWARegister from "@/components/pwa-register";
 import "../globals.css";
 
 const inter = Inter({
@@ -12,10 +13,89 @@ const inter = Inter({
   variable: "--font-inter",
 });
 
+// SEO-optimized metadata with Open Graph and Twitter cards
 export const metadata: Metadata = {
-  title: "Migravio - Your Trusted Immigration Guide",
+  title: {
+    default: "Migravio - Navigate U.S. Immigration in Your Language",
+    template: "%s | Migravio",
+  },
   description:
-    "AI-powered immigration assistant. Get instant answers to your immigration questions in your language.",
+    "AI-powered immigration assistant that answers 80% of your questions instantly. For the complex 20%, we connect you with vetted attorneys. Available in English and Spanish.",
+  keywords: [
+    "immigration",
+    "visa",
+    "H-1B",
+    "green card",
+    "immigration attorney",
+    "USCIS",
+    "immigration help",
+    "visa status",
+    "immigration AI",
+    "Spanish immigration help",
+  ],
+  authors: [{ name: "Migravio" }],
+  creator: "Migravio",
+  publisher: "Migravio",
+  robots: {
+    index: true,
+    follow: true,
+    googleBot: {
+      index: true,
+      follow: true,
+      "max-video-preview": -1,
+      "max-image-preview": "large",
+      "max-snippet": -1,
+    },
+  },
+  openGraph: {
+    type: "website",
+    locale: "en_US",
+    alternateLocale: ["es_US"],
+    url: "https://migravio.ai",
+    siteName: "Migravio",
+    title: "Migravio - Navigate U.S. Immigration in Your Language",
+    description:
+      "AI-powered immigration assistant that answers 80% of your questions instantly. For the complex 20%, we connect you with vetted attorneys.",
+    images: [
+      {
+        url: "https://migravio.ai/og-image.png",
+        width: 1200,
+        height: 630,
+        alt: "Migravio - Your Trusted Immigration Guide",
+      },
+    ],
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "Migravio - Navigate U.S. Immigration in Your Language",
+    description:
+      "AI-powered immigration assistant that answers 80% of your questions instantly. For the complex 20%, we connect you with vetted attorneys.",
+    images: ["https://migravio.ai/og-image.png"],
+    creator: "@migravio",
+  },
+  alternates: {
+    canonical: "https://migravio.ai",
+    languages: {
+      en: "https://migravio.ai/en",
+      es: "https://migravio.ai/es",
+    },
+  },
+  verification: {
+    google: "your-google-verification-code",
+  },
+  category: "Legal Technology",
+  applicationName: "Migravio",
+  appleWebApp: {
+    capable: true,
+    title: "Migravio",
+    statusBarStyle: "default",
+  },
+  formatDetection: {
+    telephone: false,
+  },
+  other: {
+    "application-name": "Migravio",
+  },
 };
 
 export default async function LocaleLayout({
@@ -35,9 +115,59 @@ export default async function LocaleLayout({
 
   return (
     <html lang={locale}>
+      <head>
+        {/* PWA manifest */}
+        <link rel="manifest" href="/manifest.json" />
+
+        {/* Canonical URL */}
+        <link rel="canonical" href={`https://migravio.ai/${locale}`} />
+
+        {/* Preconnect to external domains for better performance */}
+        <link rel="preconnect" href="https://fonts.googleapis.com" />
+        <link
+          rel="preconnect"
+          href="https://fonts.gstatic.com"
+          crossOrigin="anonymous"
+        />
+
+        {/* Theme color for mobile browsers */}
+        <meta name="theme-color" content="#2563eb" />
+
+        {/* iOS Web App configuration */}
+        <meta name="apple-mobile-web-app-capable" content="yes" />
+        <meta name="apple-mobile-web-app-status-bar-style" content="default" />
+        <meta name="apple-mobile-web-app-title" content="Migravio" />
+
+        {/* Structured data for better SEO */}
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{
+            __html: JSON.stringify({
+              "@context": "https://schema.org",
+              "@type": "WebApplication",
+              name: "Migravio",
+              description:
+                "AI-powered immigration assistant for navigating the U.S. immigration system",
+              url: "https://migravio.ai",
+              applicationCategory: "LegalService",
+              offers: {
+                "@type": "AggregateOffer",
+                lowPrice: "0",
+                highPrice: "39",
+                priceCurrency: "USD",
+              },
+              inLanguage: ["en-US", "es-US"],
+              operatingSystem: "Any",
+            }),
+          }}
+        />
+      </head>
       <body className={`${inter.variable} font-sans antialiased`}>
         <NextIntlClientProvider messages={messages}>
-          <AuthProvider>{children}</AuthProvider>
+          <AuthProvider>
+            <PWARegister />
+            {children}
+          </AuthProvider>
         </NextIntlClientProvider>
       </body>
     </html>

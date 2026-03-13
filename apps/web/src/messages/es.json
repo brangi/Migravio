@@ -137,5 +137,74 @@
     "disclaimer": "Migravio proporciona informacion legal, no asesoramiento legal. No somos un bufete de abogados.",
     "terms": "Terminos de servicio",
     "privacy": "Politica de privacidad"
+  },
+  "legal": {
+    "termsTitle": "Terminos de servicio",
+    "privacyTitle": "Politica de privacidad",
+    "lastUpdated": "Ultima actualizacion: Marzo 2026",
+    "backToHome": "Volver al inicio"
+  },
+  "landing": {
+    "hero": {
+      "headline": "Navega la Inmigración de EE.UU. — En Tu Idioma",
+      "subheadline": "Asistente de inmigración con IA que responde el 80% de tus preguntas al instante. Para el 20% complejo, te conectamos con abogados verificados.",
+      "ctaPrimary": "Comenzar Gratis",
+      "ctaSecondary": "Más Información"
+    },
+    "features": {
+      "title": "Todo lo Que Necesitas para Navegar la Inmigración",
+      "aiAssistant": {
+        "title": "Asistente de Inmigración IA",
+        "description": "Haz preguntas en tu idioma y obtén respuestas instantáneas basadas en fuentes oficiales de USCIS. Disponible 24/7 cuando necesites ayuda."
+      },
+      "dashboard": {
+        "title": "Panel de Casos",
+        "description": "Rastrea el estado de tu visa, fechas importantes y recibe acciones personalizadas basadas en tu situación única."
+      },
+      "attorneys": {
+        "title": "Red de Abogados",
+        "description": "Cuando se complica, te conectamos con abogados de inmigración verificados que hablan tu idioma y entienden tus necesidades."
+      }
+    },
+    "howItWorks": {
+      "title": "Cómo Funciona",
+      "step1": {
+        "title": "Regístrate",
+        "description": "Crea tu cuenta gratuita y completa una incorporación rápida para personalizar tu experiencia."
+      },
+      "step2": {
+        "title": "Haz Preguntas",
+        "description": "Chatea con nuestro asistente IA sobre tus preguntas de inmigración en inglés o español."
+      },
+      "step3": {
+        "title": "Obtén Ayuda",
+        "description": "Recibe respuestas instantáneas o conéctate con abogados experimentados cuando sea necesario."
+      }
+    },
+    "pricingPreview": {
+      "title": "Elige el Plan Adecuado para Ti",
+      "subtitle": "Comienza gratis, actualiza cuando quieras",
+      "ctaViewPricing": "Ver Precios Completos"
+    },
+    "trust": {
+      "title": "Construido por Inmigrantes, para Inmigrantes",
+      "trust1": {
+        "title": "Fuentes Oficiales",
+        "description": "Todas las respuestas están basadas en manuales de política oficial de USCIS y leyes de inmigración."
+      },
+      "trust2": {
+        "title": "Tu Privacidad Importa",
+        "description": "Tus datos nunca se comparten ni se venden. Protegemos tu privacidad como si fuera nuestra."
+      },
+      "trust3": {
+        "title": "Comunidad Primero",
+        "description": "Construido por un inmigrante que entiende el viaje porque lo ha vivido."
+      }
+    },
+    "finalCta": {
+      "title": "¿Listo para Navegar Tu Viaje de Inmigración?",
+      "subtitle": "Únete a miles de inmigrantes obteniendo la guía que necesitan",
+      "cta": "Comienza Gratis Hoy"
+    }
   }
 }
