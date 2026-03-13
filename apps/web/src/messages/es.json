@@ -1,0 +1,122 @@
+{
+  "common": {
+    "appName": "Migravio",
+    "tagline": "Tu guia de inmigracion de confianza",
+    "loading": "Cargando...",
+    "error": "Algo salio mal",
+    "save": "Guardar",
+    "cancel": "Cancelar",
+    "next": "Siguiente",
+    "back": "Atras",
+    "continue": "Continuar",
+    "getStarted": "Comenzar",
+    "learnMore": "Mas informacion"
+  },
+  "nav": {
+    "dashboard": "Panel",
+    "chat": "Asistente IA",
+    "attorneys": "Buscar abogado",
+    "settings": "Configuracion",
+    "signOut": "Cerrar sesion"
+  },
+  "auth": {
+    "login": "Iniciar sesion",
+    "signup": "Registrarse",
+    "email": "Correo electronico",
+    "password": "Contrasena",
+    "confirmPassword": "Confirmar contrasena",
+    "forgotPassword": "Olvidaste tu contrasena?",
+    "noAccount": "No tienes cuenta?",
+    "hasAccount": "Ya tienes cuenta?",
+    "orContinueWith": "O continuar con",
+    "googleSignIn": "Continuar con Google",
+    "emailSignIn": "Iniciar sesion con correo",
+    "emailSignUp": "Registrarse con correo",
+    "errors": {
+      "invalidEmail": "Por favor ingresa un correo valido",
+      "weakPassword": "La contrasena debe tener al menos 6 caracteres",
+      "emailInUse": "Ya existe una cuenta con este correo",
+      "wrongPassword": "Correo o contrasena incorrectos",
+      "generic": "Algo salio mal. Intenta de nuevo."
+    }
+  },
+  "onboarding": {
+    "welcome": "Bienvenido a Migravio",
+    "step1Title": "Elige tu idioma",
+    "step1Subtitle": "Nos comunicaremos contigo en este idioma",
+    "step2Title": "Cual es tu tipo de visa?",
+    "step2Subtitle": "Esto nos ayuda a personalizar tu experiencia",
+    "step3Title": "Fechas importantes",
+    "step3Subtitle": "Te enviaremos recordatorios oportunos",
+    "visaExpiry": "Fecha de vencimiento de visa",
+    "priorityDate": "Fecha de prioridad (si aplica)",
+    "skip": "Omitir por ahora",
+    "visaTypes": {
+      "H-1B": "H-1B (Ocupacion especializada)",
+      "F-1": "F-1 / OPT (Estudiante)",
+      "Family": "Basada en familia",
+      "GreenCard": "Green Card",
+      "Other": "Otro"
+    }
+  },
+  "dashboard": {
+    "title": "Tu panel",
+    "visaStatus": "Estado de visa",
+    "daysRemaining": "{count, plural, one {# dia} other {# dias}} restantes",
+    "expired": "Vencida",
+    "recentChats": "Conversaciones recientes",
+    "noChats": "Sin conversaciones aun",
+    "startChat": "Haz una pregunta",
+    "policyAlerts": "Alertas de politica",
+    "noAlerts": "Sin alertas para tu tipo de visa",
+    "actionChecklist": "Lista de acciones",
+    "talkToAttorney": "Hablar con un abogado"
+  },
+  "chat": {
+    "title": "Asistente de inmigracion IA",
+    "placeholder": "Preguntame cualquier cosa sobre inmigracion...",
+    "send": "Enviar",
+    "newChat": "Nueva conversacion",
+    "messagesRemaining": "{count} de {total} mensajes gratuitos restantes",
+    "limitReached": "Has usado todos tus mensajes gratuitos este mes",
+    "upgrade": "Actualiza a Pro para mensajes ilimitados",
+    "thinking": "Pensando...",
+    "disclaimer": "Migravio proporciona informacion legal, no asesoramiento legal. Para casos complejos, consulta a un abogado.",
+    "escalation": {
+      "title": "Esto puede necesitar ayuda profesional",
+      "description": "Tu pregunta involucra un asunto legal complejo. Recomendamos hablar con un abogado de inmigracion.",
+      "cta": "Buscar un abogado"
+    }
+  },
+  "attorneys": {
+    "title": "Abogados de inmigracion",
+    "subtitle": "Conecta con abogados de inmigracion verificados que hablan tu idioma",
+    "specialty": "Especialidad",
+    "languages": "Idiomas",
+    "states": "Licenciado en",
+    "requestIntro": "Solicitar presentacion",
+    "introSent": "Presentacion solicitada!",
+    "introDescription": "Enviaremos un correo conectandote con este abogado."
+  },
+  "pricing": {
+    "title": "Elige tu plan",
+    "free": "Gratis",
+    "pro": "Pro",
+    "premium": "Premium",
+    "monthly": "/mes",
+    "yearly": "/ano",
+    "freeDescription": "Comienza con acceso basico",
+    "proDescription": "Acceso ilimitado para individuos",
+    "premiumDescription": "Todo en Pro, mas soporte prioritario",
+    "freeFeatures": ["10 mensajes por mes", "Solo ingles", "Panel basico"],
+    "proFeatures": ["Mensajes ilimitados", "Ingles + Espanol", "Panel completo", "Alertas prioritarias"],
+    "premiumFeatures": ["Todo en Pro", "Perfiles familiares", "Conexion prioritaria con abogados", "Soporte dedicado"],
+    "currentPlan": "Plan actual",
+    "upgradeTo": "Actualizar a {plan}"
+  },
+  "footer": {
+    "disclaimer": "Migravio proporciona informacion legal, no asesoramiento legal. No somos un bufete de abogados.",
+    "terms": "Terminos de servicio",
+    "privacy": "Politica de privacidad"
+  }
+}

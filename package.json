@@ -1,0 +1,15 @@
+{
+  "name": "migravio",
+  "version": "0.1.0",
+  "private": true,
+  "description": "AI-powered immigration legal platform",
+  "scripts": {
+    "dev": "pnpm --filter @migravio/web dev",
+    "build": "pnpm --filter @migravio/web build",
+    "lint": "pnpm --filter @migravio/web lint"
+  },
+  "engines": {
+    "node": ">=20",
+    "pnpm": ">=9"
+  }
+}

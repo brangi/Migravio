@@ -1,0 +1,122 @@
+{
+  "common": {
+    "appName": "Migravio",
+    "tagline": "Your trusted immigration guide",
+    "loading": "Loading...",
+    "error": "Something went wrong",
+    "save": "Save",
+    "cancel": "Cancel",
+    "next": "Next",
+    "back": "Back",
+    "continue": "Continue",
+    "getStarted": "Get Started",
+    "learnMore": "Learn More"
+  },
+  "nav": {
+    "dashboard": "Dashboard",
+    "chat": "AI Assistant",
+    "attorneys": "Find an Attorney",
+    "settings": "Settings",
+    "signOut": "Sign Out"
+  },
+  "auth": {
+    "login": "Log In",
+    "signup": "Sign Up",
+    "email": "Email address",
+    "password": "Password",
+    "confirmPassword": "Confirm password",
+    "forgotPassword": "Forgot password?",
+    "noAccount": "Don't have an account?",
+    "hasAccount": "Already have an account?",
+    "orContinueWith": "Or continue with",
+    "googleSignIn": "Continue with Google",
+    "emailSignIn": "Sign in with email",
+    "emailSignUp": "Sign up with email",
+    "errors": {
+      "invalidEmail": "Please enter a valid email address",
+      "weakPassword": "Password must be at least 6 characters",
+      "emailInUse": "An account with this email already exists",
+      "wrongPassword": "Incorrect email or password",
+      "generic": "Something went wrong. Please try again."
+    }
+  },
+  "onboarding": {
+    "welcome": "Welcome to Migravio",
+    "step1Title": "Choose your language",
+    "step1Subtitle": "We'll communicate with you in this language",
+    "step2Title": "What's your visa type?",
+    "step2Subtitle": "This helps us personalize your experience",
+    "step3Title": "Important dates",
+    "step3Subtitle": "We'll send you timely reminders",
+    "visaExpiry": "Visa expiration date",
+    "priorityDate": "Priority date (if applicable)",
+    "skip": "Skip for now",
+    "visaTypes": {
+      "H-1B": "H-1B (Specialty Occupation)",
+      "F-1": "F-1 / OPT (Student)",
+      "Family": "Family-Based",
+      "GreenCard": "Green Card",
+      "Other": "Other"
+    }
+  },
+  "dashboard": {
+    "title": "Your Dashboard",
+    "visaStatus": "Visa Status",
+    "daysRemaining": "{count, plural, one {# day} other {# days}} remaining",
+    "expired": "Expired",
+    "recentChats": "Recent Conversations",
+    "noChats": "No conversations yet",
+    "startChat": "Ask a question",
+    "policyAlerts": "Policy Alerts",
+    "noAlerts": "No alerts for your visa type",
+    "actionChecklist": "Action Checklist",
+    "talkToAttorney": "Talk to an Attorney"
+  },
+  "chat": {
+    "title": "AI Immigration Assistant",
+    "placeholder": "Ask me anything about immigration...",
+    "send": "Send",
+    "newChat": "New conversation",
+    "messagesRemaining": "{count} of {total} free messages remaining",
+    "limitReached": "You've used all your free messages this month",
+    "upgrade": "Upgrade to Pro for unlimited messages",
+    "thinking": "Thinking...",
+    "disclaimer": "Migravio provides legal information, not legal advice. For complex cases, consult an attorney.",
+    "escalation": {
+      "title": "This may need professional help",
+      "description": "Your question involves a complex legal matter. We recommend speaking with an immigration attorney.",
+      "cta": "Find an Attorney"
+    }
+  },
+  "attorneys": {
+    "title": "Immigration Attorneys",
+    "subtitle": "Connect with vetted immigration lawyers who speak your language",
+    "specialty": "Specialty",
+    "languages": "Languages",
+    "states": "Licensed in",
+    "requestIntro": "Request Introduction",
+    "introSent": "Introduction requested!",
+    "introDescription": "We'll send an email connecting you with this attorney."
+  },
+  "pricing": {
+    "title": "Choose your plan",
+    "free": "Free",
+    "pro": "Pro",
+    "premium": "Premium",
+    "monthly": "/month",
+    "yearly": "/year",
+    "freeDescription": "Get started with basic access",
+    "proDescription": "Unlimited access for individuals",
+    "premiumDescription": "Everything in Pro, plus priority support",
+    "freeFeatures": ["10 messages per month", "English only", "Basic dashboard"],
+    "proFeatures": ["Unlimited messages", "English + Spanish", "Full dashboard", "Priority alerts"],
+    "premiumFeatures": ["Everything in Pro", "Family profiles", "Priority attorney matching", "Dedicated support"],
+    "currentPlan": "Current plan",
+    "upgradeTo": "Upgrade to {plan}"
+  },
+  "footer": {
+    "disclaimer": "Migravio provides legal information, not legal advice. We are not a law firm.",
+    "terms": "Terms of Service",
+    "privacy": "Privacy Policy"
+  }
+}

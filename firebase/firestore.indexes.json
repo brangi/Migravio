@@ -1,0 +1,13 @@
+{
+  "indexes": [
+    {
+      "collectionGroup": "policyAlerts",
+      "queryScope": "COLLECTION",
+      "fields": [
+        { "fieldPath": "active", "order": "ASCENDING" },
+        { "fieldPath": "publishedAt", "order": "DESCENDING" }
+      ]
+    }
+  ],
+  "fieldOverrides": []
+}

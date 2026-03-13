@@ -1,0 +1,17 @@
+services:
+  - type: web
+    name: migravio-ai
+    runtime: docker
+    dockerfilePath: ./Dockerfile
+    plan: free
+    envVars:
+      - key: OPENROUTER_API_KEY
+        sync: false
+      - key: OPENROUTER_BASE_URL
+        value: https://openrouter.ai/api/v1
+      - key: PINECONE_API_KEY
+        sync: false
+      - key: PINECONE_INDEX_NAME
+        value: immigration-docs
+      - key: FIREBASE_ADMIN_SERVICE_ACCOUNT
+        sync: false
