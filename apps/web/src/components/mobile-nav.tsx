@@ -2,7 +2,8 @@
 
 import { useTranslations } from "next-intl";
 import { Link } from "@/i18n/navigation";
-import { LayoutDashboard, MessageCircle, Scale, Settings } from "./icons";
+import { useAuth } from "@/lib/auth-context";
+import { LayoutDashboard, MessageCircle, Scale, Settings, CreditCard, ArrowRight } from "./icons";
 
 interface MobileNavProps {
   activePage: "dashboard" | "chat" | "attorneys" | "settings" | "pricing";
@@ -10,13 +11,22 @@ interface MobileNavProps {
 
 export function MobileNav({ activePage }: MobileNavProps) {
   const t = useTranslations("nav");
+  const tAuth = useTranslations("auth");
+  const { user } = useAuth();
 
-  const navItems = [
+  const authNavItems = [
     { key: "dashboard", href: "/dashboard", icon: LayoutDashboard },
     { key: "chat", href: "/chat", icon: MessageCircle },
     { key: "attorneys", href: "/attorneys", icon: Scale },
     { key: "settings", href: "/settings", icon: Settings },
   ];
+
+  const publicNavItems = [
+    { key: "pricing", href: "/pricing", icon: CreditCard },
+    { key: "login" as const, href: "/login", icon: ArrowRight },
+  ];
+
+  const navItems = user ? authNavItems : publicNavItems;
 
   return (
     <nav className="fixed bottom-0 left-0 right-0 z-40 border-t border-border bg-surface md:hidden">
@@ -24,6 +34,7 @@ export function MobileNav({ activePage }: MobileNavProps) {
         {navItems.map((item) => {
           const Icon = item.icon;
           const isActive = activePage === item.key;
+          const label = item.key === "login" ? tAuth("login") : t(item.key);
           return (
             <Link
               key={item.key}
@@ -36,7 +47,7 @@ export function MobileNav({ activePage }: MobileNavProps) {
                 <span className="absolute top-0 left-1/2 -translate-x-1/2 w-12 h-0.5 bg-primary-600 rounded-full" />
               )}
               <Icon className="h-5 w-5 mb-1" />
-              {t(item.key)}
+              {label}
             </Link>
           );
         })}
