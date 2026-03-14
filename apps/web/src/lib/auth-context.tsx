@@ -137,12 +137,21 @@ export function AuthProvider({ children }: { children: ReactNode }) {
 
   const signUp = async (email: string, password: string) => {
     const credential = await createUserWithEmailAndPassword(auth, email, password);
-    await ensureUserProfile(credential.user.uid, credential.user.email, credential.user.displayName, null);
+    try {
+      await ensureUserProfile(credential.user.uid, credential.user.email, credential.user.displayName, null);
+    } catch (err) {
+      console.error("Failed to create user profile (will retry on next load):", err);
+    }
   };
 
   const signInWithGoogle = async () => {
     const credential = await signInWithPopup(auth, googleProvider);
-    await ensureUserProfile(credential.user.uid, credential.user.email, credential.user.displayName, credential.user.photoURL);
+    // Profile creation is best-effort — don't block sign-in if Firestore write fails
+    try {
+      await ensureUserProfile(credential.user.uid, credential.user.email, credential.user.displayName, credential.user.photoURL);
+    } catch (err) {
+      console.error("Failed to create user profile (will retry on next load):", err);
+    }
   };
 
   const sendMagicLink = async (email: string) => {
