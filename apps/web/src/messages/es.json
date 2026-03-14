@@ -100,6 +100,7 @@
   },
   "dashboard": {
     "title": "Tu panel",
+    "greeting": "Hola, {name}",
     "visaStatus": "Estado de visa",
     "daysRemaining": "{count, plural, one {# día} other {# días}} restantes",
     "expired": "Vencida",

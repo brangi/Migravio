@@ -17,7 +17,7 @@ import { AppHeader } from "@/components/app-header";
 import { MobileNav } from "@/components/mobile-nav";
 import { AppFooter } from "@/components/footer";
 import { Badge } from "@/components/badge";
-import { Sparkles, Clock, AlertTriangle, CheckCircle2, ArrowRight } from "@/components/icons";
+import { Sparkles, Clock, AlertTriangle, CheckCircle2, ArrowRight, Settings } from "@/components/icons";
 
 interface ChatSession {
   id: string;
@@ -195,6 +195,7 @@ function getActionChecklist(
 
 export default function DashboardPage() {
   const t = useTranslations("dashboard");
+  const tNav = useTranslations("nav");
   const { user, profile, loading } = useAuth();
   const router = useRouter();
 
@@ -305,7 +306,38 @@ export default function DashboardPage() {
 
       {/* Main content */}
       <main className="mx-auto w-full max-w-6xl flex-1 px-4 py-8">
-        <h1 className="font-[var(--font-display)] text-2xl font-bold text-text-primary">{t("title")}</h1>
+        {/* Profile greeting */}
+        <div className="flex items-center justify-between">
+          <div className="flex items-center gap-4">
+            {user.photoURL ? (
+              <img
+                src={user.photoURL}
+                alt=""
+                className="h-12 w-12 rounded-full border-2 border-primary-100 shadow-sm"
+                referrerPolicy="no-referrer"
+              />
+            ) : (
+              <div className="flex h-12 w-12 items-center justify-center rounded-full bg-primary-100 text-primary-700 font-semibold text-lg">
+                {(user.displayName || user.email || "U").charAt(0).toUpperCase()}
+              </div>
+            )}
+            <div>
+              <h1 className="font-[var(--font-display)] text-2xl font-bold text-text-primary">
+                {user.displayName
+                  ? t("greeting", { name: user.displayName.split(" ")[0] })
+                  : t("title")}
+              </h1>
+              <p className="text-sm text-text-tertiary">{user.email}</p>
+            </div>
+          </div>
+          <Link
+            href="/settings"
+            className="hidden md:flex items-center gap-2 rounded-lg border border-border px-3 py-2 text-sm text-text-secondary hover:bg-surface-alt transition-colors"
+          >
+            <Settings className="h-4 w-4" />
+            {tNav("settings")}
+          </Link>
+        </div>
 
         <div className="mt-6 grid animate-stagger gap-6 md:grid-cols-2 lg:grid-cols-3">
           {/* Visa Status Card */}

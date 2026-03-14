@@ -100,6 +100,7 @@
   },
   "dashboard": {
     "title": "Your Dashboard",
+    "greeting": "Welcome, {name}",
     "visaStatus": "Visa Status",
     "daysRemaining": "{count, plural, one {# day} other {# days}} remaining",
     "expired": "Expired",
