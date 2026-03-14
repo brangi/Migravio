@@ -294,9 +294,11 @@ export async function POST(request: NextRequest) {
 
     try {
       // Send email to attorney
+      // TODO: Switch to "Migravio <hello@migravio.ai>" after domain verification
       const resend = getResend();
+      const fromAddress = "Migravio <onboarding@resend.dev>";
       await resend.emails.send({
-        from: "Migravio <hello@migravio.ai>",
+        from: fromAddress,
         to: body.attorneyEmail,
         subject: `New client introduction from Migravio - ${body.userVisaType} case`,
         html: generateAttorneyEmail(
@@ -309,7 +311,7 @@ export async function POST(request: NextRequest) {
 
       // Send confirmation email to user
       await resend.emails.send({
-        from: "Migravio <hello@migravio.ai>",
+        from: fromAddress,
         to: userData.email,
         subject: "Your attorney introduction is on its way",
         html: generateUserConfirmationEmail(
