@@ -247,7 +247,7 @@ export default function AttorneysPage() {
       const data = await res.json();
 
       if (!res.ok) {
-        throw new Error(data.error || "Failed to send introduction request");
+        throw new Error(data.message || data.error || "Failed to send introduction request");
       }
 
       setRequestedAttorneys((prev) => new Set(prev).add(confirmAttorney.id));

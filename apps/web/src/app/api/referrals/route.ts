@@ -244,26 +244,31 @@ export async function POST(request: NextRequest) {
       : userData.email.split("@")[0]; // Fallback to email username
 
     // Check if a similar referral already exists (within last 24 hours)
-    const recentReferralsSnapshot = await db
-      .collection("referrals")
-      .where("userId", "==", userId)
-      .where("attorneyId", "==", body.attorneyId)
-      .where(
-        "createdAt",
-        ">",
-        new Date(Date.now() - 24 * 60 * 60 * 1000) // Last 24 hours
-      )
-      .limit(1)
-      .get();
+    try {
+      const recentReferralsSnapshot = await db
+        .collection("referrals")
+        .where("userId", "==", userId)
+        .where("attorneyId", "==", body.attorneyId)
+        .where(
+          "createdAt",
+          ">",
+          new Date(Date.now() - 24 * 60 * 60 * 1000) // Last 24 hours
+        )
+        .limit(1)
+        .get();
 
-    if (!recentReferralsSnapshot.empty) {
-      return NextResponse.json(
-        {
-          error:
-            "You already have a recent referral to this attorney. Please wait 24 hours before requesting another introduction.",
-        },
-        { status: 429 }
-      );
+      if (!recentReferralsSnapshot.empty) {
+        return NextResponse.json(
+          {
+            error:
+              "You already have a recent referral to this attorney. Please wait 24 hours before requesting another introduction.",
+          },
+          { status: 429 }
+        );
+      }
+    } catch (indexErr) {
+      // Composite index may not exist yet — skip duplicate check
+      console.warn("Duplicate referral check skipped (index may be missing):", indexErr);
     }
 
     // Create referral document in Firestore
