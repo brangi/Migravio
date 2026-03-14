@@ -52,7 +52,9 @@ export default function EmailSignInPage() {
           </div>
 
           <div className="relative z-10 max-w-md">
-            <Logo variant="full" size="lg" colorScheme="dark" />
+            <Link href="/" className="inline-block hover:opacity-80 transition-opacity">
+              <Logo variant="full" size="lg" colorScheme="dark" />
+            </Link>
             <h1 className="mt-8 text-3xl font-[var(--font-display)] leading-tight text-white">
               Something went wrong
             </h1>
@@ -99,7 +101,9 @@ export default function EmailSignInPage() {
           </div>
 
           <div className="relative z-10 max-w-md">
-            <Logo variant="full" size="lg" colorScheme="dark" />
+            <Link href="/" className="inline-block hover:opacity-80 transition-opacity">
+              <Logo variant="full" size="lg" colorScheme="dark" />
+            </Link>
             <h1 className="mt-8 text-3xl font-[var(--font-display)] leading-tight text-white">
               Signing you in securely
             </h1>

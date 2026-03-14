@@ -53,13 +53,6 @@ export default function LandingPage() {
               {/* TODO: Add translation key "landing.nav.pricing" */}
               Pricing
             </Link>
-            <Link
-              href="/about"
-              className="text-text-secondary hover:text-text-primary transition-colors"
-            >
-              {/* TODO: Add translation key "landing.nav.about" */}
-              About
-            </Link>
           </nav>
 
           <div className="flex items-center gap-3">

@@ -1,22 +1,21 @@
 "use client";
 
-import { useTranslations, useLocale } from "next-intl";
+import { useTranslations } from "next-intl";
 import { Link } from "@/i18n/navigation";
 import { LayoutDashboard, MessageCircle, Scale, Settings } from "./icons";
 
 interface MobileNavProps {
-  activePage: string;
+  activePage: "dashboard" | "chat" | "attorneys" | "settings" | "pricing";
 }
 
 export function MobileNav({ activePage }: MobileNavProps) {
   const t = useTranslations("nav");
-  const locale = useLocale();
 
   const navItems = [
-    { key: "dashboard", href: `/${locale}/dashboard`, icon: LayoutDashboard },
-    { key: "chat", href: `/${locale}/chat`, icon: MessageCircle },
-    { key: "attorneys", href: `/${locale}/attorneys`, icon: Scale },
-    { key: "settings", href: `/${locale}/settings`, icon: Settings },
+    { key: "dashboard", href: "/dashboard", icon: LayoutDashboard },
+    { key: "chat", href: "/chat", icon: MessageCircle },
+    { key: "attorneys", href: "/attorneys", icon: Scale },
+    { key: "settings", href: "/settings", icon: Settings },
   ];
 
   return (

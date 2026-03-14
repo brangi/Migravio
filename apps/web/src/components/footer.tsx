@@ -6,10 +6,21 @@ export function AppFooter() {
   const t = useTranslations("footer");
 
   return (
-    <footer className="border-t border-border bg-surface-alt py-6 text-center">
-      <p className="text-sm text-text-tertiary max-w-3xl mx-auto px-4">
-        {t("disclaimer")}
-      </p>
+    <footer className="border-t border-border bg-surface-alt py-6">
+      <div className="max-w-3xl mx-auto px-4 space-y-3">
+        <p className="text-sm text-text-tertiary text-center">
+          {t("disclaimer")}
+        </p>
+        <div className="flex items-center justify-center gap-4 text-xs text-text-tertiary">
+          <Link href="/terms" className="hover:text-text-secondary transition-colors">
+            {t("terms")}
+          </Link>
+          <span>·</span>
+          <Link href="/privacy" className="hover:text-text-secondary transition-colors">
+            {t("privacy")}
+          </Link>
+        </div>
+      </div>
     </footer>
   );
 }
@@ -54,11 +65,6 @@ export function LandingFooter() {
               {t("resources")}
             </h3>
             <ul className="space-y-2 text-sm">
-              <li>
-                <Link href="/about" className="text-text-secondary hover:text-text-primary transition-colors">
-                  {t("about")}
-                </Link>
-              </li>
               <li>
                 <Link href="/privacy" className="text-text-secondary hover:text-text-primary transition-colors">
                   {t("privacy")}

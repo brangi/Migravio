@@ -78,7 +78,9 @@ export default function SignupPage() {
         </div>
 
         <div className="relative z-10 max-w-md">
-          <Logo variant="full" size="lg" colorScheme="dark" />
+          <Link href="/" className="inline-block hover:opacity-80 transition-opacity">
+            <Logo variant="full" size="lg" colorScheme="dark" />
+          </Link>
           <h1 className="mt-8 text-3xl font-[var(--font-display)] leading-tight text-white">
             Start your journey with confidence
           </h1>
@@ -93,7 +95,9 @@ export default function SignupPage() {
         <div className="w-full max-w-md space-y-8">
           {/* Mobile Logo */}
           <div className="lg:hidden text-center">
-            <Logo variant="full" size="md" />
+            <Link href="/" className="inline-block hover:opacity-80 transition-opacity">
+              <Logo variant="full" size="md" />
+            </Link>
           </div>
 
           <div className="text-center lg:text-left">

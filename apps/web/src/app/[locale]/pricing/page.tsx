@@ -51,13 +51,6 @@ export default function PricingPage() {
   const [billingInterval, setBillingInterval] = useState<BillingInterval>("monthly");
   const [isLoading, setIsLoading] = useState<string | null>(null);
 
-  // Redirect to login if not authenticated
-  useEffect(() => {
-    if (!loading && !user) {
-      router.push("/login");
-    }
-  }, [loading, user, router]);
-
   // Show payment status alerts
   useEffect(() => {
     const payment = searchParams.get("payment");
@@ -72,7 +65,7 @@ export default function PricingPage() {
 
   const handleUpgrade = async (plan: PlanType, interval: BillingInterval) => {
     if (!user) {
-      router.push("/login");
+      router.push("/signup");
       return;
     }
 
@@ -98,14 +91,6 @@ export default function PricingPage() {
       setIsLoading(null);
     }
   };
-
-  if (loading) {
-    return (
-      <div className="flex min-h-screen items-center justify-center">
-        <Loader2 className="h-8 w-8 animate-spin text-primary-600" />
-      </div>
-    );
-  }
 
   const currentPlan = profile?.subscription?.plan || "free";
 
@@ -212,6 +197,7 @@ export default function PricingPage() {
             billingInterval={billingInterval}
             isLoading={isLoading === "free"}
             onUpgrade={() => {}}
+            isAuthenticated={!!user}
           />
 
           {/* Pro Plan */}
@@ -222,6 +208,7 @@ export default function PricingPage() {
             billingInterval={billingInterval}
             isLoading={isLoading === "pro"}
             onUpgrade={() => handleUpgrade("pro", billingInterval)}
+            isAuthenticated={!!user}
           />
 
           {/* Premium Plan */}
@@ -232,6 +219,7 @@ export default function PricingPage() {
             billingInterval={billingInterval}
             isLoading={isLoading === "premium"}
             onUpgrade={() => handleUpgrade("premium", "monthly")}
+            isAuthenticated={!!user}
           />
         </div>
       </main>
@@ -250,6 +238,7 @@ interface PricingCardProps {
   billingInterval: BillingInterval;
   isLoading: boolean;
   onUpgrade: () => void;
+  isAuthenticated: boolean;
 }
 
 function PricingCard({
@@ -259,6 +248,7 @@ function PricingCard({
   billingInterval,
   isLoading,
   onUpgrade,
+  isAuthenticated,
 }: PricingCardProps) {
   const t = useTranslations("pricing");
   const isCurrentPlan = currentPlan === plan;
@@ -290,7 +280,7 @@ function PricingCard({
         </div>
       )}
 
-      {isCurrentPlan && (
+      {isAuthenticated && isCurrentPlan && (
         <div className="absolute right-4 top-4">
           <span className="rounded-full bg-green-100 px-3 py-1 text-xs font-semibold text-green-700">
             {t("currentPlan")}
@@ -336,9 +326,9 @@ function PricingCard({
 
       <button
         onClick={onUpgrade}
-        disabled={isCurrentPlan || isLoading}
+        disabled={(isAuthenticated && isCurrentPlan) || isLoading}
         className={`mt-8 w-full rounded-lg py-3 text-sm font-semibold transition-colors ${
-          isCurrentPlan
+          isAuthenticated && isCurrentPlan
             ? "cursor-not-allowed bg-surface-alt text-text-tertiary"
             : planData.popular
               ? "bg-primary-600 text-white hover:bg-primary-700"
@@ -350,8 +340,10 @@ function PricingCard({
             <Loader2 className="h-4 w-4 animate-spin" />
             Loading...
           </span>
-        ) : isCurrentPlan ? (
+        ) : isAuthenticated && isCurrentPlan ? (
           t("currentPlan")
+        ) : !isAuthenticated && plan !== "free" ? (
+          "Get Started"
         ) : (
           planData.cta
         )}
