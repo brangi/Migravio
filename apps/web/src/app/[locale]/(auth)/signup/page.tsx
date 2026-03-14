@@ -61,8 +61,22 @@ export default function SignupPage() {
     try {
       await signInWithGoogle();
       router.push("/onboarding");
-    } catch {
-      setError(t("errors.generic"));
+    } catch (err) {
+      if (err instanceof FirebaseError) {
+        console.error("Google auth error:", err.code, err.message);
+        if (err.code === "auth/popup-closed-by-user") {
+          return; // User cancelled, no error needed
+        } else if (err.code === "auth/operation-not-allowed") {
+          setError("Google sign-in is not enabled. Please use email instead.");
+        } else if (err.code === "auth/unauthorized-domain") {
+          setError("This domain is not authorized for Google sign-in.");
+        } else {
+          setError(t("errors.generic"));
+        }
+      } else {
+        console.error("Google auth error:", err);
+        setError(t("errors.generic"));
+      }
     }
   };
 
