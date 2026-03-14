@@ -82,10 +82,10 @@ export default function SignupPage() {
             <Logo variant="full" size="lg" colorScheme="dark" />
           </Link>
           <h1 className="mt-8 text-3xl font-[var(--font-display)] leading-tight text-white">
-            Start your journey with confidence
+            {t("brandedPanel.signupHeadline")}
           </h1>
           <p className="mt-4 text-primary-200 text-lg">
-            Join thousands who trust Migravio for their immigration needs.
+            {t("brandedPanel.signupSubtext")}
           </p>
         </div>
       </div>

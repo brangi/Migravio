@@ -22,6 +22,7 @@
     "dashboard": "Dashboard",
     "chat": "AI Assistant",
     "attorneys": "Find an Attorney",
+    "pricing": "Pricing",
     "settings": "Settings",
     "signOut": "Sign Out"
   },
@@ -52,6 +53,21 @@
     "forgotPasswordSent": "Check your email!",
     "forgotPasswordSentDescription": "We sent a password reset link to {email}.",
     "backToLogin": "Back to login",
+    "brandedPanel": {
+      "loginHeadline": "Your immigration journey, simplified",
+      "loginSubtext": "Expert guidance in your language, whenever you need it.",
+      "signupHeadline": "Start your journey with confidence",
+      "signupSubtext": "Join thousands who trust Migravio for their immigration needs.",
+      "forgotHeadline": "Reset your password securely",
+      "forgotSubtext": "Enter your email and we'll send you a reset link.",
+      "forgotSentHeadline": "We'll help you get back on track",
+      "forgotSentSubtext": "Check your email for a secure password reset link.",
+      "emailSigninHeadline": "Signing you in securely",
+      "emailSigninSubtext": "Just a moment while we verify your identity.",
+      "emailSigninErrorHeadline": "Something went wrong",
+      "emailSigninErrorSubtext": "This link may have expired or already been used.",
+      "unableToSignIn": "Unable to sign in"
+    },
     "errors": {
       "invalidEmail": "Please enter a valid email address",
       "weakPassword": "Password must be at least 6 characters",

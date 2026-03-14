@@ -53,10 +53,10 @@ export default function ForgotPasswordPage() {
               <Logo variant="full" size="lg" colorScheme="dark" />
             </Link>
             <h1 className="mt-8 text-3xl font-[var(--font-display)] leading-tight text-white">
-              We'll help you get back on track
+              {t("brandedPanel.forgotSentHeadline")}
             </h1>
             <p className="mt-4 text-primary-200 text-lg">
-              Check your email for a secure password reset link.
+              {t("brandedPanel.forgotSentSubtext")}
             </p>
           </div>
         </div>
@@ -99,10 +99,10 @@ export default function ForgotPasswordPage() {
         <div className="relative z-10 max-w-md">
           <Logo variant="full" size="lg" colorScheme="dark" />
           <h1 className="mt-8 text-3xl font-[var(--font-display)] leading-tight text-white">
-            Reset your password securely
+            {t("brandedPanel.forgotHeadline")}
           </h1>
           <p className="mt-4 text-primary-200 text-lg">
-            Enter your email and we'll send you a reset link.
+            {t("brandedPanel.forgotSubtext")}
           </p>
         </div>
       </div>

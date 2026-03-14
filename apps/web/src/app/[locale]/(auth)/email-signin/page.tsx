@@ -56,10 +56,10 @@ export default function EmailSignInPage() {
               <Logo variant="full" size="lg" colorScheme="dark" />
             </Link>
             <h1 className="mt-8 text-3xl font-[var(--font-display)] leading-tight text-white">
-              Something went wrong
+              {t("brandedPanel.emailSigninErrorHeadline")}
             </h1>
             <p className="mt-4 text-primary-200 text-lg">
-              This link may have expired or already been used.
+              {t("brandedPanel.emailSigninErrorSubtext")}
             </p>
           </div>
         </div>
@@ -71,7 +71,7 @@ export default function EmailSignInPage() {
               <AlertTriangle className="h-8 w-8 text-red-600" />
             </div>
             <h2 className="text-xl font-semibold font-[var(--font-display)] text-text-primary">
-              Unable to sign in
+              {t("brandedPanel.unableToSignIn")}
             </h2>
             <p className="text-sm text-text-secondary">
               {t("magicLinkError")}
@@ -105,10 +105,10 @@ export default function EmailSignInPage() {
               <Logo variant="full" size="lg" colorScheme="dark" />
             </Link>
             <h1 className="mt-8 text-3xl font-[var(--font-display)] leading-tight text-white">
-              Signing you in securely
+              {t("brandedPanel.emailSigninHeadline")}
             </h1>
             <p className="mt-4 text-primary-200 text-lg">
-              Just a moment while we verify your identity.
+              {t("brandedPanel.emailSigninSubtext")}
             </p>
           </div>
         </div>
