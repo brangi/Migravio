@@ -4,7 +4,7 @@ import { useTranslations } from "next-intl";
 import { useRouter } from "@/i18n/navigation";
 import { useAuth } from "@/lib/auth-context";
 import { useEffect, useState } from "react";
-import { collection, addDoc, serverTimestamp, query, where, getDocs } from "firebase/firestore";
+import { collection, query, where, getDocs } from "firebase/firestore";
 import { db } from "@/lib/firebase";
 import { AppHeader } from "@/components/app-header";
 import { MobileNav } from "@/components/mobile-nav";
@@ -17,6 +17,7 @@ const ATTORNEYS = [
   {
     id: "attorney-1",
     name: "Maria Rodriguez",
+    email: "maria.rodriguez@example.com",
     specialties: ["Family-based immigration", "Removal defense"],
     languages: ["Spanish", "English"],
     states: ["CA", "TX"],
@@ -25,6 +26,7 @@ const ATTORNEYS = [
   {
     id: "attorney-2",
     name: "David Chen",
+    email: "david.chen@example.com",
     specialties: ["Employment visas", "Business immigration"],
     languages: ["Mandarin", "English"],
     states: ["NY", "CA"],
@@ -33,6 +35,7 @@ const ATTORNEYS = [
   {
     id: "attorney-3",
     name: "Sarah Williams",
+    email: "sarah.williams@example.com",
     specialties: ["Asylum", "Refugee status", "Humanitarian visas"],
     languages: ["English", "French"],
     states: ["DC", "VA", "MD"],
@@ -41,6 +44,7 @@ const ATTORNEYS = [
   {
     id: "attorney-4",
     name: "Raj Patel",
+    email: "raj.patel@example.com",
     specialties: ["Student visas", "OPT/CPT", "H-1B transfers"],
     languages: ["Hindi", "Gujarati", "English"],
     states: ["TX", "NJ"],
@@ -49,6 +53,7 @@ const ATTORNEYS = [
   {
     id: "attorney-5",
     name: "Ana Gutierrez",
+    email: "ana.gutierrez@example.com",
     specialties: ["Naturalization", "Green cards", "DACA"],
     languages: ["Spanish", "English"],
     states: ["FL", "IL"],
@@ -223,21 +228,34 @@ export default function AttorneysPage() {
 
     setSubmitting(true);
     try {
-      await addDoc(collection(db, "referrals"), {
-        userId: user.uid,
-        userEmail: user.email,
-        attorneyId: confirmAttorney.id,
-        attorneyName: confirmAttorney.name,
-        status: "requested",
-        visaType: profile.visaType || "",
-        createdAt: serverTimestamp(),
+      const idToken = await user.getIdToken();
+
+      const res = await fetch("/api/referrals", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${idToken}`,
+        },
+        body: JSON.stringify({
+          attorneyId: confirmAttorney.id,
+          attorneyName: confirmAttorney.name,
+          attorneyEmail: confirmAttorney.email,
+          userVisaType: profile.visaType || "Other",
+        }),
       });
+
+      const data = await res.json();
+
+      if (!res.ok) {
+        throw new Error(data.error || "Failed to send introduction request");
+      }
 
       setRequestedAttorneys((prev) => new Set(prev).add(confirmAttorney.id));
       setConfirmAttorney(null);
-    } catch (error) {
+    } catch (error: unknown) {
       console.error("Error creating referral:", error);
-      alert("Failed to send introduction request. Please try again.");
+      const message = error instanceof Error ? error.message : "Failed to send introduction request. Please try again.";
+      alert(message);
     } finally {
       setSubmitting(false);
     }
