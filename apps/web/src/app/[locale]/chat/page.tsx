@@ -616,14 +616,14 @@ export default function ChatPage() {
 
               {/* Unified input card */}
               <form onSubmit={sendMessage}>
-                <div className="rounded-2xl border-2 border-primary-200 bg-white shadow-lg ring-1 ring-primary-100 transition-all focus-within:border-primary-500 focus-within:ring-2 focus-within:ring-primary-200 focus-within:shadow-xl">
+                <div className="overflow-hidden rounded-2xl border-2 border-primary-200 bg-white shadow-lg transition-all focus-within:border-primary-500 focus-within:shadow-xl">
                   <textarea
                     value={input}
                     onChange={(e) => setInput(e.target.value)}
                     onKeyDown={handleKeyDown}
                     placeholder={t("placeholder")}
                     disabled={isStreaming || (isFreeUser && messagesRemaining === 0)}
-                    className="w-full resize-none rounded-2xl bg-transparent px-4 pb-2 pt-3 text-sm text-text-primary placeholder:text-text-tertiary focus:outline-none disabled:text-text-tertiary"
+                    className="block w-full resize-none border-0 bg-transparent px-4 pb-2 pt-3 text-sm text-text-primary placeholder:text-text-tertiary focus:outline-none focus:ring-0 disabled:text-text-tertiary"
                     rows={1}
                     style={{
                       minHeight: "44px",
@@ -642,7 +642,7 @@ export default function ChatPage() {
                     <button
                       type="submit"
                       disabled={!input.trim() || isStreaming || (isFreeUser && messagesRemaining === 0)}
-                      className="flex h-9 w-9 flex-shrink-0 items-center justify-center rounded-xl bg-primary-600 text-white transition-all hover:bg-primary-700 disabled:bg-surface-alt disabled:text-text-tertiary"
+                      className="flex h-9 w-9 flex-shrink-0 items-center justify-center rounded-full bg-primary-600 text-white transition-all hover:bg-primary-700 disabled:bg-surface-alt disabled:text-text-tertiary"
                       aria-label={t("send")}
                     >
                       {isStreaming ? (
