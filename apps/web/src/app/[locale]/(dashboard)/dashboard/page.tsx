@@ -51,7 +51,7 @@ function DaysRemainingBadge({ expiryDate }: { expiryDate: Date | null }) {
     (expiryDate.getTime() - now.getTime()) / (1000 * 60 * 60 * 24)
   );
 
-  if (diff < 0) {
+  if (diff <= 0) {
     return <Badge variant="danger">{t("expired")}</Badge>;
   }
 
