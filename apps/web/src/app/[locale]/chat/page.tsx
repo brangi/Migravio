@@ -616,7 +616,7 @@ export default function ChatPage() {
 
               {/* Unified input card */}
               <form onSubmit={sendMessage}>
-                <div className="rounded-2xl border border-border-strong bg-white shadow-lg transition-shadow focus-within:border-primary-400 focus-within:shadow-xl">
+                <div className="rounded-2xl border-2 border-primary-200 bg-white shadow-lg ring-1 ring-primary-100 transition-all focus-within:border-primary-500 focus-within:ring-2 focus-within:ring-primary-200 focus-within:shadow-xl">
                   <textarea
                     value={input}
                     onChange={(e) => setInput(e.target.value)}
