@@ -272,7 +272,7 @@ export async function POST(request: NextRequest) {
     }
 
     // Create referral document in Firestore
-    const referralData: ReferralData = {
+    const referralData: Omit<ReferralData, "context"> & { context?: string } = {
       userId,
       attorneyId: body.attorneyId,
       attorneyName: body.attorneyName,
@@ -280,11 +280,13 @@ export async function POST(request: NextRequest) {
       userEmail: userData.email,
       userName,
       userVisaType: body.userVisaType,
-      context: body.context,
       status: "pending",
       createdAt: new Date(),
       emailsSent: false,
     };
+    if (body.context) {
+      referralData.context = body.context;
+    }
 
     const referralRef = await db.collection("referrals").add(referralData);
 
