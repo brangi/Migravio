@@ -614,46 +614,46 @@ export default function ChatPage() {
                 </div>
               )}
 
-              {/* Unified input card */}
+              {/* Input card */}
               <form onSubmit={sendMessage}>
-                <div className="overflow-hidden rounded-2xl border-2 border-primary-200 bg-white shadow-lg transition-all focus-within:border-primary-500 focus-within:shadow-xl">
+                <div className="flex items-end gap-2 overflow-hidden rounded-2xl border-2 border-primary-200 bg-white px-3 py-2 shadow-lg transition-all focus-within:border-primary-500 focus-within:shadow-xl">
                   <textarea
                     value={input}
                     onChange={(e) => setInput(e.target.value)}
                     onKeyDown={handleKeyDown}
                     placeholder={t("placeholder")}
                     disabled={isStreaming || (isFreeUser && messagesRemaining === 0)}
-                    className="block w-full resize-none border-0 bg-transparent px-4 pb-2 pt-3 text-sm text-text-primary placeholder:text-text-tertiary focus:outline-none focus:ring-0 disabled:text-text-tertiary"
+                    className="block flex-1 resize-none border-0 bg-transparent px-1 py-1 text-sm text-text-primary placeholder:text-text-tertiary focus:outline-none focus:ring-0 disabled:text-text-tertiary"
                     rows={1}
                     style={{
-                      minHeight: "44px",
+                      minHeight: "36px",
                       maxHeight: "120px",
                     }}
                     onInput={(e) => {
                       const target = e.target as HTMLTextAreaElement;
-                      target.style.height = "44px";
+                      target.style.height = "36px";
                       target.style.height = `${Math.min(target.scrollHeight, 120)}px`;
                     }}
                   />
-                  <div className="flex items-center justify-between px-3 pb-3">
-                    <p className="max-w-[80%] text-xs leading-snug text-text-tertiary line-clamp-1 sm:line-clamp-none">
-                      {t("disclaimer")}
-                    </p>
-                    <button
-                      type="submit"
-                      disabled={!input.trim() || isStreaming || (isFreeUser && messagesRemaining === 0)}
-                      className="flex h-9 w-9 flex-shrink-0 items-center justify-center rounded-full bg-primary-600 text-white transition-all hover:bg-primary-700 disabled:bg-surface-alt disabled:text-text-tertiary"
-                      aria-label={t("send")}
-                    >
-                      {isStreaming ? (
-                        <div className="h-4 w-4 animate-spin rounded-full border-2 border-white border-t-transparent" />
-                      ) : (
-                        <Send className="h-4 w-4" />
-                      )}
-                    </button>
-                  </div>
+                  <button
+                    type="submit"
+                    disabled={!input.trim() || isStreaming || (isFreeUser && messagesRemaining === 0)}
+                    className="mb-0.5 flex h-8 w-8 flex-shrink-0 items-center justify-center rounded-full bg-primary-600 text-white transition-all hover:bg-primary-700 disabled:bg-surface-alt disabled:text-text-tertiary"
+                    aria-label={t("send")}
+                  >
+                    {isStreaming ? (
+                      <div className="h-4 w-4 animate-spin rounded-full border-2 border-white border-t-transparent" />
+                    ) : (
+                      <Send className="h-4 w-4" />
+                    )}
+                  </button>
                 </div>
               </form>
+
+              {/* Disclaimer — separate from input */}
+              <p className="mt-2 text-center text-xs text-text-tertiary">
+                {t("disclaimer")}
+              </p>
             </div>
           </div>
         </main>
