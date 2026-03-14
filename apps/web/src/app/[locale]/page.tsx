@@ -43,15 +43,13 @@ export default function LandingPage() {
               onClick={scrollToFeatures}
               className="text-text-secondary hover:text-text-primary transition-colors"
             >
-              {/* TODO: Add translation key "landing.nav.features" */}
-              Features
+              {t("landing.nav.features")}
             </button>
             <Link
               href="/pricing"
               className="text-text-secondary hover:text-text-primary transition-colors"
             >
-              {/* TODO: Add translation key "landing.nav.pricing" */}
-              Pricing
+              {t("landing.nav.pricing")}
             </Link>
           </nav>
 
@@ -64,8 +62,7 @@ export default function LandingPage() {
             </Link>
             <Link href="/signup">
               <Button variant="accent" size="sm">
-                {/* TODO: Add translation key "landing.nav.getStarted" */}
-                Get Started
+                {t("landing.nav.getStarted")}
               </Button>
             </Link>
           </div>
@@ -77,8 +74,7 @@ export default function LandingPage() {
         <section className="relative overflow-hidden bg-surface-alt px-4 py-20 sm:px-6 sm:py-32 lg:px-8">
           <div className="mx-auto max-w-4xl text-center">
             <h1 className="font-[var(--font-display)] text-4xl font-bold tracking-tight text-text-primary sm:text-5xl md:text-6xl lg:text-7xl">
-              {/* TODO: Update translation key "landing.hero.headline" to match new copy */}
-              Navigate U.S. Immigration — In Your Language
+              {t("landing.hero.headline")}
             </h1>
             <p className="mx-auto mt-6 max-w-2xl text-lg leading-relaxed text-text-secondary sm:text-xl">
               {t("landing.hero.subheadline")}
@@ -88,8 +84,7 @@ export default function LandingPage() {
             <div className="mt-10 flex flex-col items-center justify-center gap-4 sm:flex-row">
               <Link href="/signup">
                 <Button variant="accent" size="lg" icon={<ArrowRight className="h-5 w-5" />}>
-                  {/* TODO: Add translation key "landing.hero.ctaStart" */}
-                  Start Free
+                  {t("landing.hero.ctaStart")}
                 </Button>
               </Link>
               <Button variant="secondary" size="lg" onClick={scrollToFeatures}>
@@ -101,15 +96,15 @@ export default function LandingPage() {
             <div className="mt-12 flex flex-wrap items-center justify-center gap-4 text-sm text-text-tertiary">
               <div className="flex items-center gap-2">
                 <Shield className="h-4 w-4 text-primary-500" />
-                <span>{/* TODO: Add translation key "landing.hero.trustBadge1" */}Based on USCIS official data</span>
+                <span>{t("landing.hero.trustBadge1")}</span>
               </div>
               <div className="flex items-center gap-2">
                 <BookOpen className="h-4 w-4 text-primary-500" />
-                <span>{/* TODO: Add translation key "landing.hero.trustBadge2" */}Multilingual support</span>
+                <span>{t("landing.hero.trustBadge2")}</span>
               </div>
               <div className="flex items-center gap-2">
                 <Handshake className="h-4 w-4 text-primary-500" />
-                <span>{/* TODO: Add translation key "landing.hero.trustBadge3" */}Vetted attorney network</span>
+                <span>{t("landing.hero.trustBadge3")}</span>
               </div>
             </div>
           </div>
@@ -123,8 +118,7 @@ export default function LandingPage() {
                 {t("landing.features.title")}
               </h2>
               <p className="mt-4 text-lg text-text-secondary">
-                {/* TODO: Add translation key "landing.features.subtitle" */}
-                Everything you need to navigate your immigration journey with confidence.
+                {t("landing.features.subtitle")}
               </p>
             </div>
 
@@ -152,16 +146,14 @@ export default function LandingPage() {
                     <div className="flex items-start gap-3">
                       <div className="flex-1 rounded-lg bg-primary-50 border border-primary-200 p-3">
                         <p className="text-sm text-text-secondary">
-                          {/* TODO: Add translation key "landing.features.aiAssistant.mockQuestion" */}
-                          "When should I apply for my H-1B extension?"
+                          "{t("landing.features.aiAssistant.mockQuestion")}"
                         </p>
                       </div>
                     </div>
                     <div className="flex items-start gap-3">
                       <div className="flex-1 rounded-lg bg-accent-50 border border-accent-200 p-3">
                         <p className="text-sm text-text-secondary">
-                          {/* TODO: Add translation key "landing.features.aiAssistant.mockAnswer" */}
-                          "You should file 6 months before expiry. Your visa expires on June 15, so start your petition by December 15..."
+                          "{t("landing.features.aiAssistant.mockAnswer")}"
                         </p>
                       </div>
                     </div>
@@ -291,21 +283,20 @@ export default function LandingPage() {
                   <li className="flex items-start gap-3">
                     <Check className="h-5 w-5 flex-shrink-0 text-success" />
                     <span className="text-sm text-text-secondary">
-                      {/* TODO: Add translation keys for pricing features */}
-                      10 messages per month
+                      {t("pricing.freeFeature1")}
                     </span>
                   </li>
                   <li className="flex items-start gap-3">
                     <Check className="h-5 w-5 flex-shrink-0 text-success" />
-                    <span className="text-sm text-text-secondary">English only</span>
+                    <span className="text-sm text-text-secondary">{t("pricing.freeFeature2")}</span>
                   </li>
                   <li className="flex items-start gap-3">
                     <Check className="h-5 w-5 flex-shrink-0 text-success" />
-                    <span className="text-sm text-text-secondary">Basic dashboard</span>
+                    <span className="text-sm text-text-secondary">{t("pricing.freeFeature3")}</span>
                   </li>
                   <li className="flex items-start gap-3">
                     <X className="h-5 w-5 flex-shrink-0 text-text-tertiary" />
-                    <span className="text-sm text-text-tertiary">Attorney referrals</span>
+                    <span className="text-sm text-text-tertiary">{t("pricing.freeFeature4")}</span>
                   </li>
                 </ul>
 
@@ -319,8 +310,7 @@ export default function LandingPage() {
               {/* Pro Plan - Featured with primary border */}
               <div className="relative flex flex-col rounded-2xl border-2 border-primary-600 bg-surface p-8 shadow-lg">
                 <div className="absolute -top-4 left-1/2 -translate-x-1/2 rounded-full bg-primary-600 px-4 py-1 text-sm font-semibold text-white">
-                  {/* TODO: Add translation key "pricing.popularBadge" */}
-                  Most Popular
+                  {t("pricing.popularBadge")}
                 </div>
                 <h3 className="text-2xl font-bold text-text-primary font-[var(--font-display)]">
                   {t("pricing.pro")}
@@ -336,23 +326,23 @@ export default function LandingPage() {
                 <ul className="mt-8 space-y-3 flex-1">
                   <li className="flex items-start gap-3">
                     <Check className="h-5 w-5 flex-shrink-0 text-success" />
-                    <span className="text-sm text-text-secondary">Unlimited messages</span>
+                    <span className="text-sm text-text-secondary">{t("pricing.proFeature1")}</span>
                   </li>
                   <li className="flex items-start gap-3">
                     <Check className="h-5 w-5 flex-shrink-0 text-success" />
-                    <span className="text-sm text-text-secondary">English + Spanish</span>
+                    <span className="text-sm text-text-secondary">{t("pricing.proFeature2")}</span>
                   </li>
                   <li className="flex items-start gap-3">
                     <Check className="h-5 w-5 flex-shrink-0 text-success" />
-                    <span className="text-sm text-text-secondary">Full dashboard</span>
+                    <span className="text-sm text-text-secondary">{t("pricing.proFeature3")}</span>
                   </li>
                   <li className="flex items-start gap-3">
                     <Check className="h-5 w-5 flex-shrink-0 text-success" />
-                    <span className="text-sm text-text-secondary">Attorney referrals</span>
+                    <span className="text-sm text-text-secondary">{t("pricing.proFeature4")}</span>
                   </li>
                   <li className="flex items-start gap-3">
                     <Check className="h-5 w-5 flex-shrink-0 text-success" />
-                    <span className="text-sm text-text-secondary">Priority alerts</span>
+                    <span className="text-sm text-text-secondary">{t("pricing.proFeature5")}</span>
                   </li>
                 </ul>
 
@@ -379,19 +369,19 @@ export default function LandingPage() {
                 <ul className="mt-8 space-y-3 flex-1">
                   <li className="flex items-start gap-3">
                     <Check className="h-5 w-5 flex-shrink-0 text-success" />
-                    <span className="text-sm text-text-secondary">Everything in Pro</span>
+                    <span className="text-sm text-text-secondary">{t("pricing.premiumFeature1")}</span>
                   </li>
                   <li className="flex items-start gap-3">
                     <Check className="h-5 w-5 flex-shrink-0 text-success" />
-                    <span className="text-sm text-text-secondary">Family profiles</span>
+                    <span className="text-sm text-text-secondary">{t("pricing.premiumFeature2")}</span>
                   </li>
                   <li className="flex items-start gap-3">
                     <Check className="h-5 w-5 flex-shrink-0 text-success" />
-                    <span className="text-sm text-text-secondary">Priority attorney matching</span>
+                    <span className="text-sm text-text-secondary">{t("pricing.premiumFeature3")}</span>
                   </li>
                   <li className="flex items-start gap-3">
                     <Check className="h-5 w-5 flex-shrink-0 text-success" />
-                    <span className="text-sm text-text-secondary">Dedicated support</span>
+                    <span className="text-sm text-text-secondary">{t("pricing.premiumFeature4")}</span>
                   </li>
                 </ul>
 
@@ -470,8 +460,7 @@ export default function LandingPage() {
         <section className="bg-primary-900 px-4 py-16 sm:px-6 sm:py-24 lg:px-8">
           <div className="mx-auto max-w-4xl text-center">
             <h2 className="font-[var(--font-display)] text-3xl font-bold tracking-tight text-white sm:text-4xl md:text-5xl">
-              {/* TODO: Update translation key "landing.finalCta.title" */}
-              Ready to Start Your Journey?
+              {t("landing.finalCta.title")}
             </h2>
             <p className="mt-6 text-lg text-primary-100">
               {t("landing.finalCta.subtitle")}

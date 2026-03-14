@@ -10,7 +10,13 @@
     "back": "Atras",
     "continue": "Continuar",
     "getStarted": "Comenzar",
-    "learnMore": "Mas informacion"
+    "learnMore": "Mas informacion",
+    "confirm": "Confirmar",
+    "tryAgain": "Intentar de nuevo",
+    "goHome": "Volver al inicio",
+    "notFoundTitle": "Página no encontrada",
+    "notFoundDescription": "La página que buscas no existe o ha sido movida.",
+    "errorDescription": "Encontramos un error al cargar esta página."
   },
   "nav": {
     "dashboard": "Panel",
@@ -115,7 +121,10 @@
     "states": "Licenciado en",
     "requestIntro": "Solicitar presentacion",
     "introSent": "Presentacion solicitada!",
-    "introDescription": "Enviaremos un correo conectandote con este abogado."
+    "introDescription": "Enviaremos un correo conectandote con este abogado.",
+    "allSpecialties": "Todas las especialidades",
+    "confirmTitle": "¿Solicitar presentación con {name}?",
+    "noResults": "No se encontraron abogados para esta especialidad. Prueba con un filtro diferente."
   },
   "pricing": {
     "title": "Elige tu plan",
@@ -123,20 +132,47 @@
     "pro": "Pro",
     "premium": "Premium",
     "monthly": "/mes",
-    "yearly": "/ano",
+    "yearly": "/año",
+    "monthlyToggle": "Mensual",
+    "yearlyToggle": "Anual",
+    "yearlySavings": "Ahorra $38",
+    "billedAnnually": "/mes facturado anualmente",
+    "popularBadge": "Más Popular",
     "freeDescription": "Comienza con acceso basico",
     "proDescription": "Acceso ilimitado para individuos",
     "premiumDescription": "Todo en Pro, mas soporte prioritario",
     "freeFeatures": ["10 mensajes por mes", "Solo ingles", "Panel basico"],
     "proFeatures": ["Mensajes ilimitados", "Ingles + Espanol", "Panel completo", "Alertas prioritarias"],
     "premiumFeatures": ["Todo en Pro", "Perfiles familiares", "Conexion prioritaria con abogados", "Soporte dedicado"],
+    "freeFeature1": "10 mensajes por mes",
+    "freeFeature2": "Solo inglés",
+    "freeFeature3": "Panel básico",
+    "freeFeature4": "Referencias de abogados",
+    "proFeature1": "Mensajes ilimitados",
+    "proFeature2": "Inglés + Español",
+    "proFeature3": "Panel completo",
+    "proFeature4": "Referencias de abogados",
+    "proFeature5": "Alertas prioritarias",
+    "premiumFeature1": "Todo en Pro",
+    "premiumFeature2": "Perfiles familiares",
+    "premiumFeature3": "Conexión prioritaria con abogados",
+    "premiumFeature4": "Soporte dedicado",
     "currentPlan": "Plan actual",
-    "upgradeTo": "Actualizar a {plan}"
+    "upgradeTo": "Actualizar a {plan}",
+    "getStartedUnauthenticated": "Comenzar"
   },
   "footer": {
     "disclaimer": "Migravio proporciona informacion legal, no asesoramiento legal. No somos un bufete de abogados.",
+    "tagline": "Tu guia de inmigracion de confianza",
+    "product": "Producto",
+    "pricing": "Precios",
+    "attorneys": "Abogados",
+    "resources": "Recursos",
+    "privacy": "Politica de privacidad",
     "terms": "Terminos de servicio",
-    "privacy": "Politica de privacidad"
+    "support": "Soporte",
+    "contact": "Contactanos",
+    "copyright": "Todos los derechos reservados."
   },
   "legal": {
     "termsTitle": "Terminos de servicio",
@@ -160,20 +196,39 @@
     "saving": "Guardando...",
     "saved": "Cambios guardados exitosamente!",
     "dangerZone": "Zona de peligro",
-    "signOutConfirm": "Estas seguro de que quieres cerrar sesion?"
+    "signOutConfirm": "Estas seguro de que quieres cerrar sesion?",
+    "languages": {
+      "en": "English",
+      "es": "Español"
+    },
+    "manageSubscription": "Administrar suscripción",
+    "upgradeToPro": "Actualizar a Pro",
+    "selectVisaType": "Seleccionar tipo de visa"
   },
   "landing": {
+    "nav": {
+      "features": "Características",
+      "pricing": "Precios",
+      "getStarted": "Comenzar"
+    },
     "hero": {
       "headline": "Navega la Inmigración de EE.UU. — En Tu Idioma",
       "subheadline": "Asistente de inmigración con IA que responde el 80% de tus preguntas al instante. Para el 20% complejo, te conectamos con abogados verificados.",
       "ctaPrimary": "Comenzar Gratis",
-      "ctaSecondary": "Más Información"
+      "ctaSecondary": "Más Información",
+      "ctaStart": "Comenzar Gratis",
+      "trustBadge1": "Basado en datos oficiales de USCIS",
+      "trustBadge2": "Soporte multilingüe",
+      "trustBadge3": "Red de abogados verificados"
     },
     "features": {
       "title": "Todo lo Que Necesitas para Navegar la Inmigración",
+      "subtitle": "Todo lo que necesitas para navegar tu viaje de inmigración con confianza.",
       "aiAssistant": {
         "title": "Asistente de Inmigración IA",
-        "description": "Haz preguntas en tu idioma y obtén respuestas instantáneas basadas en fuentes oficiales de USCIS. Disponible 24/7 cuando necesites ayuda."
+        "description": "Haz preguntas en tu idioma y obtén respuestas instantáneas basadas en fuentes oficiales de USCIS. Disponible 24/7 cuando necesites ayuda.",
+        "mockQuestion": "¿Cuándo debo solicitar mi extensión H-1B?",
+        "mockAnswer": "Debes presentar la solicitud 6 meses antes del vencimiento. Tu visa vence el 15 de junio, así que comienza tu petición antes del 15 de diciembre..."
       },
       "dashboard": {
         "title": "Panel de Casos",

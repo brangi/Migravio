@@ -10,7 +10,13 @@
     "back": "Back",
     "continue": "Continue",
     "getStarted": "Get Started",
-    "learnMore": "Learn More"
+    "learnMore": "Learn More",
+    "confirm": "Confirm",
+    "tryAgain": "Try again",
+    "goHome": "Go back home",
+    "notFoundTitle": "Page not found",
+    "notFoundDescription": "The page you're looking for doesn't exist or has been moved.",
+    "errorDescription": "We encountered an error while loading this page."
   },
   "nav": {
     "dashboard": "Dashboard",
@@ -115,7 +121,10 @@
     "states": "Licensed in",
     "requestIntro": "Request Introduction",
     "introSent": "Introduction requested!",
-    "introDescription": "We'll send an email connecting you with this attorney."
+    "introDescription": "We'll send an email connecting you with this attorney.",
+    "allSpecialties": "All specialties",
+    "confirmTitle": "Request introduction to {name}?",
+    "noResults": "No attorneys found for this specialty. Try a different filter."
   },
   "pricing": {
     "title": "Choose your plan",
@@ -124,19 +133,46 @@
     "premium": "Premium",
     "monthly": "/month",
     "yearly": "/year",
+    "monthlyToggle": "Monthly",
+    "yearlyToggle": "Yearly",
+    "yearlySavings": "Save $38",
+    "billedAnnually": "/month billed annually",
+    "popularBadge": "Most Popular",
     "freeDescription": "Get started with basic access",
     "proDescription": "Unlimited access for individuals",
     "premiumDescription": "Everything in Pro, plus priority support",
     "freeFeatures": ["10 messages per month", "English only", "Basic dashboard"],
     "proFeatures": ["Unlimited messages", "English + Spanish", "Full dashboard", "Priority alerts"],
     "premiumFeatures": ["Everything in Pro", "Family profiles", "Priority attorney matching", "Dedicated support"],
+    "freeFeature1": "10 messages per month",
+    "freeFeature2": "English only",
+    "freeFeature3": "Basic dashboard",
+    "freeFeature4": "Attorney referrals",
+    "proFeature1": "Unlimited messages",
+    "proFeature2": "English + Spanish",
+    "proFeature3": "Full dashboard",
+    "proFeature4": "Attorney referrals",
+    "proFeature5": "Priority alerts",
+    "premiumFeature1": "Everything in Pro",
+    "premiumFeature2": "Family profiles",
+    "premiumFeature3": "Priority attorney matching",
+    "premiumFeature4": "Dedicated support",
     "currentPlan": "Current plan",
-    "upgradeTo": "Upgrade to {plan}"
+    "upgradeTo": "Upgrade to {plan}",
+    "getStartedUnauthenticated": "Get Started"
   },
   "footer": {
     "disclaimer": "Migravio provides legal information, not legal advice. We are not a law firm.",
+    "tagline": "Your trusted immigration guide",
+    "product": "Product",
+    "pricing": "Pricing",
+    "attorneys": "Attorneys",
+    "resources": "Resources",
+    "privacy": "Privacy Policy",
     "terms": "Terms of Service",
-    "privacy": "Privacy Policy"
+    "support": "Support",
+    "contact": "Contact Us",
+    "copyright": "All rights reserved."
   },
   "legal": {
     "termsTitle": "Terms of Service",
@@ -160,20 +196,39 @@
     "saving": "Saving...",
     "saved": "Changes saved successfully!",
     "dangerZone": "Danger Zone",
-    "signOutConfirm": "Are you sure you want to sign out?"
+    "signOutConfirm": "Are you sure you want to sign out?",
+    "languages": {
+      "en": "English",
+      "es": "Español"
+    },
+    "manageSubscription": "Manage Subscription",
+    "upgradeToPro": "Upgrade to Pro",
+    "selectVisaType": "Select visa type"
   },
   "landing": {
+    "nav": {
+      "features": "Features",
+      "pricing": "Pricing",
+      "getStarted": "Get Started"
+    },
     "hero": {
       "headline": "Navigate U.S. Immigration — In Your Language",
       "subheadline": "AI-powered immigration assistant that answers 80% of your questions instantly. For the complex 20%, we connect you with vetted attorneys.",
       "ctaPrimary": "Get Started Free",
-      "ctaSecondary": "Learn More"
+      "ctaSecondary": "Learn More",
+      "ctaStart": "Start Free",
+      "trustBadge1": "Based on USCIS official data",
+      "trustBadge2": "Multilingual support",
+      "trustBadge3": "Vetted attorney network"
     },
     "features": {
       "title": "Everything You Need to Navigate Immigration",
+      "subtitle": "Everything you need to navigate your immigration journey with confidence.",
       "aiAssistant": {
         "title": "AI Immigration Assistant",
-        "description": "Ask questions in your language and get instant answers grounded in official USCIS sources. Available 24/7 whenever you need help."
+        "description": "Ask questions in your language and get instant answers grounded in official USCIS sources. Available 24/7 whenever you need help.",
+        "mockQuestion": "When should I apply for my H-1B extension?",
+        "mockAnswer": "You should file 6 months before expiry. Your visa expires on June 15, so start your petition by December 15..."
       },
       "dashboard": {
         "title": "Case Dashboard",

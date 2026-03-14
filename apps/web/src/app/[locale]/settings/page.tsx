@@ -21,10 +21,7 @@ const VISA_TYPES = [
   { value: "Other", label: "Other" },
 ];
 
-const LANGUAGE_OPTIONS = [
-  { value: "en", label: "English" },
-  { value: "es", label: "Español" },
-];
+// Language options will be rendered using translation keys
 
 export default function SettingsPage() {
   const t = useTranslations("settings");
@@ -213,11 +210,8 @@ export default function SettingsPage() {
                   onChange={(e) => setLanguage(e.target.value)}
                   className="mt-2 block w-full rounded-lg border border-border bg-surface px-4 py-2.5 text-sm text-text-primary shadow-sm transition-colors focus:border-primary-500 focus:outline-none focus:ring-2 focus:ring-primary-500/20"
                 >
-                  {LANGUAGE_OPTIONS.map((lang) => (
-                    <option key={lang.value} value={lang.value}>
-                      {lang.label}
-                    </option>
-                  ))}
+                  <option value="en">{t("languages.en")}</option>
+                  <option value="es">{t("languages.es")}</option>
                 </select>
               </div>
 
@@ -235,10 +229,10 @@ export default function SettingsPage() {
                   onChange={(e) => setVisaType(e.target.value)}
                   className="mt-2 block w-full rounded-lg border border-border bg-surface px-4 py-2.5 text-sm text-text-primary shadow-sm transition-colors focus:border-primary-500 focus:outline-none focus:ring-2 focus:ring-primary-500/20"
                 >
-                  <option value="">Select visa type</option>
+                  <option value="">{t("selectVisaType")}</option>
                   {VISA_TYPES.map((visa) => (
                     <option key={visa.value} value={visa.value}>
-                      {visa.label}
+                      {tOnboarding(`visaTypes.${visa.value}`)}
                     </option>
                   ))}
                 </select>
@@ -312,7 +306,7 @@ export default function SettingsPage() {
                   href="/pricing"
                   className="mt-6 inline-block rounded-lg bg-primary-600 px-6 py-3 text-sm font-semibold text-white shadow-sm transition-colors hover:bg-primary-700"
                 >
-                  Upgrade to Pro
+                  {t("upgradeToPro")}
                 </Link>
               ) : (
                 <button
@@ -320,7 +314,7 @@ export default function SettingsPage() {
                   onClick={handleManageSubscription}
                   className="mt-6 inline-block rounded-lg border border-border bg-surface px-6 py-3 text-sm font-semibold text-text-primary shadow-sm transition-colors hover:bg-surface-alt"
                 >
-                  Manage Subscription
+                  {t("manageSubscription")}
                 </button>
               )}
             </div>

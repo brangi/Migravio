@@ -1,5 +1,6 @@
 'use client';
 
+import { useTranslations } from 'next-intl';
 import { Link } from '@/i18n/navigation';
 import { useEffect } from 'react';
 import { Button } from '@/components/button';
@@ -12,6 +13,8 @@ export default function Error({
   error: Error & { digest?: string };
   reset: () => void;
 }) {
+  const t = useTranslations('common');
+
   useEffect(() => {
     // Log the error to an error reporting service
     console.error('Error boundary caught:', error);
@@ -24,10 +27,10 @@ export default function Error({
           <AlertTriangle className="h-16 w-16 text-danger" strokeWidth={1.5} />
         </div>
         <h1 className="text-3xl font-[var(--font-display)] font-bold text-text-primary">
-          Something went wrong
+          {t('error')}
         </h1>
         <p className="mt-2 text-text-secondary">
-          We encountered an error while loading this page.
+          {t('errorDescription')}
         </p>
         <div className="mt-6 flex items-center justify-center gap-4">
           <Button
@@ -35,14 +38,14 @@ export default function Error({
             variant="primary"
             size="md"
           >
-            Try again
+            {t('tryAgain')}
           </Button>
           <Link href="/">
             <Button
               variant="secondary"
               size="md"
             >
-              Go back home
+              {t('goHome')}
             </Button>
           </Link>
         </div>

@@ -138,6 +138,7 @@ function ConfirmationModal({
   onCancel: () => void;
 }) {
   const t = useTranslations("attorneys");
+  const tCommon = useTranslations("common");
 
   if (!attorney) return null;
 
@@ -145,16 +146,16 @@ function ConfirmationModal({
     <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/50 px-4">
       <div className="w-full max-w-md rounded-xl bg-white p-6 shadow-warm-xl">
         <h3 className="text-lg font-bold font-display text-text-primary">
-          Request introduction to {attorney.name}?
+          {t("confirmTitle", { name: attorney.name })}
         </h3>
         <p className="mt-3 text-sm text-text-secondary">{t("introDescription")}</p>
 
         <div className="mt-6 flex gap-3">
           <Button variant="secondary" onClick={onCancel} className="flex-1">
-            Cancel
+            {tCommon("cancel")}
           </Button>
           <Button variant="primary" onClick={onConfirm} className="flex-1">
-            Confirm
+            {tCommon("confirm")}
           </Button>
         </div>
       </div>
@@ -261,7 +262,7 @@ export default function AttorneysPage() {
                 : "bg-white text-text-secondary hover:bg-surface-alt border border-border"
             }`}
           >
-            All specialties
+            {t("allSpecialties")}
           </button>
           {ALL_SPECIALTIES.map((specialty) => (
             <button
@@ -293,7 +294,7 @@ export default function AttorneysPage() {
         {filteredAttorneys.length === 0 && (
           <div className="mt-8 rounded-lg border border-border bg-white p-8 text-center">
             <p className="text-text-secondary">
-              No attorneys found for this specialty. Try a different filter.
+              {t("noResults")}
             </p>
           </div>
         )}

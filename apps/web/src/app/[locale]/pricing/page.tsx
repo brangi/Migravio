@@ -102,11 +102,11 @@ export default function PricingPage() {
       priceId: {},
       description: t("freeDescription"),
       features: [
-        { text: "10 messages per month", included: true },
-        { text: "English only", included: true },
-        { text: "Basic dashboard", included: true },
-        { text: "Unlimited messages", included: false },
-        { text: "English + Spanish", included: false },
+        { text: t("freeFeature1"), included: true },
+        { text: t("freeFeature2"), included: true },
+        { text: t("freeFeature3"), included: true },
+        { text: t("proFeature1"), included: false },
+        { text: t("proFeature2"), included: false },
       ],
       cta: t("currentPlan"),
     },
@@ -122,11 +122,11 @@ export default function PricingPage() {
       },
       description: t("proDescription"),
       features: [
-        { text: "Unlimited messages", included: true },
-        { text: "English + Spanish", included: true },
-        { text: "Full dashboard", included: true },
-        { text: "Priority alerts", included: true },
-        { text: "Family profiles", included: false },
+        { text: t("proFeature1"), included: true },
+        { text: t("proFeature2"), included: true },
+        { text: t("proFeature3"), included: true },
+        { text: t("proFeature5"), included: true },
+        { text: t("premiumFeature2"), included: false },
       ],
       popular: true,
       cta: t("upgradeTo", { plan: t("pro") }),
@@ -139,10 +139,10 @@ export default function PricingPage() {
       },
       description: t("premiumDescription"),
       features: [
-        { text: "Everything in Pro", included: true },
-        { text: "Family profiles", included: true },
-        { text: "Priority attorney matching", included: true },
-        { text: "Dedicated support", included: true },
+        { text: t("premiumFeature1"), included: true },
+        { text: t("premiumFeature2"), included: true },
+        { text: t("premiumFeature3"), included: true },
+        { text: t("premiumFeature4"), included: true },
       ],
       cta: t("upgradeTo", { plan: t("premium") }),
     },
@@ -169,7 +169,7 @@ export default function PricingPage() {
                   : "text-text-secondary hover:bg-surface-alt"
               }`}
             >
-              Monthly
+              {t("monthlyToggle")}
             </button>
             <button
               onClick={() => setBillingInterval("yearly")}
@@ -179,9 +179,9 @@ export default function PricingPage() {
                   : "text-text-secondary hover:bg-surface-alt"
               }`}
             >
-              Yearly
+              {t("yearlyToggle")}
               <span className="ml-1.5 rounded-full bg-green-100 px-2 py-0.5 text-xs font-semibold text-green-700">
-                Save $38
+                {t("yearlySavings")}
               </span>
             </button>
           </div>
@@ -275,7 +275,7 @@ function PricingCard({
       {planData.popular && (
         <div className="absolute -top-4 left-0 right-0 flex justify-center">
           <span className="rounded-full bg-primary-500 px-4 py-1 text-xs font-semibold text-white shadow-md">
-            Most Popular
+            {t("popularBadge")}
           </span>
         </div>
       )}
@@ -299,7 +299,7 @@ function PricingCard({
           </div>
           {billingInterval === "yearly" && planData.price.yearly && (
             <p className="mt-1 text-sm text-text-tertiary">
-              ${Math.round(planData.price.yearly / 12)}/month billed annually
+              ${Math.round(planData.price.yearly / 12)}{t("billedAnnually")}
             </p>
           )}
         </div>
@@ -338,12 +338,12 @@ function PricingCard({
         {isLoading ? (
           <span className="flex items-center justify-center gap-2">
             <Loader2 className="h-4 w-4 animate-spin" />
-            Loading...
+            {t("../common.loading")}
           </span>
         ) : isAuthenticated && isCurrentPlan ? (
           t("currentPlan")
         ) : !isAuthenticated && plan !== "free" ? (
-          "Get Started"
+          t("getStartedUnauthenticated")
         ) : (
           planData.cta
         )}
