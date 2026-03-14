@@ -8,7 +8,7 @@ import LanguageSwitcher from "./language-switcher";
 import { LayoutDashboard, MessageCircle, Scale, CreditCard, LogOut, ArrowRight } from "./icons";
 
 interface AppHeaderProps {
-  activePage: "dashboard" | "chat" | "attorneys" | "pricing" | "settings";
+  activePage?: "dashboard" | "chat" | "attorneys" | "pricing" | "settings";
 }
 
 export function AppHeader({ activePage }: AppHeaderProps) {

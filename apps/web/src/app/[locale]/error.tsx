@@ -5,6 +5,7 @@ import { Link } from '@/i18n/navigation';
 import { useEffect } from 'react';
 import { Button } from '@/components/button';
 import { AlertTriangle } from 'lucide-react';
+import { useAuth } from '@/lib/auth-context';
 
 export default function Error({
   error,
@@ -14,9 +15,9 @@ export default function Error({
   reset: () => void;
 }) {
   const t = useTranslations('common');
+  const { user } = useAuth();
 
   useEffect(() => {
-    // Log the error to an error reporting service
     console.error('Error boundary caught:', error);
   }, [error]);
 
@@ -40,7 +41,7 @@ export default function Error({
           >
             {t('tryAgain')}
           </Button>
-          <Link href="/">
+          <Link href={user ? '/dashboard' : '/'}>
             <Button
               variant="secondary"
               size="md"

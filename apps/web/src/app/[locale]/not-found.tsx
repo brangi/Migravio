@@ -1,10 +1,14 @@
+'use client';
+
 import { useTranslations } from 'next-intl';
 import { Link } from '@/i18n/navigation';
 import { Logo } from '@/components/logo';
 import { Button } from '@/components/button';
+import { useAuth } from '@/lib/auth-context';
 
 export default function NotFound() {
   const t = useTranslations('common');
+  const { user } = useAuth();
 
   return (
     <div className="flex min-h-screen items-center justify-center bg-surface px-4">
@@ -20,7 +24,7 @@ export default function NotFound() {
           {t('notFoundDescription')}
         </p>
         <div className="mt-6">
-          <Link href="/">
+          <Link href={user ? '/dashboard' : '/'}>
             <Button variant="primary" size="md">
               {t('goHome')}
             </Button>

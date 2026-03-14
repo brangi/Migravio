@@ -4,27 +4,35 @@ import { useTranslations } from "next-intl";
 import { Link } from "@/i18n/navigation";
 import LanguageSwitcher from "@/components/language-switcher";
 import { Logo } from "@/components/logo";
+import { useAuth } from "@/lib/auth-context";
+import { AppHeader } from "@/components/app-header";
+import { AppFooter } from "@/components/footer";
 
 export default function PrivacyPage() {
   const t = useTranslations();
+  const { user } = useAuth();
 
   return (
     <div className="min-h-screen bg-surface">
-      {/* Header */}
-      <header className="border-b border-border bg-surface">
-        <div className="mx-auto flex h-16 max-w-4xl items-center justify-between px-4">
-          <Link href="/" className="transition-opacity hover:opacity-80">
-            <Logo size="sm" variant="full" />
-          </Link>
-          <LanguageSwitcher />
-        </div>
-      </header>
+      {/* Header: auth-aware */}
+      {user ? (
+        <AppHeader />
+      ) : (
+        <header className="border-b border-border bg-surface">
+          <div className="mx-auto flex h-16 max-w-4xl items-center justify-between px-4">
+            <Link href="/" className="transition-opacity hover:opacity-80">
+              <Logo size="sm" variant="full" />
+            </Link>
+            <LanguageSwitcher />
+          </div>
+        </header>
+      )}
 
       {/* Main Content */}
       <main className="mx-auto max-w-4xl px-4 py-12">
         <div className="mb-8">
           <Link
-            href="/"
+            href={user ? "/dashboard" : "/"}
             className="text-sm text-primary-600 hover:text-primary-700"
           >
             ← {t("legal.backToHome")}
@@ -568,7 +576,7 @@ export default function PrivacyPage() {
         {/* Back to Home Link */}
         <div className="mt-12 border-t border-border pt-8">
           <Link
-            href="/"
+            href={user ? "/dashboard" : "/"}
             className="inline-flex items-center text-sm font-medium text-primary-600 hover:text-primary-700"
           >
             ← {t("legal.backToHome")}
@@ -576,28 +584,32 @@ export default function PrivacyPage() {
         </div>
       </main>
 
-      {/* Footer */}
-      <footer className="border-t border-border bg-surface-alt py-8">
-        <div className="mx-auto max-w-4xl px-4 text-center">
-          <p className="mb-4 text-sm text-text-secondary">
-            {t("footer.disclaimer")}
-          </p>
-          <div className="flex justify-center gap-6 text-sm">
-            <Link
-              href="/terms"
-              className="text-text-secondary hover:text-text-primary"
-            >
-              {t("footer.terms")}
-            </Link>
-            <Link
-              href="/privacy"
-              className="text-text-secondary hover:text-text-primary"
-            >
-              {t("footer.privacy")}
-            </Link>
+      {/* Footer: auth-aware */}
+      {user ? (
+        <AppFooter />
+      ) : (
+        <footer className="border-t border-border bg-surface-alt py-8">
+          <div className="mx-auto max-w-4xl px-4 text-center">
+            <p className="mb-4 text-sm text-text-secondary">
+              {t("footer.disclaimer")}
+            </p>
+            <div className="flex justify-center gap-6 text-sm">
+              <Link
+                href="/terms"
+                className="text-text-secondary hover:text-text-primary"
+              >
+                {t("footer.terms")}
+              </Link>
+              <Link
+                href="/privacy"
+                className="text-text-secondary hover:text-text-primary"
+              >
+                {t("footer.privacy")}
+              </Link>
+            </div>
           </div>
-        </div>
-      </footer>
+        </footer>
+      )}
     </div>
   );
 }
