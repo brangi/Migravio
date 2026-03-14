@@ -11,6 +11,7 @@ import { MobileNav } from "@/components/mobile-nav";
 import { AppFooter } from "@/components/footer";
 import { Button } from "@/components/button";
 import { Input } from "@/components/input";
+import { DatePicker } from "@/components/date-picker";
 import { Save, LogOut, Globe } from "@/components/icons";
 
 const VISA_TYPES = [
@@ -34,8 +35,8 @@ export default function SettingsPage() {
   const [displayName, setDisplayName] = useState("");
   const [language, setLanguage] = useState("en");
   const [visaType, setVisaType] = useState("");
-  const [visaExpiry, setVisaExpiry] = useState("");
-  const [priorityDate, setPriorityDate] = useState("");
+  const [visaExpiry, setVisaExpiry] = useState<Date | null>(null);
+  const [priorityDate, setPriorityDate] = useState<Date | null>(null);
 
   // UI state
   const [isSaving, setIsSaving] = useState(false);
@@ -57,16 +58,8 @@ export default function SettingsPage() {
       setDisplayName(user.displayName || "");
       setLanguage(profile.language || "en");
       setVisaType(profile.visaType || "");
-      setVisaExpiry(
-        profile.visaExpiry
-          ? new Date(profile.visaExpiry).toISOString().split("T")[0]
-          : ""
-      );
-      setPriorityDate(
-        profile.priorityDate
-          ? new Date(profile.priorityDate).toISOString().split("T")[0]
-          : ""
-      );
+      setVisaExpiry(profile.visaExpiry ? new Date(profile.visaExpiry) : null);
+      setPriorityDate(profile.priorityDate ? new Date(profile.priorityDate) : null);
     }
   }, [profile, user]);
 
@@ -84,17 +77,8 @@ export default function SettingsPage() {
       };
 
       // Handle date fields
-      if (visaExpiry) {
-        updateData.visaExpiry = Timestamp.fromDate(new Date(visaExpiry));
-      } else {
-        updateData.visaExpiry = null;
-      }
-
-      if (priorityDate) {
-        updateData.priorityDate = Timestamp.fromDate(new Date(priorityDate));
-      } else {
-        updateData.priorityDate = null;
-      }
+      updateData.visaExpiry = visaExpiry ? Timestamp.fromDate(visaExpiry) : null;
+      updateData.priorityDate = priorityDate ? Timestamp.fromDate(priorityDate) : null;
 
       await updateDoc(userRef, updateData);
       await refreshProfile();
@@ -239,38 +223,20 @@ export default function SettingsPage() {
               </div>
 
               {/* Visa Expiry Date */}
-              <div>
-                <label
-                  htmlFor="visaExpiry"
-                  className="block text-sm font-medium text-text-secondary"
-                >
-                  {t("visaExpiry")}
-                </label>
-                <Input
-                  type="date"
-                  id="visaExpiry"
-                  value={visaExpiry}
-                  onChange={(e) => setVisaExpiry(e.target.value)}
-                  className="mt-2"
-                />
-              </div>
+              <DatePicker
+                label={t("visaExpiry")}
+                value={visaExpiry}
+                onChange={setVisaExpiry}
+                placeholder={t("selectDate")}
+              />
 
               {/* Priority Date */}
-              <div>
-                <label
-                  htmlFor="priorityDate"
-                  className="block text-sm font-medium text-text-secondary"
-                >
-                  {t("priorityDate")}
-                </label>
-                <Input
-                  type="date"
-                  id="priorityDate"
-                  value={priorityDate}
-                  onChange={(e) => setPriorityDate(e.target.value)}
-                  className="mt-2"
-                />
-              </div>
+              <DatePicker
+                label={t("priorityDate")}
+                value={priorityDate}
+                onChange={setPriorityDate}
+                placeholder={t("selectDate")}
+              />
             </div>
           </section>
 

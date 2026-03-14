@@ -86,6 +86,9 @@
     "step3Subtitle": "We'll send you timely reminders",
     "visaExpiry": "Visa expiration date",
     "priorityDate": "Priority date (if applicable)",
+    "selectDate": "Select date",
+    "visaExpiryHelper": "When does your current visa status expire?",
+    "priorityDateHelper": "Your priority date for green card applications (if applicable)",
     "skip": "Skip for now",
     "visaTypes": {
       "H-1B": "H-1B (Specialty Occupation)",
@@ -204,6 +207,7 @@
     "visaType": "Visa Type",
     "visaExpiry": "Visa Expiration Date",
     "priorityDate": "Priority Date (optional)",
+    "selectDate": "Select date",
     "subscription": "Subscription",
     "currentPlan": "Current Plan",
     "account": "Account",

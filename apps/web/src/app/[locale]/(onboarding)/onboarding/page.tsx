@@ -8,6 +8,7 @@ import { doc, updateDoc, serverTimestamp, Timestamp } from "firebase/firestore";
 import { db } from "@/lib/firebase";
 import { Logo } from "@/components/logo";
 import { Button } from "@/components/button";
+import { DatePicker } from "@/components/date-picker";
 import { Check, Globe } from "@/components/icons";
 
 const VISA_TYPES = ["H-1B", "F-1", "Family", "GreenCard", "Other"] as const;
@@ -26,8 +27,8 @@ export default function OnboardingPage() {
   const [step, setStep] = useState(1);
   const [language, setLanguage] = useState("en");
   const [visaType, setVisaType] = useState("");
-  const [visaExpiry, setVisaExpiry] = useState("");
-  const [priorityDate, setPriorityDate] = useState("");
+  const [visaExpiry, setVisaExpiry] = useState<Date | null>(null);
+  const [priorityDate, setPriorityDate] = useState<Date | null>(null);
   const [saving, setSaving] = useState(false);
 
   const totalSteps = 3;
@@ -39,10 +40,8 @@ export default function OnboardingPage() {
       await updateDoc(doc(db, "users", user.uid), {
         language,
         visaType,
-        visaExpiry: visaExpiry ? Timestamp.fromDate(new Date(visaExpiry)) : null,
-        priorityDate: priorityDate
-          ? Timestamp.fromDate(new Date(priorityDate))
-          : null,
+        visaExpiry: visaExpiry ? Timestamp.fromDate(visaExpiry) : null,
+        priorityDate: priorityDate ? Timestamp.fromDate(priorityDate) : null,
         onboardingComplete: true,
         updatedAt: serverTimestamp(),
       });
@@ -218,37 +217,21 @@ export default function OnboardingPage() {
             </div>
 
             <div className="space-y-5">
-              <div>
-                <label
-                  htmlFor="visaExpiry"
-                  className="block text-sm font-medium text-text-secondary"
-                >
-                  {t("visaExpiry")}
-                </label>
-                <input
-                  type="date"
-                  id="visaExpiry"
-                  value={visaExpiry}
-                  onChange={(e) => setVisaExpiry(e.target.value)}
-                  className="mt-2 block w-full rounded-lg border border-border bg-surface px-4 py-3 text-text-primary shadow-sm transition-colors focus:border-primary-500 focus:outline-none focus:ring-2 focus:ring-primary-500/20"
-                />
-              </div>
+              <DatePicker
+                label={t("visaExpiry")}
+                value={visaExpiry}
+                onChange={setVisaExpiry}
+                placeholder={t("selectDate")}
+                helperText={t("visaExpiryHelper")}
+              />
 
-              <div>
-                <label
-                  htmlFor="priorityDate"
-                  className="block text-sm font-medium text-text-secondary"
-                >
-                  {t("priorityDate")}
-                </label>
-                <input
-                  type="date"
-                  id="priorityDate"
-                  value={priorityDate}
-                  onChange={(e) => setPriorityDate(e.target.value)}
-                  className="mt-2 block w-full rounded-lg border border-border bg-surface px-4 py-3 text-text-primary shadow-sm transition-colors focus:border-primary-500 focus:outline-none focus:ring-2 focus:ring-primary-500/20"
-                />
-              </div>
+              <DatePicker
+                label={t("priorityDate")}
+                value={priorityDate}
+                onChange={setPriorityDate}
+                placeholder={t("selectDate")}
+                helperText={t("priorityDateHelper")}
+              />
             </div>
 
             <div className="flex gap-3">

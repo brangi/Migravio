@@ -86,6 +86,9 @@
     "step3Subtitle": "Te enviaremos recordatorios oportunos",
     "visaExpiry": "Fecha de vencimiento de visa",
     "priorityDate": "Fecha de prioridad (si aplica)",
+    "selectDate": "Seleccionar fecha",
+    "visaExpiryHelper": "¿Cuándo vence tu estatus de visa actual?",
+    "priorityDateHelper": "Tu fecha de prioridad para solicitudes de green card (si aplica)",
     "skip": "Omitir por ahora",
     "visaTypes": {
       "H-1B": "H-1B (Ocupación especializada)",
@@ -204,6 +207,7 @@
     "visaType": "Tipo de visa",
     "visaExpiry": "Fecha de vencimiento de visa",
     "priorityDate": "Fecha de prioridad (opcional)",
+    "selectDate": "Seleccionar fecha",
     "subscription": "Suscripción",
     "currentPlan": "Plan actual",
     "account": "Cuenta",
