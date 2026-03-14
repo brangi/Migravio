@@ -20,9 +20,8 @@ import {
 import { db } from "@/lib/firebase";
 import { AppHeader } from "@/components/app-header";
 import { MobileNav } from "@/components/mobile-nav";
-import { AppFooter } from "@/components/footer";
 import { Logo } from "@/components/logo";
-import { Send, Plus, X, AlertTriangle, Menu } from "@/components/icons";
+import { Send, Plus, X, AlertTriangle, Menu, MessageCircle, Clock, FileText, Sparkles, ArrowRight } from "@/components/icons";
 
 interface Message {
   role: "user" | "assistant";
@@ -374,7 +373,7 @@ export default function ChatPage() {
 
       <div className="flex flex-1 overflow-hidden">
         {/* Sidebar - Desktop */}
-        <aside className="hidden w-64 border-r border-border bg-surface-alt md:block">
+        <aside className="relative hidden w-64 border-r border-border bg-surface-alt shadow-[2px_0_8px_-2px_oklch(0.20_0.02_275_/_0.06)] md:block">
           <div className="flex h-full flex-col">
             <div className="border-b border-border p-4">
               <button
@@ -410,7 +409,7 @@ export default function ChatPage() {
         {showSidebar && (
           <div className="fixed inset-0 z-50 bg-black/50 md:hidden" onClick={() => setShowSidebar(false)}>
             <aside
-              className="absolute left-0 top-0 h-full w-64 bg-surface-alt"
+              className="absolute left-0 top-0 h-full w-64 bg-surface-alt shadow-2xl"
               onClick={(e) => e.stopPropagation()}
             >
               <div className="flex h-full flex-col">
@@ -472,10 +471,10 @@ export default function ChatPage() {
           </div>
 
           {/* Messages area */}
-          <div className="flex-1 overflow-y-auto px-4 py-6 pb-32 md:pb-6">
+          <div className="flex-1 overflow-y-auto px-4 py-6 pb-36 md:pb-8">
             <div className="mx-auto max-w-3xl">
               {messages.length === 0 ? (
-                <div className="flex h-full items-center justify-center">
+                <div className="flex h-full flex-col items-center justify-center px-4">
                   <div className="text-center">
                     <div className="mb-4 inline-flex">
                       <Logo size="lg" variant="icon" />
@@ -484,8 +483,28 @@ export default function ChatPage() {
                       {t("title")}
                     </h2>
                     <p className="mt-2 text-sm text-text-secondary">
-                      {t("placeholder")}
+                      {t("subtitle")}
                     </p>
+                  </div>
+
+                  {/* Starter Prompts */}
+                  <div className="mt-8 grid w-full max-w-2xl grid-cols-1 gap-3 sm:grid-cols-2">
+                    {([
+                      { icon: Clock, labelKey: "starterPrompts.visaRenewal" as const },
+                      { icon: FileText, labelKey: "starterPrompts.documents" as const },
+                      { icon: Sparkles, labelKey: "starterPrompts.statusChange" as const },
+                      { icon: ArrowRight, labelKey: "starterPrompts.greenCard" as const },
+                    ]).map((prompt) => (
+                      <button
+                        key={prompt.labelKey}
+                        type="button"
+                        onClick={() => setInput(t(prompt.labelKey))}
+                        className="group flex items-start gap-3 rounded-xl border border-border bg-white p-4 text-left text-sm text-text-secondary shadow-sm transition-all hover:border-primary-300 hover:shadow-md hover:text-text-primary"
+                      >
+                        <prompt.icon className="mt-0.5 h-4 w-4 flex-shrink-0 text-primary-400 transition-colors group-hover:text-primary-600" />
+                        <span>{t(prompt.labelKey)}</span>
+                      </button>
+                    ))}
                   </div>
                 </div>
               ) : (
@@ -569,20 +588,25 @@ export default function ChatPage() {
             </div>
           </div>
 
-          {/* Input area - Fixed at bottom */}
-          <div className="border-t border-border bg-surface px-4 py-4 md:px-6">
+          {/* Input area */}
+          <div className="bg-gradient-to-t from-surface via-surface to-transparent px-4 pb-4 pt-3 md:px-6">
             <div className="mx-auto max-w-3xl">
+              {/* Messages remaining badge */}
               {isFreeUser && (
-                <div className="mb-2 text-center text-xs text-text-secondary">
+                <div className="mb-3 flex justify-center">
                   {messagesRemaining > 0 ? (
-                    t("messagesRemaining", {
-                      count: messagesRemaining,
-                      total: 10,
-                    })
+                    <span className="inline-flex items-center gap-1.5 rounded-full border border-border bg-surface-alt px-3 py-1 text-xs text-text-secondary">
+                      <MessageCircle className="h-3 w-3" />
+                      {t("messagesRemaining", {
+                        count: messagesRemaining,
+                        total: 10,
+                      })}
+                    </span>
                   ) : (
-                    <span className="font-medium text-warning">
+                    <span className="inline-flex items-center gap-1.5 rounded-full border border-warning/20 bg-warning/10 px-3 py-1 text-xs font-medium text-warning">
+                      <AlertTriangle className="h-3 w-3" />
                       {t("limitReached")}{" "}
-                      <Link href="/pricing" className="underline">
+                      <Link href="/pricing" className="underline transition-colors hover:text-warning/80">
                         {t("upgrade")}
                       </Link>
                     </span>
@@ -590,42 +614,46 @@ export default function ChatPage() {
                 </div>
               )}
 
-              <form onSubmit={sendMessage} className="flex gap-2">
-                <textarea
-                  value={input}
-                  onChange={(e) => setInput(e.target.value)}
-                  onKeyDown={handleKeyDown}
-                  placeholder={t("placeholder")}
-                  disabled={isStreaming || (isFreeUser && messagesRemaining === 0)}
-                  className="flex-1 resize-none rounded-lg border border-border bg-surface px-4 py-3 text-sm text-text-primary placeholder:text-text-tertiary focus:border-primary-500 focus:outline-none focus:ring-1 focus:ring-primary-500 disabled:bg-surface-alt disabled:text-text-tertiary"
-                  rows={1}
-                  style={{
-                    minHeight: "48px",
-                    maxHeight: "120px",
-                  }}
-                  onInput={(e) => {
-                    const target = e.target as HTMLTextAreaElement;
-                    target.style.height = "48px";
-                    target.style.height = `${Math.min(target.scrollHeight, 120)}px`;
-                  }}
-                />
-                <button
-                  type="submit"
-                  disabled={!input.trim() || isStreaming || (isFreeUser && messagesRemaining === 0)}
-                  className="flex h-12 w-12 flex-shrink-0 items-center justify-center rounded-lg bg-primary-600 text-white transition-colors hover:bg-primary-700 disabled:bg-surface-alt disabled:text-text-tertiary"
-                  aria-label={t("send")}
-                >
-                  {isStreaming ? (
-                    <div className="h-5 w-5 animate-spin rounded-full border-2 border-white border-t-transparent" />
-                  ) : (
-                    <Send className="h-5 w-5" />
-                  )}
-                </button>
+              {/* Unified input card */}
+              <form onSubmit={sendMessage}>
+                <div className="rounded-2xl border border-border-strong bg-white shadow-lg transition-shadow focus-within:border-primary-400 focus-within:shadow-xl">
+                  <textarea
+                    value={input}
+                    onChange={(e) => setInput(e.target.value)}
+                    onKeyDown={handleKeyDown}
+                    placeholder={t("placeholder")}
+                    disabled={isStreaming || (isFreeUser && messagesRemaining === 0)}
+                    className="w-full resize-none rounded-2xl bg-transparent px-4 pb-2 pt-3 text-sm text-text-primary placeholder:text-text-tertiary focus:outline-none disabled:text-text-tertiary"
+                    rows={1}
+                    style={{
+                      minHeight: "44px",
+                      maxHeight: "120px",
+                    }}
+                    onInput={(e) => {
+                      const target = e.target as HTMLTextAreaElement;
+                      target.style.height = "44px";
+                      target.style.height = `${Math.min(target.scrollHeight, 120)}px`;
+                    }}
+                  />
+                  <div className="flex items-center justify-between px-3 pb-3">
+                    <p className="max-w-[80%] text-xs leading-snug text-text-tertiary line-clamp-1 sm:line-clamp-none">
+                      {t("disclaimer")}
+                    </p>
+                    <button
+                      type="submit"
+                      disabled={!input.trim() || isStreaming || (isFreeUser && messagesRemaining === 0)}
+                      className="flex h-9 w-9 flex-shrink-0 items-center justify-center rounded-xl bg-primary-600 text-white transition-all hover:bg-primary-700 disabled:bg-surface-alt disabled:text-text-tertiary"
+                      aria-label={t("send")}
+                    >
+                      {isStreaming ? (
+                        <div className="h-4 w-4 animate-spin rounded-full border-2 border-white border-t-transparent" />
+                      ) : (
+                        <Send className="h-4 w-4" />
+                      )}
+                    </button>
+                  </div>
+                </div>
               </form>
-
-              <div className="mt-2 text-center text-xs text-text-tertiary">
-                {t("disclaimer")}
-              </div>
             </div>
           </div>
         </main>
@@ -633,11 +661,6 @@ export default function ChatPage() {
 
       {/* Mobile Nav */}
       <MobileNav activePage="chat" />
-
-      {/* Footer - Desktop only */}
-      <div className="hidden md:block">
-        <AppFooter />
-      </div>
     </div>
   );
 }

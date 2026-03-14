@@ -119,6 +119,7 @@
   },
   "chat": {
     "title": "Asistente de inmigración IA",
+    "subtitle": "Pregunta lo que necesites sobre inmigración en EE.UU. Estoy aquí para ayudarte.",
     "placeholder": "Pregúntame cualquier cosa sobre inmigración...",
     "send": "Enviar",
     "newChat": "Nueva conversación",
@@ -127,6 +128,12 @@
     "upgrade": "Actualiza a Pro para mensajes ilimitados",
     "thinking": "Pensando...",
     "disclaimer": "Migravio proporciona información legal, no asesoramiento legal. Para casos complejos, consulta a un abogado.",
+    "starterPrompts": {
+      "visaRenewal": "¿Cuándo debo comenzar el proceso de renovación de visa?",
+      "documents": "¿Qué documentos necesito para una solicitud I-485?",
+      "statusChange": "¿Cómo cambio mi estatus migratorio estando en EE.UU.?",
+      "greenCard": "¿Cuáles son los pasos para obtener la green card por empleo?"
+    },
     "escalation": {
       "title": "Esto puede necesitar ayuda profesional",
       "description": "Tu pregunta involucra un asunto legal complejo. Recomendamos hablar con un abogado de inmigración.",

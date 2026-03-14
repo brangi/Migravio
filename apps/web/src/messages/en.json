@@ -119,6 +119,7 @@
   },
   "chat": {
     "title": "AI Immigration Assistant",
+    "subtitle": "Ask me anything about U.S. immigration. I'm here to help.",
     "placeholder": "Ask me anything about immigration...",
     "send": "Send",
     "newChat": "New conversation",
@@ -127,6 +128,12 @@
     "upgrade": "Upgrade to Pro for unlimited messages",
     "thinking": "Thinking...",
     "disclaimer": "Migravio provides legal information, not legal advice. For complex cases, consult an attorney.",
+    "starterPrompts": {
+      "visaRenewal": "When should I start my visa renewal process?",
+      "documents": "What documents do I need for an I-485 application?",
+      "statusChange": "How do I change my visa status while in the U.S.?",
+      "greenCard": "What are the steps to get a green card through employment?"
+    },
     "escalation": {
       "title": "This may need professional help",
       "description": "Your question involves a complex legal matter. We recommend speaking with an immigration attorney.",
