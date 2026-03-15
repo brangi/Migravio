@@ -146,9 +146,7 @@ async def chat_stream(
                 })
             yield json.dumps({"type": "done"})
 
-        # Save messages
-        await save_message(uid, session_id, "user", message)
-        await save_message(uid, session_id, "assistant", cached, escalated=escalation.is_escalation)
+        # Increment message count (frontend handles session storage)
         await increment_message_count(uid)
 
         return EventSourceResponse(cached_stream())
@@ -176,9 +174,6 @@ async def chat_stream(
         except Exception:
             pass
 
-    # Save user message
-    await save_message(uid, session_id, "user", message)
-
     async def event_stream():
         full_response = ""
 
@@ -200,8 +195,7 @@ async def chat_stream(
 
             yield json.dumps({"type": "done"})
 
-            # Post-stream: save assistant message, increment count, cache
-            await save_message(uid, session_id, "assistant", full_response, model=model, escalated=escalation.is_escalation)
+            # Post-stream: increment count + cache (frontend handles session storage)
             await increment_message_count(uid)
             await store_cached_response(message, full_response, language, visa_type)
         except Exception as e:
