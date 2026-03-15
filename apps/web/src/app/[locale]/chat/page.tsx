@@ -530,13 +530,6 @@ export default function ChatPage() {
                             renderMessageContent(message.content)
                           )}
                         </div>
-                        {message.model && (
-                          <div className={`mt-1 text-xs ${
-                            message.role === "user" ? "text-white/70" : "text-text-tertiary"
-                          }`}>
-                            {message.model.includes("sonnet") ? "Claude Sonnet" : "Claude Haiku"}
-                          </div>
-                        )}
                       </div>
                     </div>
                   ))}
