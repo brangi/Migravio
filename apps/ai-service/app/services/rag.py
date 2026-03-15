@@ -17,8 +17,12 @@ index = None
 def get_index():
     global pc, index
     if index is None and settings.pinecone_api_key:
-        pc = Pinecone(api_key=settings.pinecone_api_key)
-        index = pc.Index(settings.pinecone_index_name)
+        try:
+            pc = Pinecone(api_key=settings.pinecone_api_key)
+            index = pc.Index(settings.pinecone_index_name)
+        except Exception as e:
+            print(f"Pinecone initialization failed: {e}")
+            return None
     return index
 
 

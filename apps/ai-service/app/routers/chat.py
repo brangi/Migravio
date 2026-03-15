@@ -182,26 +182,30 @@ async def chat_stream(
     async def event_stream():
         full_response = ""
 
-        # Stream model info
-        yield json.dumps({"type": "model", "data": model})
+        try:
+            # Stream model info
+            yield json.dumps({"type": "model", "data": model})
 
-        # Stream content
-        async for token in stream_chat(message, history, system_prompt, model):
-            full_response += token
-            yield json.dumps({"type": "content", "data": token})
+            # Stream content
+            async for token in stream_chat(message, history, system_prompt, model):
+                full_response += token
+                yield json.dumps({"type": "content", "data": token})
 
-        # Send escalation flag if detected
-        if escalation.is_escalation:
-            yield json.dumps({
-                "type": "escalation",
-                "keywords": escalation.keywords_found,
-            })
+            # Send escalation flag if detected
+            if escalation.is_escalation:
+                yield json.dumps({
+                    "type": "escalation",
+                    "keywords": escalation.keywords_found,
+                })
 
-        yield json.dumps({"type": "done"})
+            yield json.dumps({"type": "done"})
 
-        # Post-stream: save assistant message, increment count, cache
-        await save_message(uid, session_id, "assistant", full_response, model=model, escalated=escalation.is_escalation)
-        await increment_message_count(uid)
-        await store_cached_response(message, full_response, language, visa_type)
+            # Post-stream: save assistant message, increment count, cache
+            await save_message(uid, session_id, "assistant", full_response, model=model, escalated=escalation.is_escalation)
+            await increment_message_count(uid)
+            await store_cached_response(message, full_response, language, visa_type)
+        except Exception as e:
+            print(f"Streaming error: {e}")
+            yield json.dumps({"type": "error", "data": str(e)})
 
     return EventSourceResponse(event_stream())
