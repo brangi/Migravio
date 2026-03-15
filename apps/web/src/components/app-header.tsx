@@ -30,7 +30,7 @@ export function AppHeader({ activePage }: AppHeaderProps) {
   const navItems = user ? authNavItems : publicNavItems;
 
   return (
-    <header className="sticky top-0 z-40 border-b border-border bg-surface/95 backdrop-blur-sm">
+    <header className="sticky top-0 z-40 border-b border-border-strong bg-white shadow-sm">
       <div className="mx-auto flex h-16 max-w-7xl items-center justify-between px-4 lg:px-6">
         {/* Logo */}
         <Link href={user ? "/dashboard" : "/"} className="flex-shrink-0">
