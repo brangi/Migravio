@@ -14,6 +14,7 @@ app.add_middleware(
         "http://localhost:3000",
         "https://migravio.ai",
         "https://www.migravio.ai",
+        "https://migravio-web.vercel.app",
     ],
     allow_credentials=True,
     allow_methods=["*"],
