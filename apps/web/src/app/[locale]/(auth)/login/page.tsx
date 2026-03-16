@@ -156,7 +156,7 @@ export default function LoginPage() {
           </div>
 
           {/* Tab selector with underline style */}
-          <div className="border-b border-border">
+          <div className="border-b border-border-strong">
             <div className="flex gap-8">
               <button
                 onClick={() => { setTab("magic-link"); setError(""); }}
@@ -256,7 +256,7 @@ export default function LoginPage() {
           {/* Divider */}
           <div className="relative">
             <div className="absolute inset-0 flex items-center">
-              <div className="w-full border-t border-border" />
+              <div className="w-full border-t border-border-strong" />
             </div>
             <div className="relative flex justify-center text-sm">
               <span className="bg-surface px-2 text-text-tertiary">{t("orContinueWith")}</span>

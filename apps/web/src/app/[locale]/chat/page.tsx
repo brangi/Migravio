@@ -373,9 +373,9 @@ export default function ChatPage() {
 
       <div className="flex flex-1 overflow-hidden">
         {/* Sidebar - Desktop */}
-        <aside className="relative hidden w-64 border-r border-border bg-surface-alt shadow-[2px_0_8px_-2px_oklch(0.20_0.02_275_/_0.06)] md:block">
+        <aside className="relative hidden w-64 border-r border-border-strong bg-surface-alt shadow-[2px_0_8px_-2px_oklch(0.20_0.02_275_/_0.06)] md:block">
           <div className="flex h-full flex-col">
-            <div className="border-b border-border p-4">
+            <div className="border-b border-border-strong p-4">
               <button
                 onClick={createNewSession}
                 className="w-full rounded-lg bg-accent-500 px-4 py-2 text-sm font-medium text-white hover:bg-accent-600 transition-colors inline-flex items-center justify-center gap-2"
@@ -413,7 +413,7 @@ export default function ChatPage() {
               onClick={(e) => e.stopPropagation()}
             >
               <div className="flex h-full flex-col">
-                <div className="flex items-center justify-between border-b border-border p-4">
+                <div className="flex items-center justify-between border-b border-border-strong p-4">
                   <span className="text-sm font-medium text-text-primary">
                     Conversations
                   </span>
@@ -424,7 +424,7 @@ export default function ChatPage() {
                     <X className="h-5 w-5" />
                   </button>
                 </div>
-                <div className="border-b border-border p-4">
+                <div className="border-b border-border-strong p-4">
                   <button
                     onClick={createNewSession}
                     className="w-full rounded-lg bg-accent-500 px-4 py-2 text-sm font-medium text-white hover:bg-accent-600 inline-flex items-center justify-center gap-2"
@@ -459,7 +459,7 @@ export default function ChatPage() {
         {/* Main chat area */}
         <main className="flex flex-1 flex-col">
           {/* Mobile menu button */}
-          <div className="flex items-center gap-3 border-b border-border bg-surface px-4 py-3 md:hidden">
+          <div className="flex items-center gap-3 border-b border-border-strong bg-surface px-4 py-3 md:hidden">
             <button
               onClick={() => setShowSidebar(true)}
               className="text-text-secondary hover:text-text-primary"

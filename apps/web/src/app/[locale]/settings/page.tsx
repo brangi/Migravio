@@ -151,7 +151,7 @@ export default function SettingsPage() {
 
         <form onSubmit={handleSave} className="mt-8 space-y-8">
           {/* Profile Section */}
-          <section className="border-b border-border pb-8">
+          <section className="border-b border-border-strong pb-8">
             <h2 className="font-[var(--font-display)] text-xl text-text-primary">
               {t("profile")}
             </h2>
@@ -241,7 +241,7 @@ export default function SettingsPage() {
           </section>
 
           {/* Subscription Section */}
-          <section className="border-b border-border pb-8">
+          <section className="border-b border-border-strong pb-8">
             <h2 className="font-[var(--font-display)] text-xl text-text-primary">
               {t("subscription")}
             </h2>
@@ -309,7 +309,7 @@ export default function SettingsPage() {
           </section>
 
           {/* Action Buttons */}
-          <div className="flex items-center justify-between border-t border-border pt-8">
+          <div className="flex items-center justify-between border-t border-border-strong pt-8">
             <Button
               type="submit"
               variant="primary"

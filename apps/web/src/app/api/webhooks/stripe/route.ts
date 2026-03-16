@@ -117,16 +117,22 @@ async function handleCheckoutCompleted(
   }
 
   const plan = getPlanFromPriceId(priceId);
+
+  // Build update data — exclude undefined fields (Firestore rejects them)
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const periodEnd = (subscription as any).current_period_end as number | undefined;
-
-  await updateUserSubscription(userId, {
+  const updateData: Partial<SubscriptionData> = {
     plan,
     status: "active",
     stripeCustomerId: session.customer as string,
     stripeSubscriptionId: session.subscription as string,
-    currentPeriodEnd: periodEnd ? new Date(periodEnd * 1000) : undefined,
-  });
+  };
+  if (periodEnd) {
+    updateData.currentPeriodEnd = new Date(periodEnd * 1000);
+  }
+
+  console.log(`Checkout completed: user=${userId}, plan=${plan}, priceId=${priceId}`);
+  await updateUserSubscription(userId, updateData);
 }
 
 /**
@@ -152,16 +158,20 @@ async function handleSubscriptionUpdated(
   const plan = getPlanFromPriceId(priceId);
   const status = subscription.status as SubscriptionStatus;
 
-  await updateUserSubscription(userId, {
+  // Build update data — exclude undefined fields (Firestore rejects them)
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  const periodEnd = (subscription as any).current_period_end as number | undefined;
+  const updateData: Partial<SubscriptionData> = {
     plan,
     status,
     stripeCustomerId: customerId,
     stripeSubscriptionId: subscription.id,
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    currentPeriodEnd: (subscription as any).current_period_end
-      ? new Date(((subscription as any).current_period_end as number) * 1000)
-      : undefined,
-  });
+  };
+  if (periodEnd) {
+    updateData.currentPeriodEnd = new Date(periodEnd * 1000);
+  }
+
+  await updateUserSubscription(userId, updateData);
 }
 
 /**
@@ -179,16 +189,20 @@ async function handleSubscriptionDeleted(
     return;
   }
 
-  await updateUserSubscription(userId, {
+  // Build update data — exclude undefined fields (Firestore rejects them)
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  const periodEnd = (subscription as any).current_period_end as number | undefined;
+  const updateData: Partial<SubscriptionData> = {
     plan: "free",
     status: "canceled",
     stripeCustomerId: customerId,
     stripeSubscriptionId: subscription.id,
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    currentPeriodEnd: (subscription as any).current_period_end
-      ? new Date(((subscription as any).current_period_end as number) * 1000)
-      : undefined,
-  });
+  };
+  if (periodEnd) {
+    updateData.currentPeriodEnd = new Date(periodEnd * 1000);
+  }
+
+  await updateUserSubscription(userId, updateData);
 }
 
 /**

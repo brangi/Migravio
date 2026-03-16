@@ -168,7 +168,7 @@ export default function SignupPage() {
           {/* Divider */}
           <div className="relative">
             <div className="absolute inset-0 flex items-center">
-              <div className="w-full border-t border-border" />
+              <div className="w-full border-t border-border-strong" />
             </div>
             <div className="relative flex justify-center text-sm">
               <span className="bg-surface px-2 text-text-tertiary">

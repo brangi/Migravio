@@ -6,7 +6,7 @@ export function AppFooter() {
   const t = useTranslations("footer");
 
   return (
-    <footer className="border-t border-border bg-surface-alt py-6">
+    <footer className="border-t border-border-strong bg-surface-alt py-6">
       <div className="max-w-3xl mx-auto px-4 space-y-3">
         <p className="text-sm text-text-tertiary text-center">
           {t("disclaimer")}
@@ -29,7 +29,7 @@ export function LandingFooter() {
   const t = useTranslations("footer");
 
   return (
-    <footer className="border-t border-border bg-surface-alt">
+    <footer className="border-t border-border-strong bg-surface-alt">
       <div className="mx-auto max-w-7xl px-4 py-12 lg:px-6">
         <div className="grid gap-8 md:grid-cols-4">
           {/* Brand */}
@@ -94,7 +94,7 @@ export function LandingFooter() {
         </div>
 
         {/* Disclaimer & Copyright */}
-        <div className="mt-12 border-t border-border pt-8 space-y-4">
+        <div className="mt-12 border-t border-border-strong pt-8 space-y-4">
           <p className="text-sm text-text-tertiary text-center">
             {t("disclaimer")}
           </p>

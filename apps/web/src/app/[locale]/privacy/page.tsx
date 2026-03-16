@@ -18,7 +18,7 @@ export default function PrivacyPage() {
       {user ? (
         <AppHeader />
       ) : (
-        <header className="border-b border-border bg-surface">
+        <header className="border-b border-border-strong bg-white shadow-sm">
           <div className="mx-auto flex h-16 max-w-4xl items-center justify-between px-4">
             <Link href="/" className="transition-opacity hover:opacity-80">
               <Logo size="sm" variant="full" />
@@ -574,7 +574,7 @@ export default function PrivacyPage() {
         </article>
 
         {/* Back to Home Link */}
-        <div className="mt-12 border-t border-border pt-8">
+        <div className="mt-12 border-t border-border-strong pt-8">
           <Link
             href={user ? "/dashboard" : "/"}
             className="inline-flex items-center text-sm font-medium text-primary-600 hover:text-primary-700"
@@ -588,7 +588,7 @@ export default function PrivacyPage() {
       {user ? (
         <AppFooter />
       ) : (
-        <footer className="border-t border-border bg-surface-alt py-8">
+        <footer className="border-t border-border-strong bg-surface-alt py-8">
           <div className="mx-auto max-w-4xl px-4 text-center">
             <p className="mb-4 text-sm text-text-secondary">
               {t("footer.disclaimer")}
