@@ -35,6 +35,8 @@ interface UserProfile {
   subscription: {
     plan: "free" | "pro" | "premium";
     status: string;
+    stripeCustomerId?: string;
+    stripeSubscriptionId?: string;
   };
   messageCount: number;
 }

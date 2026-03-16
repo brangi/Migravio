@@ -386,7 +386,7 @@ export default function DashboardPage() {
                       method: "POST",
                       headers: { "Content-Type": "application/json" },
                       body: JSON.stringify({
-                        customerId: (profile as unknown as Record<string, unknown>)?.stripeCustomerId,
+                        customerId: profile.subscription?.stripeCustomerId,
                         locale: profile.language,
                       }),
                     });
