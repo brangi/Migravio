@@ -271,7 +271,9 @@ export default function SettingsPage() {
               {profile.subscription.cancelAt && (
                 <p className="mt-3 text-sm text-warning">
                   {t("canceledNotice", {
-                    date: new Date(profile.subscription.cancelAt._seconds * 1000).toLocaleDateString(),
+                    date: new Date(
+                      ((profile.subscription.cancelAt.seconds ?? profile.subscription.cancelAt._seconds) || 0) * 1000
+                    ).toLocaleDateString(),
                   })}
                 </p>
               )}

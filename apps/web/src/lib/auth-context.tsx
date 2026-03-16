@@ -37,7 +37,7 @@ interface UserProfile {
     status: string;
     stripeCustomerId?: string;
     stripeSubscriptionId?: string;
-    cancelAt?: { _seconds: number; _nanoseconds: number } | null;
+    cancelAt?: { seconds?: number; _seconds?: number } | null;
   };
   messageCount: number;
 }

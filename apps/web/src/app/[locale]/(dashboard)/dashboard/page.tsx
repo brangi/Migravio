@@ -371,13 +371,6 @@ export default function DashboardPage() {
                 {profile.subscription.cancelAt ? t("expiresSoon") : profile.subscription.plan === "free" ? t("freePlan") : t("activePlan")}
               </Badge>
             </div>
-            {profile.subscription.cancelAt && (
-              <p className="mt-2 text-sm text-warning">
-                {t("canceledNotice", {
-                  date: new Date(profile.subscription.cancelAt._seconds * 1000).toLocaleDateString(),
-                })}
-              </p>
-            )}
             {profile.subscription.plan === "free" ? (
               <Link
                 href="/pricing"
