@@ -23,6 +23,7 @@ from scrapers import (
     scrape_dhs_news,
     scrape_state_dept_visa_bulletin,
     scrape_state_dept_advisories,
+    refresh_pinecone_vectors,
 )
 from processors import (
     detect_changes,
@@ -270,6 +271,50 @@ def create_policy_alerts(items: List[Dict[str, str]], db: firestore.Client) -> N
             logger.error(f"Error committing final batch: {e}")
 
     logger.info(f"Policy alert creation complete")
+
+
+@scheduler_fn.on_schedule(
+    schedule="0 3 1 * *",
+    timeout_sec=540,
+    memory=512,
+)
+def refresh_pinecone(event: scheduler_fn.ScheduledEvent) -> None:
+    """
+    Monthly refresh of Pinecone RAG vectors.
+
+    Runs on the 1st of every month at 3am UTC.
+    Re-ingests: Visa Bulletin, Processing Times, Federal Register rules.
+    """
+    logger.info("=== Starting monthly Pinecone refresh ===")
+
+    try:
+        results = refresh_pinecone_vectors()
+
+        total = sum(v for v in results.values() if v > 0)
+        failures = [k for k, v in results.items() if v < 0]
+
+        logger.info(f"Pinecone refresh complete: {total} vectors upserted")
+        for source, count in results.items():
+            logger.info(f"  {source}: {count} vectors")
+
+        if failures:
+            logger.warning(f"Failed sources: {', '.join(failures)}")
+
+        # Log results to Firestore
+        db = firestore.client()
+        db.collection("system_logs").add({
+            "type": "pinecone_refresh",
+            "results": results,
+            "total_vectors": total,
+            "failures": failures,
+            "timestamp": datetime.utcnow(),
+        })
+
+        logger.info("=== Monthly Pinecone refresh completed ===")
+
+    except Exception as e:
+        logger.error(f"Pinecone refresh failed: {e}", exc_info=True)
+        raise
 
 
 # Optional: Manual trigger function for testing (HTTP endpoint)
