@@ -1,7 +1,7 @@
 fastapi==0.115.6
 uvicorn[standard]==0.34.0
 openai==1.59.3
-pinecone-client==5.0.1
+pinecone==5.4.2
 firebase-admin==6.6.0
 python-dotenv==1.0.1
 sse-starlette==2.1.3

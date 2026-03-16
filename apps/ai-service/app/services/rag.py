@@ -2,8 +2,7 @@ from openai import AsyncOpenAI
 from pinecone import Pinecone
 from app.config import settings
 
-# Embedding client — uses OpenAI directly for text-embedding-3-small
-# (OpenRouter doesn't proxy embedding models, so we use OpenAI API)
+# Embedding client — uses OpenRouter to proxy text-embedding-3-small
 embedding_client = AsyncOpenAI(
     api_key=settings.openrouter_api_key,
     base_url=settings.openrouter_base_url,
@@ -68,7 +67,7 @@ async def retrieve_context(
 
         chunks = []
         for match in results.matches:
-            if match.score > 0.7:  # Only include relevant results
+            if match.score > 0.45:  # Include results with meaningful similarity
                 meta = match.metadata or {}
                 source = meta.get("source", "Unknown")
                 title = meta.get("document_title", "")

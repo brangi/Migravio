@@ -123,16 +123,27 @@ def extract_chapter_links(html: str, volume: int) -> list[dict[str, str]]:
     soup = BeautifulSoup(html, "html.parser")
     chapters = []
 
-    # Find all chapter links (USCIS manual uses specific structure)
-    # This is a simplified pattern - actual site structure may vary
-    links = soup.find_all("a", href=re.compile(r"/policy-manual/volume-\d+"))
+    # Find links specifically for this volume (filter out sidebar links to other volumes)
+    volume_pattern = re.compile(rf"/policy-manual/volume-{volume}(?:-|$)")
+    links = soup.find_all("a", href=volume_pattern)
 
+    seen_urls = set()
     for link in links:
         href = link.get("href", "")
         title = link.get_text(strip=True)
 
         if not href or not title:
             continue
+
+        # Normalize URL
+        full_url = f"https://www.uscis.gov{href}" if href.startswith("/") else href
+
+        # Skip duplicates and the volume index page itself
+        if full_url in seen_urls:
+            continue
+        if href.rstrip("/") == f"/policy-manual/volume-{volume}":
+            continue
+        seen_urls.add(full_url)
 
         # Parse part and chapter from URL
         # Example: /policy-manual/volume-2-part-b-chapter-3
@@ -142,15 +153,17 @@ def extract_chapter_links(html: str, volume: int) -> list[dict[str, str]]:
             part = match.group(2) or "general"
             chapter = match.group(3) or "0"
 
-            chapters.append(
-                {
-                    "url": f"https://www.uscis.gov{href}",
-                    "title": title,
-                    "part": part.upper(),
-                    "chapter": chapter,
-                    "volume": vol,
-                }
-            )
+            # Only include links that have at least a part (skip bare volume links)
+            if part != "general" or chapter != "0":
+                chapters.append(
+                    {
+                        "url": full_url,
+                        "title": title,
+                        "part": part.upper(),
+                        "chapter": chapter,
+                        "volume": vol,
+                    }
+                )
 
     return chapters
 
@@ -283,10 +296,9 @@ async def ingest_uscis_manual(
     clients = await setup_clients()
 
     # Create HTTP client
-    async with httpx.AsyncClient() as http_client:
-        all_chunks = []
-        all_metadata = []
+    total_vectors = 0
 
+    async with httpx.AsyncClient() as http_client:
         for volume in volumes:
             # Scrape volume
             scraped_content = await scrape_volume(volume, http_client, rate_limit_delay)
@@ -295,7 +307,10 @@ async def ingest_uscis_manual(
                 logger.warning(f"No content scraped from volume {volume}")
                 continue
 
-            # Chunk and prepare for ingestion
+            # Chunk and prepare for ingestion — per volume
+            vol_chunks = []
+            vol_metadata = []
+
             for item in scraped_content:
                 content = item["content"]
                 metadata_base = item["metadata"]
@@ -314,23 +329,29 @@ async def ingest_uscis_manual(
                     metadata = metadata_base.copy()
                     metadata["chunk_index"] = chunk_idx
                     metadata["visa_types"] = visa_types
+                    # Include chunk_index in section for unique vector IDs
+                    metadata["section"] = f"{metadata_base['section']}_chunk_{chunk_idx}"
 
-                    all_chunks.append(chunk)
-                    all_metadata.append(metadata)
+                    vol_chunks.append(chunk)
+                    vol_metadata.append(metadata)
 
-    # Upsert to Pinecone
-    if all_chunks:
-        logger.info(f"\nPrepared {len(all_chunks)} total chunks for ingestion")
+            # Upsert this volume's data to Pinecone immediately
+            if vol_chunks:
+                logger.info(f"Upserting {len(vol_chunks)} chunks from Volume {volume}")
 
-        vectors_upserted = await upsert_to_pinecone(
-            clients.index,
-            all_chunks,
-            all_metadata,
-            source="uscis_manual",
-            dry_run=dry_run,
-        )
+                vectors_upserted = await upsert_to_pinecone(
+                    clients.index,
+                    vol_chunks,
+                    vol_metadata,
+                    source="uscis_manual",
+                    dry_run=dry_run,
+                )
 
-        logger.info(f"✓ Successfully processed {vectors_upserted} vectors")
+                total_vectors += vectors_upserted
+                logger.info(f"✓ Volume {volume}: {vectors_upserted} vectors upserted (total: {total_vectors})")
+
+    if total_vectors > 0:
+        logger.info(f"\n✓ Ingestion complete: {total_vectors} total vectors upserted")
     else:
         logger.warning("No chunks to ingest")
 
