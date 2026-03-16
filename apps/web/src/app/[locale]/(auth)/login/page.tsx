@@ -17,26 +17,20 @@ export default function LoginPage() {
   const { signIn, signInWithGoogle, sendMagicLink, user, loading: authLoading } = useAuth();
   const router = useRouter();
 
-  // Redirect authenticated users to dashboard
-  useEffect(() => {
-    if (!authLoading && user) {
-      router.push("/dashboard");
-    }
-  }, [authLoading, user, router]);
-
-  if (authLoading || user) {
-    return (
-      <div className="flex min-h-screen items-center justify-center">
-        <div className="h-8 w-8 animate-spin rounded-full border-2 border-primary-600 border-t-transparent" />
-      </div>
-    );
-  }
+  // All useState hooks must be declared before any early returns
   const [tab, setTab] = useState<AuthTab>("magic-link");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState("");
   const [loading, setLoading] = useState(false);
   const [magicLinkSent, setMagicLinkSent] = useState(false);
+
+  // Redirect authenticated users to dashboard
+  useEffect(() => {
+    if (!authLoading && user) {
+      router.push("/dashboard");
+    }
+  }, [authLoading, user, router]);
 
   const handlePasswordSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -47,6 +41,7 @@ export default function LoginPage() {
       router.push("/dashboard");
     } catch (err) {
       if (err instanceof FirebaseError) {
+        console.error("Login error:", err.code, err.message);
         if (
           err.code === "auth/wrong-password" ||
           err.code === "auth/user-not-found" ||
@@ -57,12 +52,21 @@ export default function LoginPage() {
           setError(t("errors.generic"));
         }
       } else {
+        console.error("Login error:", err);
         setError(t("errors.generic"));
       }
     } finally {
       setLoading(false);
     }
   };
+
+  if (authLoading || user) {
+    return (
+      <div className="flex min-h-screen items-center justify-center">
+        <div className="h-8 w-8 animate-spin rounded-full border-2 border-primary-600 border-t-transparent" />
+      </div>
+    );
+  }
 
   const handleMagicLink = async (e: React.FormEvent) => {
     e.preventDefault();

@@ -15,24 +15,18 @@ export default function ForgotPasswordPage() {
   const { resetPassword, user, loading: authLoading } = useAuth();
   const router = useRouter();
 
+  // All useState hooks must be declared before any early returns
+  const [email, setEmail] = useState("");
+  const [sent, setSent] = useState(false);
+  const [error, setError] = useState("");
+  const [loading, setLoading] = useState(false);
+
   // Redirect authenticated users to dashboard
   useEffect(() => {
     if (!authLoading && user) {
       router.push("/dashboard");
     }
   }, [authLoading, user, router]);
-
-  if (authLoading || user) {
-    return (
-      <div className="flex min-h-screen items-center justify-center">
-        <div className="h-8 w-8 animate-spin rounded-full border-2 border-primary-600 border-t-transparent" />
-      </div>
-    );
-  }
-  const [email, setEmail] = useState("");
-  const [sent, setSent] = useState(false);
-  const [error, setError] = useState("");
-  const [loading, setLoading] = useState(false);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -51,6 +45,14 @@ export default function ForgotPasswordPage() {
       setLoading(false);
     }
   };
+
+  if (authLoading || user) {
+    return (
+      <div className="flex min-h-screen items-center justify-center">
+        <div className="h-8 w-8 animate-spin rounded-full border-2 border-primary-600 border-t-transparent" />
+      </div>
+    );
+  }
 
   if (sent) {
     return (
