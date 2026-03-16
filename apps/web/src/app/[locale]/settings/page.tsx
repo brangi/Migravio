@@ -264,7 +264,7 @@ export default function SettingsPage() {
                         : "bg-success/10 text-success"
                   }`}
                 >
-                  {profile.subscription.cancelAt ? "Canceling" : profile.subscription.status}
+                  {profile.subscription.cancelAt ? t("expiresSoon") : profile.subscription.status}
                 </span>
               </div>
 

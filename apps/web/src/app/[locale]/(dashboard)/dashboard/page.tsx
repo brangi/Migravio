@@ -368,7 +368,7 @@ export default function DashboardPage() {
                 {profile.subscription.plan}
               </span>
               <Badge variant={profile.subscription.cancelAt ? "warning" : profile.subscription.plan === "free" ? "default" : "success"}>
-                {profile.subscription.cancelAt ? "Canceling" : profile.subscription.plan === "free" ? t("freePlan") : t("activePlan")}
+                {profile.subscription.cancelAt ? t("expiresSoon") : profile.subscription.plan === "free" ? t("freePlan") : t("activePlan")}
               </Badge>
             </div>
             {profile.subscription.cancelAt && (
