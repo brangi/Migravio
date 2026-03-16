@@ -30,6 +30,7 @@ from processors import (
     update_stored_content,
     mark_unchanged_items_scraped,
     summarize_changes_sync,
+    extract_visa_types_basic,
 )
 
 # Initialize Firebase Admin (auto-initializes in Cloud Functions environment)
