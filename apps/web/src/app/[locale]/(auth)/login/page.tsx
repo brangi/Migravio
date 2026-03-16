@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useTranslations } from "next-intl";
 import { useAuth } from "@/lib/auth-context";
 import { Link, useRouter } from "@/i18n/navigation";
@@ -14,8 +14,23 @@ type AuthTab = "magic-link" | "password";
 
 export default function LoginPage() {
   const t = useTranslations("auth");
-  const { signIn, signInWithGoogle, sendMagicLink } = useAuth();
+  const { signIn, signInWithGoogle, sendMagicLink, user, loading: authLoading } = useAuth();
   const router = useRouter();
+
+  // Redirect authenticated users to dashboard
+  useEffect(() => {
+    if (!authLoading && user) {
+      router.push("/dashboard");
+    }
+  }, [authLoading, user, router]);
+
+  if (authLoading || user) {
+    return (
+      <div className="flex min-h-screen items-center justify-center">
+        <div className="h-8 w-8 animate-spin rounded-full border-2 border-primary-600 border-t-transparent" />
+      </div>
+    );
+  }
   const [tab, setTab] = useState<AuthTab>("magic-link");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");

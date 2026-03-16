@@ -2,6 +2,7 @@
 
 import { useTranslations } from "next-intl";
 import { Link } from "@/i18n/navigation";
+import { useAuth } from "@/lib/auth-context";
 import { Logo } from "@/components/logo";
 import { Button } from "@/components/button";
 import { LandingFooter } from "@/components/footer";
@@ -20,6 +21,7 @@ import LanguageSwitcher from "@/components/language-switcher";
 
 export default function LandingPage() {
   const t = useTranslations();
+  const { user, loading } = useAuth();
 
   // Smooth scroll handler for "Learn More" button
   const scrollToFeatures = () => {
@@ -55,16 +57,28 @@ export default function LandingPage() {
 
           <div className="flex items-center gap-3">
             <LanguageSwitcher />
-            <Link href="/login" className="hidden sm:inline-block">
-              <Button variant="ghost" size="sm">
-                {t("auth.login")}
-              </Button>
-            </Link>
-            <Link href="/signup">
-              <Button variant="accent" size="sm">
-                {t("landing.nav.getStarted")}
-              </Button>
-            </Link>
+            {loading ? (
+              <div className="w-24" />
+            ) : user ? (
+              <Link href="/dashboard">
+                <Button variant="accent" size="sm" icon={<ArrowRight className="h-4 w-4" />}>
+                  {t("landing.nav.goToDashboard")}
+                </Button>
+              </Link>
+            ) : (
+              <>
+                <Link href="/login" className="hidden sm:inline-block">
+                  <Button variant="ghost" size="sm">
+                    {t("auth.login")}
+                  </Button>
+                </Link>
+                <Link href="/signup">
+                  <Button variant="accent" size="sm">
+                    {t("landing.nav.getStarted")}
+                  </Button>
+                </Link>
+              </>
+            )}
           </div>
         </div>
       </header>
@@ -82,14 +96,24 @@ export default function LandingPage() {
 
             {/* CTA Buttons */}
             <div className="mt-10 flex flex-col items-center justify-center gap-4 sm:flex-row">
-              <Link href="/signup">
-                <Button variant="accent" size="lg" icon={<ArrowRight className="h-5 w-5" />}>
-                  {t("landing.hero.ctaStart")}
-                </Button>
-              </Link>
-              <Button variant="secondary" size="lg" onClick={scrollToFeatures}>
-                {t("landing.hero.ctaSecondary")}
-              </Button>
+              {user ? (
+                <Link href="/dashboard">
+                  <Button variant="accent" size="lg" icon={<ArrowRight className="h-5 w-5" />}>
+                    {t("landing.nav.goToDashboard")}
+                  </Button>
+                </Link>
+              ) : (
+                <>
+                  <Link href="/signup">
+                    <Button variant="accent" size="lg" icon={<ArrowRight className="h-5 w-5" />}>
+                      {t("landing.hero.ctaStart")}
+                    </Button>
+                  </Link>
+                  <Button variant="secondary" size="lg" onClick={scrollToFeatures}>
+                    {t("landing.hero.ctaSecondary")}
+                  </Button>
+                </>
+              )}
             </div>
 
             {/* Trust Indicators */}
@@ -466,14 +490,14 @@ export default function LandingPage() {
               {t("landing.finalCta.subtitle")}
             </p>
             <div className="mt-10">
-              <Link href="/signup">
+              <Link href={user ? "/dashboard" : "/signup"}>
                 <Button
                   variant="accent"
                   size="lg"
                   icon={<ArrowRight className="h-5 w-5" />}
                   className="shadow-xl hover:shadow-2xl"
                 >
-                  {t("landing.finalCta.cta")}
+                  {user ? t("landing.nav.goToDashboard") : t("landing.finalCta.cta")}
                 </Button>
               </Link>
             </div>

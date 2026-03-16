@@ -243,7 +243,8 @@
     "nav": {
       "features": "Características",
       "pricing": "Precios",
-      "getStarted": "Comenzar"
+      "getStarted": "Comenzar",
+      "goToDashboard": "Ir al Panel"
     },
     "hero": {
       "headline": "Navega la Inmigración de EE.UU. — En Tu Idioma",

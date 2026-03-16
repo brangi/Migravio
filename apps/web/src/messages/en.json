@@ -243,7 +243,8 @@
     "nav": {
       "features": "Features",
       "pricing": "Pricing",
-      "getStarted": "Get Started"
+      "getStarted": "Get Started",
+      "goToDashboard": "Go to Dashboard"
     },
     "hero": {
       "headline": "Navigate U.S. Immigration — In Your Language",
