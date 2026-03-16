@@ -1,32 +1,44 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useEffect, useState, useRef } from "react";
 import { useTranslations } from "next-intl";
 import { useAuth } from "@/lib/auth-context";
 import { useRouter, Link } from "@/i18n/navigation";
 import { Logo } from "@/components/logo";
 import { AlertTriangle } from "@/components/icons";
+import { doc, getDoc } from "firebase/firestore";
+import { db } from "@/lib/firebase";
 
 export default function EmailSignInPage() {
   const t = useTranslations("auth");
-  const { completeMagicLinkSignIn, profile } = useAuth();
+  const { completeMagicLinkSignIn } = useAuth();
   const router = useRouter();
   const [error, setError] = useState(false);
   const [completing, setCompleting] = useState(true);
+  const attempted = useRef(false);
 
   useEffect(() => {
+    if (attempted.current) return;
+    attempted.current = true;
+
     const complete = async () => {
       try {
         const success = await completeMagicLinkSignIn(window.location.href);
         if (success) {
-          // Give auth state a moment to propagate, then redirect
-          setTimeout(() => {
-            if (profile && profile.onboardingComplete) {
+          // completeMagicLinkSignIn returns the signed-in user via auth state,
+          // but profile may not be loaded yet. Fetch directly from Firestore.
+          const { getAuth } = await import("firebase/auth");
+          const currentUser = getAuth().currentUser;
+          if (currentUser) {
+            const userDoc = await getDoc(doc(db, "users", currentUser.uid));
+            if (userDoc.exists() && userDoc.data().onboardingComplete) {
               router.push("/dashboard");
             } else {
               router.push("/onboarding");
             }
-          }, 500);
+          } else {
+            router.push("/onboarding");
+          }
         } else {
           setError(true);
           setCompleting(false);
