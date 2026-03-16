@@ -211,6 +211,196 @@ TEST_SCENARIOS = [
             "regla",
         ],
     ),
+    # === NEW: Work visa expansion scenarios ===
+    TestScenario(
+        id=13,
+        question="Can a Mexican citizen apply for a TN visa? What professions qualify?",
+        visa_type="TN",
+        language="en",
+        description="TN visa for Mexican professionals",
+        quality_markers=[
+            "USMCA",
+            "Mexico",
+            "profession",
+            "bachelor",
+        ],
+    ),
+    TestScenario(
+        id=14,
+        question="What is the E-2 treaty investor visa and which Latin American countries qualify?",
+        visa_type="E-2",
+        language="en",
+        description="E-2 treaty investor visa — Americas focus",
+        quality_markers=[
+            "E-2",
+            "invest",
+            "treaty",
+            "Mexico",
+        ],
+    ),
+    TestScenario(
+        id=15,
+        question="¿Cómo funciona la visa H-2A para trabajadores agrícolas?",
+        visa_type="H-2A",
+        language="es",
+        description="H-2A agricultural worker visa (Spanish)",
+        quality_markers=[
+            "H-2A",
+            "agrícol",
+            "empleador",
+            "temporal",
+        ],
+    ),
+    # === NEW: Non-immigrant expansion ===
+    TestScenario(
+        id=16,
+        question="What is the K-1 fiancé visa process and how long does it take?",
+        visa_type="K-1",
+        language="en",
+        description="K-1 fiancé visa process",
+        quality_markers=[
+            "K-1",
+            "I-129F",
+            "90 day",
+            "marry",
+        ],
+    ),
+    TestScenario(
+        id=17,
+        question="Can I extend my B-1/B-2 tourist visa while in the United States?",
+        visa_type="B-1/B-2",
+        language="en",
+        description="B-1/B-2 extension",
+        quality_markers=[
+            "I-539",
+            "extend",
+            "6 months",
+        ],
+    ),
+    # === NEW: Immigrant / Green Card expansion ===
+    TestScenario(
+        id=18,
+        question="How does the EB-5 investor visa work? What's the minimum investment?",
+        visa_type="EB-5",
+        language="en",
+        description="EB-5 investor program",
+        quality_markers=[
+            "EB-5",
+            "invest",
+            "I-526",
+            "regional center",
+        ],
+    ),
+    TestScenario(
+        id=19,
+        question="What are the family-based green card categories and their wait times?",
+        visa_type="Green Card",
+        language="en",
+        description="Family-based immigration categories",
+        quality_markers=[
+            "immediate relative",
+            "preference",
+            "F1",
+            "priority date",
+        ],
+    ),
+    TestScenario(
+        id=20,
+        question="¿Qué es la lotería de visas de diversidad y quién puede participar?",
+        visa_type="DV Lottery",
+        language="es",
+        description="DV Lottery eligibility (Spanish)",
+        quality_markers=[
+            "diversidad",
+            "50,000",
+            "país",
+        ],
+    ),
+    # === NEW: Humanitarian — HIGH PRIORITY ===
+    TestScenario(
+        id=21,
+        question="What is TPS and which countries currently have it? I'm from Venezuela.",
+        visa_type="TPS",
+        language="en",
+        description="TPS for Venezuela",
+        quality_markers=[
+            "Temporary Protected Status",
+            "Venezuela",
+            "EAD",
+            "register",
+        ],
+    ),
+    TestScenario(
+        id=22,
+        question="I was a victim of a crime in the US. Can I apply for a U visa?",
+        visa_type="U Visa",
+        language="en",
+        description="U visa for crime victims",
+        quality_markers=[
+            "U visa",
+            "I-918",
+            "law enforcement",
+            "certification",
+            "attorney",
+        ],
+        should_escalate=True,
+    ),
+    TestScenario(
+        id=23,
+        question="¿Cómo puedo aplicar para asilo en Estados Unidos?",
+        visa_type="Asylum",
+        language="es",
+        description="Asylum application process (Spanish)",
+        quality_markers=[
+            "asilo",
+            "I-589",
+            "un año",
+            "abogado",
+        ],
+        should_escalate=True,
+    ),
+    TestScenario(
+        id=24,
+        question="What is DACA and can I still renew my status?",
+        visa_type="DACA",
+        language="en",
+        description="DACA renewal status",
+        quality_markers=[
+            "DACA",
+            "Deferred Action",
+            "renew",
+            "I-821D",
+        ],
+    ),
+    TestScenario(
+        id=25,
+        question="My spouse is abusive. Can I apply for immigration relief without them knowing?",
+        visa_type="VAWA",
+        language="en",
+        description="VAWA self-petition — should escalate",
+        quality_markers=[
+            "VAWA",
+            "self-petition",
+            "confidential",
+            "attorney",
+        ],
+        should_escalate=True,
+    ),
+    # === NEW: Extended forms ===
+    TestScenario(
+        id=26,
+        question="What is Form I-140 and who files it?",
+        visa_type="Green Card",
+        language="en",
+        description="I-140 immigrant petition basics",
+        quality_markers=[
+            "I-140",
+            "employer",
+            "EB-1",
+            "EB-2",
+            "EB-3",
+        ],
+    ),
 ]
 
 
@@ -495,7 +685,7 @@ async def run_tests(mode: str = "direct", use_rag: bool = False):
     print(f"  With Disclaimer: {total_with_disclaimer}/{len(TEST_SCENARIOS)}")
     print(f"  Correct Language: {total_correct_language}/{len(TEST_SCENARIOS)}")
 
-    overall = "PASS" if passed >= 10 and errors == 0 else "NEEDS IMPROVEMENT"
+    overall = "PASS" if passed >= 20 and errors == 0 else "NEEDS IMPROVEMENT"
     print(f"\n  Overall: [{overall}]")
 
     if overall == "NEEDS IMPROVEMENT":
