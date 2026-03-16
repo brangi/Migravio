@@ -257,14 +257,24 @@ export default function SettingsPage() {
                 </div>
                 <span
                   className={`rounded-full px-3 py-1 text-sm font-medium ${
-                    profile.subscription.plan === "free"
-                      ? "bg-surface-alt text-text-secondary"
-                      : "bg-success/10 text-success"
+                    profile.subscription.cancelAt
+                      ? "bg-warning/10 text-warning"
+                      : profile.subscription.plan === "free"
+                        ? "bg-surface-alt text-text-secondary"
+                        : "bg-success/10 text-success"
                   }`}
                 >
-                  {profile.subscription.status}
+                  {profile.subscription.cancelAt ? "Canceling" : profile.subscription.status}
                 </span>
               </div>
+
+              {profile.subscription.cancelAt && (
+                <p className="mt-3 text-sm text-warning">
+                  {t("canceledNotice", {
+                    date: new Date(profile.subscription.cancelAt._seconds * 1000).toLocaleDateString(),
+                  })}
+                </p>
+              )}
 
               {profile.subscription.plan === "free" ? (
                 <Link
@@ -279,7 +289,7 @@ export default function SettingsPage() {
                   onClick={handleManageSubscription}
                   className="mt-6 inline-block rounded-lg border border-border bg-surface px-6 py-3 text-sm font-semibold text-text-primary shadow-sm transition-colors hover:bg-surface-alt"
                 >
-                  {t("manageSubscription")}
+                  {profile.subscription.cancelAt ? t("resubscribe") : t("manageSubscription")}
                 </button>
               )}
             </div>

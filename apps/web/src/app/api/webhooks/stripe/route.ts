@@ -28,6 +28,7 @@ interface SubscriptionData {
   stripeCustomerId: string;
   stripeSubscriptionId?: string;
   currentPeriodEnd?: Date;
+  cancelAt?: Date | null;
   updatedAt: Date;
 }
 
@@ -160,17 +161,22 @@ async function handleSubscriptionUpdated(
 
   // Build update data — exclude undefined fields (Firestore rejects them)
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  const periodEnd = (subscription as any).current_period_end as number | undefined;
+  const sub = subscription as any;
+  const periodEnd = sub.current_period_end as number | undefined;
+  const cancelAt = sub.cancel_at as number | null | undefined;
+
   const updateData: Partial<SubscriptionData> = {
     plan,
     status,
     stripeCustomerId: customerId,
     stripeSubscriptionId: subscription.id,
+    cancelAt: cancelAt ? new Date(cancelAt * 1000) : null,
   };
   if (periodEnd) {
     updateData.currentPeriodEnd = new Date(periodEnd * 1000);
   }
 
+  console.log(`Subscription updated: user=${userId}, plan=${plan}, status=${status}, cancelAt=${cancelAt}`);
   await updateUserSubscription(userId, updateData);
 }
 

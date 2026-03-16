@@ -367,10 +367,17 @@ export default function DashboardPage() {
               <span className="font-[var(--font-display)] text-lg font-semibold capitalize text-text-primary">
                 {profile.subscription.plan}
               </span>
-              <Badge variant={profile.subscription.plan === "free" ? "default" : "success"}>
-                {profile.subscription.plan === "free" ? t("freePlan") : t("activePlan")}
+              <Badge variant={profile.subscription.cancelAt ? "warning" : profile.subscription.plan === "free" ? "default" : "success"}>
+                {profile.subscription.cancelAt ? "Canceling" : profile.subscription.plan === "free" ? t("freePlan") : t("activePlan")}
               </Badge>
             </div>
+            {profile.subscription.cancelAt && (
+              <p className="mt-2 text-sm text-warning">
+                {t("canceledNotice", {
+                  date: new Date(profile.subscription.cancelAt._seconds * 1000).toLocaleDateString(),
+                })}
+              </p>
+            )}
             {profile.subscription.plan === "free" ? (
               <Link
                 href="/pricing"
@@ -398,7 +405,7 @@ export default function DashboardPage() {
                 }}
                 className="mt-3 inline-flex items-center gap-1 text-sm font-medium text-primary-600 hover:text-primary-700"
               >
-                {t("managePlan")} <ArrowRight className="h-4 w-4" />
+                {profile.subscription.cancelAt ? t("resubscribe") : t("managePlan")} <ArrowRight className="h-4 w-4" />
               </button>
             )}
           </div>

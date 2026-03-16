@@ -114,8 +114,10 @@
     "subscription": "Tu plan",
     "freePlan": "Gratis",
     "activePlan": "Activo",
+    "canceledNotice": "Tu plan fue cancelado y expira el {date}. Mantendrás acceso Pro hasta entonces.",
     "upgradePlan": "Mejorar tu plan",
-    "managePlan": "Administrar suscripción"
+    "managePlan": "Administrar suscripción",
+    "resubscribe": "Volver a suscribirse"
   },
   "chat": {
     "title": "Asistente de inmigración IA",
@@ -218,6 +220,8 @@
     "selectDate": "Seleccionar fecha",
     "subscription": "Suscripción",
     "currentPlan": "Plan actual",
+    "canceledNotice": "Tu plan fue cancelado y expira el {date}. Mantendrás acceso Pro hasta entonces.",
+    "resubscribe": "Volver a suscribirse",
     "account": "Cuenta",
     "email": "Correo electrónico",
     "save": "Guardar cambios",

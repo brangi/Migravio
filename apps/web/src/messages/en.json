@@ -114,8 +114,10 @@
     "subscription": "Your Plan",
     "freePlan": "Free",
     "activePlan": "Active",
+    "canceledNotice": "Your plan is canceled and will expire on {date}. You'll keep Pro access until then.",
     "upgradePlan": "Upgrade your plan",
-    "managePlan": "Manage subscription"
+    "managePlan": "Manage subscription",
+    "resubscribe": "Resubscribe"
   },
   "chat": {
     "title": "AI Immigration Assistant",
@@ -218,6 +220,8 @@
     "selectDate": "Select date",
     "subscription": "Subscription",
     "currentPlan": "Current Plan",
+    "canceledNotice": "Your plan is canceled and will expire on {date}. You'll keep Pro access until then.",
+    "resubscribe": "Resubscribe",
     "account": "Account",
     "email": "Email",
     "save": "Save Changes",
