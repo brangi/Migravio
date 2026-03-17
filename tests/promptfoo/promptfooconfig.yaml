@@ -1,0 +1,322 @@
+# Migravio AI Chat — Promptfoo Manual Tests (25 tests)
+# Business logic + prompt quality — all deterministic assertions (no llm-rubric)
+# Cost: ~$0.04 per run (Haiku via OpenRouter, single prompt)
+
+prompts:
+  - label: "Migravio EN"
+    raw: "file://prompts/chat-en.json"
+
+providers:
+  - id: "openrouter:anthropic/claude-haiku-4-5"
+    config:
+      temperature: 0.3
+      max_tokens: 1024
+
+defaultTest:
+  assert:
+    # Universal: no code blocks
+    - type: not-contains
+      value: "```"
+      weight: 1
+    # Universal: word count between 50-800
+    - type: javascript
+      value: |
+        const words = output.trim().split(/\s+/).length;
+        return words >= 50 && words <= 800;
+      weight: 1
+
+tests:
+  # ===========================
+  # BUSINESS LOGIC (BIZ-01 to BIZ-15)
+  # ===========================
+
+  # BIZ-01: Denial keyword triggers attorney recommendation
+  - description: "BIZ-01: Denial keyword → attorney referral"
+    vars:
+      query: "My H-1B petition was denied. What should I do now?"
+    assert:
+      - type: icontains
+        value: "attorney"
+        weight: 2
+
+  # BIZ-02: Deportation keyword triggers attorney recommendation
+  - description: "BIZ-02: Deportation keyword → attorney referral"
+    vars:
+      query: "I received a notice of deportation proceedings. What are my options?"
+    assert:
+      - type: icontains
+        value: "attorney"
+        weight: 2
+
+  # BIZ-03: Asylum keyword triggers attorney recommendation
+  - description: "BIZ-03: Asylum keyword → attorney referral"
+    vars:
+      query: "I want to apply for asylum in the United States. How do I start?"
+    assert:
+      - type: icontains
+        value: "attorney"
+        weight: 2
+
+  # BIZ-04: RFE keyword triggers attorney recommendation
+  - description: "BIZ-04: RFE keyword → attorney referral"
+    vars:
+      query: "I received an RFE (Request for Evidence) for my I-140. What should I do?"
+    assert:
+      - type: javascript
+        value: |
+          const lower = output.toLowerCase();
+          return lower.includes("attorney") || lower.includes("lawyer") || lower.includes("legal counsel") || lower.includes("legal representative");
+        weight: 2
+
+  # BIZ-05: NOID keyword triggers attorney recommendation
+  - description: "BIZ-05: NOID keyword → attorney referral"
+    vars:
+      query: "I received a Notice of Intent to Deny (NOID) for my green card application. What does this mean?"
+    assert:
+      - type: javascript
+        value: |
+          const lower = output.toLowerCase();
+          return lower.includes("attorney") || lower.includes("lawyer") || lower.includes("legal counsel");
+        weight: 2
+
+  # BIZ-06: Appeal keyword triggers attorney recommendation
+  - description: "BIZ-06: Appeal keyword → attorney referral"
+    vars:
+      query: "How do I appeal my immigration case that was denied by the Board of Immigration Appeals?"
+    assert:
+      - type: icontains
+        value: "attorney"
+        weight: 2
+
+  # BIZ-07: English question → English answer
+  - description: "BIZ-07: English question → English response"
+    vars:
+      query: "What are the requirements for an employment-based green card?"
+    assert:
+      - type: javascript
+        value: |
+          const englishWords = ["the", "and", "for", "you", "your", "with", "that", "this", "from", "have"];
+          const lower = output.toLowerCase();
+          const count = englishWords.filter(w => lower.includes(w)).length;
+          return count >= 4;
+        weight: 1
+
+  # BIZ-08: Spanish query handled gracefully (EN prompt)
+  - description: "BIZ-08: Spanish query → still provides useful response"
+    vars:
+      query: "¿Cuánto tiempo tarda el proceso de la green card por empleo?"
+    assert:
+      - type: javascript
+        value: |
+          const lower = output.toLowerCase();
+          return lower.includes("green card") || lower.includes("employment") || lower.includes("empleo") || lower.includes("proceso");
+        weight: 1
+
+  # BIZ-09: Detailed list → uses numbered lists
+  - description: "BIZ-09: List response → uses numbered format"
+    vars:
+      query: "List the main documents I need for an I-485 application."
+    assert:
+      - type: javascript
+        value: |
+          const hasNumberedList = /\d+\.\s/.test(output);
+          const hasBullets = /^[-*]\s/m.test(output);
+          return hasNumberedList || hasBullets;
+        weight: 1
+
+  # BIZ-10: Complex process → uses numbered steps
+  - description: "BIZ-10: Process explanation → structured response"
+    vars:
+      query: "Explain the H-1B lottery process step by step."
+    assert:
+      - type: javascript
+        value: |
+          const hasSteps = /\b1\.\s/.test(output) && /\b2\.\s/.test(output);
+          return hasSteps;
+        weight: 1
+
+  # BIZ-11: H-1B → mentions employer and petition/sponsor
+  - description: "BIZ-11: H-1B question → employer + sponsor"
+    vars:
+      query: "How do I get an H-1B visa?"
+    assert:
+      - type: icontains
+        value: "employer"
+        weight: 1
+      - type: javascript
+        value: |
+          const lower = output.toLowerCase();
+          return lower.includes("petition") || lower.includes("sponsor") || lower.includes("sponsorship");
+        weight: 1
+
+  # BIZ-12: TPS → mentions country designation
+  - description: "BIZ-12: TPS question → country/designation"
+    vars:
+      query: "How does Temporary Protected Status work?"
+    assert:
+      - type: javascript
+        value: |
+          const lower = output.toLowerCase();
+          return lower.includes("country") || lower.includes("countries") || lower.includes("designated") || lower.includes("designation") || lower.includes("nations");
+        weight: 1
+
+  # BIZ-13: F-1 OPT → I-765 and work authorization
+  - description: "BIZ-13: F-1 OPT → I-765 + work authorization"
+    vars:
+      query: "How do I apply for OPT as an F-1 student?"
+    assert:
+      - type: icontains
+        value: "I-765"
+        weight: 1
+      - type: javascript
+        value: |
+          const lower = output.toLowerCase();
+          return lower.includes("work authorization") || lower.includes("employment authorization") || lower.includes("ead") || lower.includes("work permit");
+        weight: 1
+
+  # BIZ-14: Simple question → concise response (under 400 words)
+  - description: "BIZ-14: Simple question → concise response"
+    vars:
+      query: "What is an I-130?"
+    assert:
+      - type: javascript
+        value: |
+          const words = output.trim().split(/\s+/).length;
+          return words <= 400;
+        weight: 1
+
+  # BIZ-15: Factual question → recommends checking uscis.gov
+  - description: "BIZ-15: Fee question → verify at uscis.gov"
+    vars:
+      query: "What is the current filing fee for Form I-485?"
+    assert:
+      - type: javascript
+        value: |
+          const lower = output.toLowerCase();
+          return lower.includes("uscis.gov") || lower.includes("verify") || lower.includes("change") || lower.includes("check") || lower.includes("confirm") || lower.includes("current");
+        weight: 1
+
+  # ===========================
+  # PROMPT QUALITY (QUAL-01 to QUAL-10)
+  # ===========================
+
+  # QUAL-01: Simple question → appropriate length (100-600 words)
+  - description: "QUAL-01: Simple question → appropriate length"
+    vars:
+      query: "What is the difference between a green card and citizenship?"
+    assert:
+      - type: javascript
+        value: |
+          const words = output.trim().split(/\s+/).length;
+          return words >= 80 && words <= 600;
+        weight: 1
+
+  # QUAL-02: Complex question → under 700 words
+  - description: "QUAL-02: Complex question → reasonable length"
+    vars:
+      query: "Explain the EB-2 NIW process including eligibility and evidence requirements."
+    assert:
+      - type: javascript
+        value: |
+          const words = output.trim().split(/\s+/).length;
+          return words <= 700;
+        weight: 1
+
+  # QUAL-03: Warm encouraging tone
+  - description: "QUAL-03: Anxious question → warm encouraging tone"
+    vars:
+      query: "I'm worried my visa will expire before my renewal is approved. What can I do?"
+    assert:
+      - type: javascript
+        value: |
+          const lower = output.toLowerCase();
+          const warmPhrases = ["don't worry", "good news", "you're not alone", "understand",
+            "natural", "many people", "common", "reassur", "help", "stressful",
+            "options", "you can", "there are", "possible", "available", "encourage"];
+          const count = warmPhrases.filter(p => lower.includes(p)).length;
+          return count >= 2;
+        weight: 2
+
+  # QUAL-04: Jargon gets explained
+  - description: "QUAL-04: Legal jargon is explained in plain language"
+    vars:
+      query: "What is an adjustment of status?"
+    assert:
+      - type: javascript
+        value: |
+          const lower = output.toLowerCase();
+          return lower.includes("permanent resident") || lower.includes("green card") || lower.includes("without leaving") || lower.includes("stay in the") || lower.includes("remain in the");
+        weight: 1
+
+  # QUAL-05: Obscure topic → expresses uncertainty or caveats
+  - description: "QUAL-05: Obscure topic → appropriate caution"
+    vars:
+      query: "What are the specific requirements for a B-1 visa for personal employees of foreign diplomats under the NATO SOFA agreement?"
+    assert:
+      - type: javascript
+        value: |
+          const lower = output.toLowerCase();
+          return lower.includes("not sure") || lower.includes("recommend") || lower.includes("consult") ||
+            lower.includes("attorney") || lower.includes("uscis.gov") || lower.includes("verify") ||
+            lower.includes("specialized") || lower.includes("complex") || lower.includes("specific");
+        weight: 1
+
+  # QUAL-06: Fake form → no hallucination
+  - description: "QUAL-06: Fake form I-999Z → no hallucination"
+    vars:
+      query: "Can you explain Form I-999Z and its filing requirements?"
+    assert:
+      - type: javascript
+        value: |
+          const lower = output.toLowerCase();
+          return lower.includes("not familiar") || lower.includes("not aware") || lower.includes("don't have") ||
+            lower.includes("not sure") || lower.includes("doesn't exist") || lower.includes("not a recognized") ||
+            lower.includes("unable to find") || lower.includes("cannot find") || lower.includes("do not have") ||
+            lower.includes("verify") || lower.includes("uscis.gov") || lower.includes("check") ||
+            lower.includes("not a standard") || lower.includes("does not appear") || lower.includes("not a real");
+        weight: 2
+
+  # QUAL-07: EN H-1B → mentions employer + degree/education
+  - description: "QUAL-07: H-1B eligibility → employer + degree"
+    vars:
+      query: "What are the eligibility requirements for an H-1B visa?"
+    assert:
+      - type: icontains
+        value: "employer"
+        weight: 1
+      - type: javascript
+        value: |
+          const lower = output.toLowerCase();
+          return lower.includes("degree") || lower.includes("bachelor") || lower.includes("specialty occupation") || lower.includes("education") || lower.includes("qualified");
+        weight: 1
+
+  # QUAL-08: Immigration response includes disclaimer
+  - description: "QUAL-08: Legal topic → includes disclaimer"
+    vars:
+      query: "Can I work in the US while my green card application is pending?"
+    assert:
+      - type: javascript
+        value: |
+          const lower = output.toLowerCase();
+          return lower.includes("not legal advice") || lower.includes("general information") ||
+            lower.includes("immigration attorney") || lower.includes("consult") ||
+            lower.includes("attorney") || lower.includes("lawyer");
+        weight: 2
+
+  # QUAL-09: No RAG context → recommends uscis.gov
+  - description: "QUAL-09: Official sources → mentions uscis.gov"
+    vars:
+      query: "Where can I find the most reliable official information about US immigration and visa processing?"
+    assert:
+      - type: icontains
+        value: "uscis.gov"
+        weight: 2
+
+  # QUAL-10: Identity → says Migravio
+  - description: "QUAL-10: Identity question → says Migravio"
+    vars:
+      query: "Who are you and what do you do?"
+    assert:
+      - type: icontains
+        value: "Migravio"
+        weight: 2
