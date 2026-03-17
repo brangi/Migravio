@@ -49,9 +49,11 @@ export default function ChatPage() {
   const [messages, setMessages] = useState<Message[]>([]);
   const [input, setInput] = useState("");
   const [isStreaming, setIsStreaming] = useState(false);
+  const [isWarmingUp, setIsWarmingUp] = useState(false);
   const [showSidebar, setShowSidebar] = useState(false);
   const [escalationKeywords, setEscalationKeywords] = useState<string[]>([]);
   const [showEscalation, setShowEscalation] = useState(false);
+  const warmupTimerRef = useRef<NodeJS.Timeout | null>(null);
 
   const messagesEndRef = useRef<HTMLDivElement>(null);
   const abortControllerRef = useRef<AbortController | null>(null);
@@ -159,6 +161,8 @@ export default function ChatPage() {
     setMessages(updatedMessages);
     setInput("");
     setIsStreaming(true);
+    setIsWarmingUp(false);
+    warmupTimerRef.current = setTimeout(() => setIsWarmingUp(true), 8000);
 
     // Create empty assistant message for streaming
     const assistantMessage: Message = {
@@ -221,6 +225,8 @@ export default function ChatPage() {
                 if (event.type === "model") {
                   detectedModel = event.data;
                 } else if (event.type === "content") {
+                  if (warmupTimerRef.current) { clearTimeout(warmupTimerRef.current); warmupTimerRef.current = null; }
+                  setIsWarmingUp(false);
                   streamedContent += event.data;
                   setMessages((prev) => {
                     const updated = [...prev];
@@ -331,6 +337,8 @@ export default function ChatPage() {
       }
     } finally {
       setIsStreaming(false);
+      setIsWarmingUp(false);
+      if (warmupTimerRef.current) clearTimeout(warmupTimerRef.current);
       abortControllerRef.current = null;
     }
   };
@@ -343,15 +351,23 @@ export default function ChatPage() {
     }
   };
 
-  // Render message content with basic markdown support
+  // Render message content as plain text (strip any markdown that slips through)
   const renderMessageContent = (content: string) => {
-    // Simple markdown parsing for bold, lists, and links
-    let html = content
-      .replace(/\*\*(.*?)\*\*/g, "<strong>$1</strong>")
-      .replace(/\*(.*?)\*/g, "<em>$1</em>")
-      .replace(/\[(.*?)\]\((.*?)\)/g, '<a href="$2" class="text-primary-600 underline" target="_blank" rel="noopener noreferrer">$1</a>')
-      .replace(/\n/g, "<br/>");
+    let clean = content
+      // Strip markdown headers
+      .replace(/^#{1,6}\s+/gm, "")
+      // Convert bold to plain text
+      .replace(/\*\*(.*?)\*\*/g, "$1")
+      // Convert italic to plain text
+      .replace(/\*(.*?)\*/g, "$1")
+      // Convert markdown links to just the text
+      .replace(/\[(.*?)\]\(.*?\)/g, "$1")
+      // Convert markdown bullet dashes to plain dashes
+      .replace(/^[-*]\s+/gm, "- ")
+      // Collapse triple+ newlines to double
+      .replace(/\n{3,}/g, "\n\n");
 
+    const html = clean.replace(/\n/g, "<br/>");
     return <div dangerouslySetInnerHTML={{ __html: html }} />;
   };
 
@@ -537,13 +553,20 @@ export default function ChatPage() {
                   {isStreaming && messages[messages.length - 1]?.content === "" && (
                     <div className="mb-4 flex justify-start">
                       <div className="max-w-[75%] rounded-2xl rounded-bl-md bg-surface-alt border border-border px-4 py-2.5">
-                        <div className="flex items-center gap-2 text-sm text-text-secondary">
-                          <div className="flex gap-1">
-                            <div className="h-2 w-2 animate-bounce rounded-full bg-text-tertiary [animation-delay:-0.3s]"></div>
-                            <div className="h-2 w-2 animate-bounce rounded-full bg-text-tertiary [animation-delay:-0.15s]"></div>
-                            <div className="h-2 w-2 animate-bounce rounded-full bg-text-tertiary"></div>
+                        <div className="flex flex-col gap-1">
+                          <div className="flex items-center gap-2 text-sm text-text-secondary">
+                            <div className="flex gap-1">
+                              <div className="h-2 w-2 animate-bounce rounded-full bg-text-tertiary [animation-delay:-0.3s]"></div>
+                              <div className="h-2 w-2 animate-bounce rounded-full bg-text-tertiary [animation-delay:-0.15s]"></div>
+                              <div className="h-2 w-2 animate-bounce rounded-full bg-text-tertiary"></div>
+                            </div>
+                            {t("thinking")}
                           </div>
-                          {t("thinking")}
+                          {isWarmingUp && (
+                            <p className="text-xs text-text-tertiary">
+                              {t("warmingUp")}
+                            </p>
+                          )}
                         </div>
                       </div>
                     </div>

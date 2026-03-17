@@ -130,6 +130,7 @@
     "limitReached": "You've used all your free messages this month",
     "upgrade": "Upgrade to Pro for unlimited messages",
     "thinking": "Thinking...",
+    "warmingUp": "Our server is waking up — this may take up to 30 seconds on the first message.",
     "disclaimer": "Migravio provides legal information, not legal advice. For complex cases, consult an attorney.",
     "starterPrompts": {
       "visaRenewal": "When should I start my visa renewal process?",
