@@ -4,7 +4,7 @@ import { useTranslations } from "next-intl";
 import { useAuth } from "@/lib/auth-context";
 import { Link } from "@/i18n/navigation";
 import { useRouter } from "@/i18n/navigation";
-import { useEffect, useState, useRef } from "react";
+import { useEffect, useState, useRef, Fragment } from "react";
 import {
   collection,
   query,
@@ -353,7 +353,7 @@ export default function ChatPage() {
 
   // Render message content as plain text (strip any markdown that slips through)
   const renderMessageContent = (content: string) => {
-    let clean = content
+    const clean = content
       // Strip markdown headers
       .replace(/^#{1,6}\s+/gm, "")
       // Convert bold to plain text
@@ -367,8 +367,17 @@ export default function ChatPage() {
       // Collapse triple+ newlines to double
       .replace(/\n{3,}/g, "\n\n");
 
-    const html = clean.replace(/\n/g, "<br/>");
-    return <div dangerouslySetInnerHTML={{ __html: html }} />;
+    const lines = clean.split("\n");
+    return (
+      <div>
+        {lines.map((line, i) => (
+          <Fragment key={i}>
+            {line}
+            {i < lines.length - 1 && <br />}
+          </Fragment>
+        ))}
+      </div>
+    );
   };
 
   if (loading || !user || !profile) {

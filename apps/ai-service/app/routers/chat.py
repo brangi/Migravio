@@ -1,8 +1,10 @@
 import json
 from datetime import datetime, timezone
 
-from fastapi import APIRouter, Header, HTTPException
+from fastapi import APIRouter, Header, HTTPException, Request
 from sse_starlette.sse import EventSourceResponse
+from slowapi import Limiter
+from slowapi.util import get_remote_address
 
 from app.models.schemas import ChatRequest
 from app.services.firebase_admin import verify_token, get_db
@@ -12,6 +14,7 @@ from app.services.rag import retrieve_context
 from app.services.cache import get_cached_response, store_cached_response
 
 router = APIRouter()
+limiter = Limiter(key_func=get_remote_address)
 
 FREE_MESSAGE_LIMIT = 10
 
@@ -94,8 +97,10 @@ async def save_message(uid: str, session_id: str, role: str, content: str, model
 
 
 @router.post("/stream")
+@limiter.limit("20/minute")
 async def chat_stream(
-    request: ChatRequest,
+    request: Request,
+    body: ChatRequest,
     authorization: str = Header(...),
 ):
     """Stream AI chat responses with RAG + escalation detection."""
@@ -124,10 +129,10 @@ async def chat_stream(
             detail="Monthly message limit reached. Upgrade to Pro for unlimited messages.",
         )
 
-    message = request.message
-    language = request.language
-    visa_type = request.visa_type
-    session_id = request.session_id or uid  # Fallback to uid if no session
+    message = body.message
+    language = body.language
+    visa_type = body.visa_type
+    session_id = body.session_id or uid  # Fallback to uid if no session
 
     # Check semantic cache first
     cached = await get_cached_response(message, language, visa_type)
