@@ -147,7 +147,6 @@ export default function ChatPage() {
       profile.subscription.plan === "free" &&
       profile.messageCount >= 10
     ) {
-      alert(t("limitReached"));
       return;
     }
 
@@ -195,6 +194,10 @@ export default function ChatPage() {
       });
 
       if (!response.ok) {
+        if (response.status === 429) {
+          await refreshProfile();
+          return;
+        }
         throw new Error(`HTTP error! status: ${response.status}`);
       }
 
