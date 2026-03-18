@@ -62,6 +62,7 @@ function DaysRemainingBadge({ expiryDate }: { expiryDate: Date | null }) {
 function getActionChecklist(
   visaType: string,
   visaExpiry: Date | null,
+  t: (key: string) => string,
   priorityDate: Date | null
 ): ChecklistItem[] {
   const items: ChecklistItem[] = [];
@@ -75,25 +76,25 @@ function getActionChecklist(
     if (daysLeft < 0) {
       items.push({
         id: "expired",
-        text: "Your visa has expired. Consult an immigration attorney immediately.",
+        text: t("checklist.expired"),
         urgent: true,
       });
     } else if (daysLeft <= 30) {
       items.push({
         id: "expiry-30",
-        text: "Your visa expires in less than 30 days. Take action now.",
+        text: t("checklist.expiry30"),
         urgent: true,
       });
     } else if (daysLeft <= 90) {
       items.push({
         id: "expiry-90",
-        text: "Your visa expires in less than 90 days. Start your renewal process.",
+        text: t("checklist.expiry90"),
         urgent: true,
       });
     } else if (daysLeft <= 180) {
       items.push({
         id: "expiry-180",
-        text: "Consider starting your renewal paperwork soon (visa expires in ~6 months).",
+        text: t("checklist.expiry180"),
         urgent: false,
       });
     }
@@ -104,24 +105,24 @@ function getActionChecklist(
       items.push(
         {
           id: "h1b-1",
-          text: "Keep I-797 approval notice in a safe place",
+          text: t("checklist.h1b1"),
           urgent: false,
         },
         {
           id: "h1b-2",
-          text: "Verify your employer is maintaining your H-1B status",
+          text: t("checklist.h1b2"),
           urgent: false,
         },
         {
           id: "h1b-3",
-          text: "Track your 6-year H-1B limit and plan for extensions or green card",
+          text: t("checklist.h1b3"),
           urgent: false,
         }
       );
       if (priorityDate) {
         items.push({
           id: "h1b-gc",
-          text: "Check the monthly Visa Bulletin for your priority date progress",
+          text: t("checklist.h1bVb"),
           urgent: false,
         });
       }
@@ -131,17 +132,17 @@ function getActionChecklist(
       items.push(
         {
           id: "f1-1",
-          text: "Maintain full-time enrollment to keep F-1 status",
+          text: t("checklist.f1m1"),
           urgent: false,
         },
         {
           id: "f1-2",
-          text: "Apply for OPT/CPT before your program end date",
+          text: t("checklist.f1m2"),
           urgent: false,
         },
         {
           id: "f1-3",
-          text: "Keep your I-20 updated with your DSO",
+          text: t("checklist.f1m3"),
           urgent: false,
         }
       );
@@ -151,12 +152,12 @@ function getActionChecklist(
       items.push(
         {
           id: "fam-1",
-          text: "Gather supporting documents (proof of relationship, financial affidavit)",
+          text: t("checklist.family1"),
           urgent: false,
         },
         {
           id: "fam-2",
-          text: "Check Visa Bulletin for your priority date category",
+          text: t("checklist.family2"),
           urgent: false,
         }
       );
@@ -166,17 +167,17 @@ function getActionChecklist(
       items.push(
         {
           id: "gc-1",
-          text: "Maintain your permanent resident status (don't travel abroad for 6+ months without re-entry permit)",
+          text: t("checklist.gc1"),
           urgent: false,
         },
         {
           id: "gc-2",
-          text: "Renew your green card (Form I-90) before it expires",
+          text: t("checklist.gc2"),
           urgent: false,
         },
         {
           id: "gc-3",
-          text: "Consider applying for naturalization if eligible (5 years as LPR, or 3 years if married to US citizen)",
+          text: t("checklist.gc3"),
           urgent: false,
         }
       );
@@ -185,7 +186,7 @@ function getActionChecklist(
     default:
       items.push({
         id: "default-1",
-        text: "Update your visa type in settings for personalized action items",
+        text: t("checklist.other"),
         urgent: false,
       });
   }
@@ -297,6 +298,7 @@ export default function DashboardPage() {
   const checklist = getActionChecklist(
     profile.visaType,
     profile.visaExpiry,
+    t,
     profile.priorityDate
   );
 
@@ -499,7 +501,7 @@ export default function DashboardPage() {
             </h2>
             {checklist.length === 0 ? (
               <p className="mt-3 text-sm text-text-tertiary">
-                No action items right now.
+                {t("checklist.noItems")}
               </p>
             ) : (
               <ul className="mt-3 space-y-2">

@@ -118,7 +118,27 @@
     "canceledNotice": "Tu plan fue cancelado y expira el {date}. Mantendrás acceso Pro hasta entonces.",
     "upgradePlan": "Mejorar tu plan",
     "managePlan": "Administrar suscripción",
-    "resubscribe": "Volver a suscribirse"
+    "resubscribe": "Volver a suscribirse",
+    "checklist": {
+      "expired": "Tu visa ha vencido. Consulta con un abogado de inmigración de inmediato.",
+      "expiry30": "Tu visa vence en menos de 30 días. Actúa ahora.",
+      "expiry90": "Tu visa vence en menos de 90 días. Comienza tu proceso de renovación.",
+      "expiry180": "Considera comenzar tu papeleo de renovación pronto (la visa vence en ~6 meses).",
+      "h1b1": "Guarda tu aviso de aprobación I-797 en un lugar seguro",
+      "h1b2": "Verifica que tu empleador mantenga tu estatus H-1B",
+      "h1b3": "Controla tu límite de 6 años de H-1B y planifica extensiones o green card",
+      "h1bVb": "Revisa el Boletín de Visas mensual para el progreso de tu fecha de prioridad",
+      "f1m1": "Mantén la inscripción a tiempo completo para conservar tu estatus F-1",
+      "f1m2": "Solicita OPT/CPT antes de la fecha de finalización de tu programa",
+      "f1m3": "Mantén tu I-20 actualizado con tu DSO",
+      "family1": "Reúne documentos de respaldo (prueba de relación, declaración jurada financiera)",
+      "family2": "Revisa el Boletín de Visas para tu categoría de fecha de prioridad",
+      "gc1": "Mantén tu estatus de residente permanente (no viajes al extranjero por más de 6 meses sin permiso de reingreso)",
+      "gc2": "Renueva tu green card (Formulario I-90) antes de que expire",
+      "gc3": "Considera solicitar la naturalización si eres elegible (5 años como LPR, o 3 años si estás casado/a con ciudadano/a estadounidense)",
+      "other": "Actualiza tu tipo de visa en configuración para acciones personalizadas",
+      "noItems": "Sin acciones pendientes por ahora."
+    }
   },
   "chat": {
     "title": "Asistente de inmigración IA",
@@ -142,7 +162,9 @@
       "title": "Esto puede necesitar ayuda profesional",
       "description": "Tu pregunta involucra un asunto legal complejo. Recomendamos hablar con un abogado de inmigración.",
       "cta": "Buscar un abogado"
-    }
+    },
+    "errorMessage": "Lo sentimos, algo salió mal. Inténtalo de nuevo o contacta a un abogado si es urgente.",
+    "conversationsLabel": "Conversaciones"
   },
   "attorneys": {
     "title": "Abogados de inmigración",
@@ -238,7 +260,10 @@
     },
     "manageSubscription": "Administrar suscripción",
     "upgradeToPro": "Actualizar a Pro",
-    "selectVisaType": "Seleccionar tipo de visa"
+    "selectVisaType": "Seleccionar tipo de visa",
+    "saveError": "Error al guardar la configuración. Inténtalo de nuevo.",
+    "displayNameHelper": "El nombre no se puede cambiar después del registro",
+    "emailHelper": "El correo electrónico no se puede cambiar"
   },
   "landing": {
     "nav": {

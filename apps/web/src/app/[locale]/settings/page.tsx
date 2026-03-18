@@ -90,7 +90,7 @@ export default function SettingsPage() {
       }, 3000);
     } catch (error) {
       console.error("Error saving settings:", error);
-      alert("Failed to save settings. Please try again.");
+      alert(t("saveError"));
     } finally {
       setIsSaving(false);
     }
@@ -174,7 +174,7 @@ export default function SettingsPage() {
                   className="mt-2"
                 />
                 <p className="mt-2 text-xs text-text-tertiary">
-                  Display name cannot be changed after signup
+                  {t("displayNameHelper")}
                 </p>
               </div>
 
@@ -314,7 +314,7 @@ export default function SettingsPage() {
                 className="mt-2 bg-surface-alt text-text-tertiary"
               />
               <p className="mt-2 text-xs text-text-tertiary">
-                Email address cannot be changed
+                {t("emailHelper")}
               </p>
             </div>
           </section>

@@ -118,7 +118,27 @@
     "canceledNotice": "Your plan is canceled and will expire on {date}. You'll keep Pro access until then.",
     "upgradePlan": "Upgrade your plan",
     "managePlan": "Manage subscription",
-    "resubscribe": "Resubscribe"
+    "resubscribe": "Resubscribe",
+    "checklist": {
+      "expired": "Your visa has expired. Consult an immigration attorney immediately.",
+      "expiry30": "Your visa expires in less than 30 days. Take action now.",
+      "expiry90": "Your visa expires in less than 90 days. Start your renewal process.",
+      "expiry180": "Consider starting your renewal paperwork soon (visa expires in ~6 months).",
+      "h1b1": "Keep I-797 approval notice in a safe place",
+      "h1b2": "Verify your employer is maintaining your H-1B status",
+      "h1b3": "Track your 6-year H-1B limit and plan for extensions or green card",
+      "h1bVb": "Check the monthly Visa Bulletin for your priority date progress",
+      "f1m1": "Maintain full-time enrollment to keep F-1 status",
+      "f1m2": "Apply for OPT/CPT before your program end date",
+      "f1m3": "Keep your I-20 updated with your DSO",
+      "family1": "Gather supporting documents (proof of relationship, financial affidavit)",
+      "family2": "Check Visa Bulletin for your priority date category",
+      "gc1": "Maintain your permanent resident status (don't travel abroad for 6+ months without re-entry permit)",
+      "gc2": "Renew your green card (Form I-90) before it expires",
+      "gc3": "Consider applying for naturalization if eligible (5 years as LPR, or 3 years if married to US citizen)",
+      "other": "Update your visa type in settings for personalized action items",
+      "noItems": "No action items right now."
+    }
   },
   "chat": {
     "title": "AI Immigration Assistant",
@@ -142,7 +162,9 @@
       "title": "This may need professional help",
       "description": "Your question involves a complex legal matter. We recommend speaking with an immigration attorney.",
       "cta": "Find an Attorney"
-    }
+    },
+    "errorMessage": "Sorry, something went wrong. Please try again or contact an attorney if this is urgent.",
+    "conversationsLabel": "Conversations"
   },
   "attorneys": {
     "title": "Immigration Attorneys",
@@ -238,7 +260,10 @@
     },
     "manageSubscription": "Manage Subscription",
     "upgradeToPro": "Upgrade to Pro",
-    "selectVisaType": "Select visa type"
+    "selectVisaType": "Select visa type",
+    "saveError": "Failed to save settings. Please try again.",
+    "displayNameHelper": "Display name cannot be changed after signup",
+    "emailHelper": "Email address cannot be changed"
   },
   "landing": {
     "nav": {

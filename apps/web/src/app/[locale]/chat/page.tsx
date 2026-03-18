@@ -81,7 +81,7 @@ export default function ChatPage() {
         const data = doc.data();
         loadedSessions.push({
           id: doc.id,
-          title: data.title || "New conversation",
+          title: data.title || t("newChat"),
           createdAt: data.createdAt?.toDate() || new Date(),
           updatedAt: data.updatedAt?.toDate() || new Date(),
           messages: data.messages || [],
@@ -112,7 +112,7 @@ export default function ChatPage() {
     const sessionRef = doc(db, "users", user.uid, "chatSessions", newSessionId);
 
     await setDoc(sessionRef, {
-      title: "New conversation",
+      title: t("newChat"),
       createdAt: serverTimestamp(),
       updatedAt: serverTimestamp(),
       messages: [],
@@ -333,7 +333,7 @@ export default function ChatPage() {
           updated[updated.length - 1] = {
             ...updated[updated.length - 1],
             content:
-              "Sorry, something went wrong. Please try again or contact an attorney if this is urgent.",
+              t("errorMessage"),
           };
           return updated;
         });
@@ -443,7 +443,7 @@ export default function ChatPage() {
               <div className="flex h-full flex-col">
                 <div className="flex items-center justify-between border-b border-border-strong p-4">
                   <span className="text-sm font-medium text-text-primary">
-                    Conversations
+                    {t("conversationsLabel")}
                   </span>
                   <button
                     onClick={() => setShowSidebar(false)}
