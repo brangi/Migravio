@@ -17,7 +17,7 @@ import { AppHeader } from "@/components/app-header";
 import { MobileNav } from "@/components/mobile-nav";
 import { AppFooter } from "@/components/footer";
 import { Badge } from "@/components/badge";
-import { Sparkles, Clock, AlertTriangle, CheckCircle2, ArrowRight, Settings } from "@/components/icons";
+import { Sparkles, Clock, AlertTriangle, CheckCircle2, ArrowRight, Settings, Lock, Mail, User } from "@/components/icons";
 
 interface ChatSession {
   id: string;
@@ -295,6 +295,9 @@ export default function DashboardPage() {
     );
   }
 
+  const isFreeUser = profile.subscription.plan === "free";
+  const isPremium = profile.subscription.plan === "premium";
+
   const checklist = getActionChecklist(
     profile.visaType,
     profile.visaExpiry,
@@ -403,6 +406,15 @@ export default function DashboardPage() {
                 {profile.subscription.cancelAt ? t("resubscribe") : t("managePlan")} <ArrowRight className="h-4 w-4" />
               </button>
             )}
+            {isPremium && (
+              <a
+                href="mailto:support@migravio.ai"
+                className="mt-2 inline-flex items-center gap-1 text-xs text-primary-600 hover:text-primary-700"
+              >
+                <Mail className="h-3 w-3" />
+                {t("prioritySupport")}
+              </a>
+            )}
           </div>
 
           {/* Recent Chats Card */}
@@ -450,7 +462,14 @@ export default function DashboardPage() {
           </div>
 
           {/* Policy Alerts Card */}
-          <div className="rounded-xl bg-surface-alt border border-border p-6 shadow-sm">
+          <div className="relative rounded-xl bg-surface-alt border border-border p-6 shadow-sm overflow-hidden">
+            {isFreeUser && (
+              <div className="absolute inset-0 z-10 flex flex-col items-center justify-center rounded-xl bg-white/80 backdrop-blur-sm">
+                <Lock className="h-6 w-6 text-text-tertiary" />
+                <p className="mt-2 text-sm text-text-secondary">{t("upgradeForAlerts")}</p>
+                <Link href="/pricing" className="mt-3 text-sm font-semibold text-primary-600 hover:text-primary-700">{t("upgradeCta")}</Link>
+              </div>
+            )}
             <h2 className="text-sm font-medium text-text-secondary">
               {t("policyAlerts")}
             </h2>
@@ -495,7 +514,14 @@ export default function DashboardPage() {
           </div>
 
           {/* Action Checklist Card */}
-          <div className="rounded-xl bg-surface-alt border border-border p-6 shadow-sm md:col-span-2 lg:col-span-3">
+          <div className="relative rounded-xl bg-surface-alt border border-border p-6 shadow-sm md:col-span-2 lg:col-span-3 overflow-hidden">
+            {isFreeUser && (
+              <div className="absolute inset-0 z-10 flex flex-col items-center justify-center rounded-xl bg-white/80 backdrop-blur-sm">
+                <Lock className="h-6 w-6 text-text-tertiary" />
+                <p className="mt-2 text-sm text-text-secondary">{t("upgradeForChecklist")}</p>
+                <Link href="/pricing" className="mt-3 text-sm font-semibold text-primary-600 hover:text-primary-700">{t("upgradeCta")}</Link>
+              </div>
+            )}
             <h2 className="text-sm font-medium text-text-secondary">
               {t("actionChecklist")}
             </h2>
@@ -528,6 +554,50 @@ export default function DashboardPage() {
                   </li>
                 ))}
               </ul>
+            )}
+          </div>
+
+          {/* Family Members Card */}
+          <div className="relative rounded-xl bg-surface-alt border border-border p-6 shadow-sm overflow-hidden">
+            {!isPremium && (
+              <div className="absolute inset-0 z-10 flex flex-col items-center justify-center rounded-xl bg-white/80 backdrop-blur-sm">
+                <Lock className="h-6 w-6 text-text-tertiary" />
+                <p className="mt-2 text-sm text-text-secondary">{t("upgradeForFamily")}</p>
+                <Link href="/pricing" className="mt-3 text-sm font-semibold text-primary-600 hover:text-primary-700">
+                  {profile.subscription.plan === "free" ? t("upgradeCta") : "Upgrade to Premium"}
+                </Link>
+              </div>
+            )}
+            <h2 className="text-sm font-medium text-text-secondary">
+              {t("familyMembers")}
+            </h2>
+            {isPremium && profile.familyMembers && profile.familyMembers.length > 0 ? (
+              <ul className="mt-3 space-y-2">
+                {profile.familyMembers.map((member) => (
+                  <li key={member.id} className="flex items-center gap-3 rounded-lg border border-border p-3">
+                    <User className="h-5 w-5 text-text-tertiary" />
+                    <div className="flex-1">
+                      <p className="text-sm font-medium text-text-primary">{member.name}</p>
+                      <p className="text-xs text-text-secondary">{member.relationship} &middot; {member.visaType}</p>
+                    </div>
+                    {member.visaExpiry && <DaysRemainingBadge expiryDate={new Date(member.visaExpiry)} />}
+                  </li>
+                ))}
+                <li>
+                  <Link href="/settings" className="mt-1 inline-flex items-center gap-1 text-sm font-medium text-primary-600 hover:text-primary-700">
+                    {t("addFamilyMember")} <ArrowRight className="h-4 w-4" />
+                  </Link>
+                </li>
+              </ul>
+            ) : isPremium ? (
+              <div className="mt-3">
+                <p className="text-sm text-text-tertiary">No family members added yet.</p>
+                <Link href="/settings" className="mt-2 inline-flex items-center gap-1 text-sm font-medium text-primary-600 hover:text-primary-700">
+                  {t("addFamilyMember")} <ArrowRight className="h-4 w-4" />
+                </Link>
+              </div>
+            ) : (
+              <p className="mt-3 text-sm text-text-tertiary">Add family members to track their visa status.</p>
             )}
           </div>
         </div>

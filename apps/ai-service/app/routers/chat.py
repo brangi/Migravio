@@ -129,6 +129,13 @@ async def chat_stream(
             detail="Monthly message limit reached. Upgrade to Pro for unlimited messages.",
         )
 
+    # Enforce language gating: free users can only use English
+    if plan == "free" and body.language != "en":
+        raise HTTPException(
+            status_code=403,
+            detail="Upgrade to Pro to chat in other languages.",
+        )
+
     message = body.message
     language = body.language
     visa_type = body.visa_type

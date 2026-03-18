@@ -138,7 +138,14 @@
       "gc3": "Considera solicitar la naturalización si eres elegible (5 años como LPR, o 3 años si estás casado/a con ciudadano/a estadounidense)",
       "other": "Actualiza tu tipo de visa en configuración para acciones personalizadas",
       "noItems": "Sin acciones pendientes por ahora."
-    }
+    },
+    "upgradeForAlerts": "Actualiza a Pro para ver alertas de política",
+    "upgradeForChecklist": "Actualiza a Pro para ver tu lista de acciones",
+    "upgradeCta": "Actualizar a Pro",
+    "familyMembers": "Miembros de la familia",
+    "addFamilyMember": "Agregar en Configuración",
+    "upgradeForFamily": "Actualiza a Premium para perfiles familiares",
+    "prioritySupport": "Soporte prioritario"
   },
   "chat": {
     "title": "Asistente de inmigración IA",
@@ -177,7 +184,9 @@
     "introDescription": "Enviaremos un correo conectándote con este abogado.",
     "allSpecialties": "Todas las especialidades",
     "confirmTitle": "¿Solicitar presentación con {name}?",
-    "noResults": "No se encontraron abogados para esta especialidad. Prueba con un filtro diferente."
+    "noResults": "No se encontraron abogados para esta especialidad. Prueba con un filtro diferente.",
+    "recommendedForYou": "Recomendado para ti",
+    "priorityMatch": "Coincidencia prioritaria"
   },
   "pricing": {
     "title": "Elige tu plan",
@@ -263,7 +272,28 @@
     "selectVisaType": "Seleccionar tipo de visa",
     "saveError": "Error al guardar la configuración. Inténtalo de nuevo.",
     "displayNameHelper": "El nombre no se puede cambiar después del registro",
-    "emailHelper": "El correo electrónico no se puede cambiar"
+    "emailHelper": "El correo electrónico no se puede cambiar",
+    "languageUpgradeHint": "Actualiza a Pro para desbloquear español",
+    "family": "Miembros de la familia",
+    "addFamilyMember": "Agregar familiar",
+    "editFamilyMember": "Editar",
+    "deleteFamilyMember": "Eliminar",
+    "deleteFamilyConfirm": "¿Eliminar este familiar?",
+    "familyName": "Nombre",
+    "relationship": "Parentesco",
+    "familyVisaType": "Tipo de visa",
+    "familyUpgradeHint": "Actualiza a Premium para agregar familiares",
+    "noFamilyMembers": "No se han agregado familiares aún",
+    "relationships": {
+      "spouse": "Cónyuge",
+      "child": "Hijo/a",
+      "parent": "Padre/Madre",
+      "sibling": "Hermano/a",
+      "other": "Otro"
+    },
+    "support": "Soporte prioritario",
+    "supportDescription": "Como miembro Premium, tienes acceso a soporte dedicado.",
+    "contactSupport": "Contactar soporte"
   },
   "landing": {
     "nav": {

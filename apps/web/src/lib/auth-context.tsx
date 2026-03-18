@@ -21,10 +21,19 @@ import {
   type User,
   type ActionCodeSettings,
 } from "firebase/auth";
-import { doc, getDoc, setDoc, serverTimestamp } from "firebase/firestore";
+import { doc, getDoc, setDoc, serverTimestamp, collection, getDocs } from "firebase/firestore";
 import { auth, db } from "./firebase";
 
 const MAGIC_LINK_EMAIL_KEY = "migravio_magic_link_email";
+
+export interface FamilyMember {
+  id: string;
+  name: string;
+  relationship: string;
+  visaType: string;
+  visaExpiry: Date | null;
+  priorityDate: Date | null;
+}
 
 interface UserProfile {
   language: string;
@@ -40,6 +49,7 @@ interface UserProfile {
     cancelAt?: { seconds?: number; _seconds?: number } | null;
   };
   messageCount: number;
+  familyMembers: FamilyMember[];
 }
 
 interface AuthContextType {
@@ -101,6 +111,29 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     const docSnap = await getDoc(docRef);
     if (docSnap.exists()) {
       const data = docSnap.data();
+      const plan = data.subscription?.plan || "free";
+
+      // Load family members for premium users
+      let familyMembers: FamilyMember[] = [];
+      if (plan === "premium") {
+        try {
+          const membersSnap = await getDocs(collection(db, "users", uid, "familyMembers"));
+          familyMembers = membersSnap.docs.map((d) => {
+            const m = d.data();
+            return {
+              id: d.id,
+              name: m.name || "",
+              relationship: m.relationship || "",
+              visaType: m.visaType || "",
+              visaExpiry: m.visaExpiry?.toDate() || null,
+              priorityDate: m.priorityDate?.toDate() || null,
+            };
+          });
+        } catch {
+          // Subcollection may not exist yet
+        }
+      }
+
       setProfile({
         language: data.language || "en",
         visaType: data.visaType || "",
@@ -109,6 +142,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
         onboardingComplete: data.onboardingComplete || false,
         subscription: data.subscription || { plan: "free", status: "active" },
         messageCount: data.messageCount || 0,
+        familyMembers,
       });
     } else {
       setProfile(null);

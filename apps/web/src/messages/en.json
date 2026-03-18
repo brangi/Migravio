@@ -138,7 +138,14 @@
       "gc3": "Consider applying for naturalization if eligible (5 years as LPR, or 3 years if married to US citizen)",
       "other": "Update your visa type in settings for personalized action items",
       "noItems": "No action items right now."
-    }
+    },
+    "upgradeForAlerts": "Upgrade to Pro to see policy alerts",
+    "upgradeForChecklist": "Upgrade to Pro to see your action checklist",
+    "upgradeCta": "Upgrade to Pro",
+    "familyMembers": "Family Members",
+    "addFamilyMember": "Add in Settings",
+    "upgradeForFamily": "Upgrade to Premium for family profiles",
+    "prioritySupport": "Priority Support"
   },
   "chat": {
     "title": "AI Immigration Assistant",
@@ -177,7 +184,9 @@
     "introDescription": "We'll send an email connecting you with this attorney.",
     "allSpecialties": "All specialties",
     "confirmTitle": "Request introduction to {name}?",
-    "noResults": "No attorneys found for this specialty. Try a different filter."
+    "noResults": "No attorneys found for this specialty. Try a different filter.",
+    "recommendedForYou": "Recommended for you",
+    "priorityMatch": "Priority Match"
   },
   "pricing": {
     "title": "Choose your plan",
@@ -263,7 +272,28 @@
     "selectVisaType": "Select visa type",
     "saveError": "Failed to save settings. Please try again.",
     "displayNameHelper": "Display name cannot be changed after signup",
-    "emailHelper": "Email address cannot be changed"
+    "emailHelper": "Email address cannot be changed",
+    "languageUpgradeHint": "Upgrade to Pro to unlock Spanish",
+    "family": "Family Members",
+    "addFamilyMember": "Add Family Member",
+    "editFamilyMember": "Edit",
+    "deleteFamilyMember": "Remove",
+    "deleteFamilyConfirm": "Remove this family member?",
+    "familyName": "Name",
+    "relationship": "Relationship",
+    "familyVisaType": "Visa Type",
+    "familyUpgradeHint": "Upgrade to Premium to add family members",
+    "noFamilyMembers": "No family members added yet",
+    "relationships": {
+      "spouse": "Spouse",
+      "child": "Child",
+      "parent": "Parent",
+      "sibling": "Sibling",
+      "other": "Other"
+    },
+    "support": "Priority Support",
+    "supportDescription": "As a Premium member, you have access to dedicated support.",
+    "contactSupport": "Contact Support"
   },
   "landing": {
     "nav": {

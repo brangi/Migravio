@@ -104,37 +104,50 @@ export default function OnboardingPage() {
             </div>
 
             <div className="space-y-3">
-              {LANGUAGE_OPTIONS.map((lang) => (
-                <button
-                  key={lang.code}
-                  onClick={() => setLanguage(lang.code)}
-                  className={`group relative flex w-full items-center justify-between rounded-xl border-2 px-6 py-4 text-left transition-all duration-200 ${
-                    language === lang.code
-                      ? "border-primary-600 bg-primary-50 shadow-sm"
-                      : "border-border bg-surface hover:border-primary-300 hover:bg-surface-alt"
-                  }`}
-                >
-                  <div className="flex items-center gap-3">
-                    <span className="text-2xl">{lang.flag}</span>
-                    <div>
-                      <span
-                        className={`text-base font-medium ${
-                          language === lang.code
-                            ? "text-primary-700"
-                            : "text-text-primary"
-                        }`}
-                      >
-                        {lang.label}
-                      </span>
+              {LANGUAGE_OPTIONS.map((lang) => {
+                const isLocked = lang.code !== "en";
+                return (
+                  <button
+                    key={lang.code}
+                    onClick={() => !isLocked && setLanguage(lang.code)}
+                    disabled={isLocked}
+                    className={`group relative flex w-full items-center justify-between rounded-xl border-2 px-6 py-4 text-left transition-all duration-200 ${
+                      isLocked
+                        ? "border-border bg-surface-alt opacity-60 cursor-not-allowed"
+                        : language === lang.code
+                          ? "border-primary-600 bg-primary-50 shadow-sm"
+                          : "border-border bg-surface hover:border-primary-300 hover:bg-surface-alt"
+                    }`}
+                  >
+                    <div className="flex items-center gap-3">
+                      <span className="text-2xl">{lang.flag}</span>
+                      <div>
+                        <span
+                          className={`text-base font-medium ${
+                            isLocked
+                              ? "text-text-tertiary"
+                              : language === lang.code
+                                ? "text-primary-700"
+                                : "text-text-primary"
+                          }`}
+                        >
+                          {lang.label}
+                        </span>
+                        {isLocked && (
+                          <span className="ml-2 inline-flex items-center rounded-full bg-primary-100 px-2 py-0.5 text-xs font-medium text-primary-700">
+                            Pro
+                          </span>
+                        )}
+                      </div>
                     </div>
-                  </div>
-                  {language === lang.code && (
-                    <div className="flex h-6 w-6 items-center justify-center rounded-full bg-primary-600">
-                      <Check className="h-4 w-4 text-white" />
-                    </div>
-                  )}
-                </button>
-              ))}
+                    {!isLocked && language === lang.code && (
+                      <div className="flex h-6 w-6 items-center justify-center rounded-full bg-primary-600">
+                        <Check className="h-4 w-4 text-white" />
+                      </div>
+                    )}
+                  </button>
+                );
+              })}
             </div>
 
             <Button

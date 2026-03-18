@@ -10,7 +10,7 @@ import { AppHeader } from "@/components/app-header";
 import { MobileNav } from "@/components/mobile-nav";
 import { AppFooter } from "@/components/footer";
 import { Button } from "@/components/button";
-import { Globe, MapPin, CheckCircle2, Loader2 } from "@/components/icons";
+import { Globe, MapPin, CheckCircle2, Loader2, Star } from "@/components/icons";
 
 // Attorney data
 const ATTORNEYS = [
@@ -69,15 +69,24 @@ function AttorneyCard({
   attorney,
   onRequestIntro,
   isRequested,
+  isRecommended,
 }: {
   attorney: typeof ATTORNEYS[0];
   onRequestIntro: (attorney: typeof ATTORNEYS[0]) => void;
   isRequested: boolean;
+  isRecommended?: boolean;
 }) {
   const t = useTranslations("attorneys");
 
   return (
-    <div className="flex flex-col rounded-xl border border-border bg-white p-6 shadow-warm-sm hover:shadow-warm-md transition-shadow">
+    <div className={`flex flex-col rounded-xl border bg-white p-6 shadow-warm-sm hover:shadow-warm-md transition-shadow ${isRecommended ? "border-primary-300 ring-1 ring-primary-200" : "border-border"}`}>
+      {/* Recommended badge */}
+      {isRecommended && (
+        <div className="mb-3 inline-flex items-center gap-1 self-start rounded-full bg-primary-50 px-3 py-1 text-xs font-semibold text-primary-700">
+          <Star className="h-3 w-3" />
+          {t("recommendedForYou")}
+        </div>
+      )}
       {/* Name */}
       <h3 className="text-xl font-bold font-display text-text-primary">{attorney.name}</h3>
 
@@ -215,9 +224,36 @@ export default function AttorneysPage() {
     );
   }
 
-  const filteredAttorneys = selectedSpecialty
+  const isPremium = profile.subscription.plan === "premium";
+
+  // Score attorneys by relevance to user profile (for Premium matching)
+  const scoreAttorney = (attorney: typeof ATTORNEYS[0]): number => {
+    let score = 0;
+    const userLang = profile.language === "es" ? "Spanish" : "English";
+    if (attorney.languages.includes(userLang)) score += 3;
+
+    const visaMap: Record<string, string[]> = {
+      "H-1B": ["Employment visas", "H-1B transfers", "Business immigration"],
+      "F-1": ["Student visas", "OPT/CPT", "H-1B transfers"],
+      "Family": ["Family-based immigration", "Green cards"],
+      "GreenCard": ["Green cards", "Naturalization"],
+    };
+    const matchTerms = visaMap[profile.visaType] || [];
+    if (attorney.specialties.some((s) => matchTerms.some((m) => s.includes(m)))) score += 2;
+    return score;
+  };
+
+  const baseAttorneys = selectedSpecialty
     ? ATTORNEYS.filter((a) => a.specialties.includes(selectedSpecialty))
     : ATTORNEYS;
+
+  // Sort by score for Premium users
+  const scoredAttorneys = baseAttorneys.map((a) => ({ ...a, score: scoreAttorney(a) }));
+  const filteredAttorneys = isPremium
+    ? scoredAttorneys.sort((a, b) => b.score - a.score)
+    : scoredAttorneys;
+
+  const topScore = isPremium && scoredAttorneys.length > 0 ? Math.max(...scoredAttorneys.map((a) => a.score)) : 0;
 
   const handleRequestIntro = (attorney: typeof ATTORNEYS[0]) => {
     setConfirmAttorney(attorney);
@@ -305,6 +341,7 @@ export default function AttorneysPage() {
               attorney={attorney}
               onRequestIntro={handleRequestIntro}
               isRequested={requestedAttorneys.has(attorney.id)}
+              isRecommended={isPremium && attorney.score > 0 && attorney.score === topScore}
             />
           ))}
         </div>

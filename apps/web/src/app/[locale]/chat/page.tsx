@@ -187,7 +187,7 @@ export default function ChatPage() {
         body: JSON.stringify({
           message: userMessage.content,
           session_id: currentSessionId,
-          language: profile.language,
+          language: isFreeUser ? "en" : profile.language,
           visa_type: profile.visaType,
         }),
         signal: abortControllerRef.current.signal,

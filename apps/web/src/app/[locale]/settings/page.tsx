@@ -4,7 +4,7 @@ import { useTranslations } from "next-intl";
 import { useAuth } from "@/lib/auth-context";
 import { Link, useRouter } from "@/i18n/navigation";
 import { useEffect, useState } from "react";
-import { doc, updateDoc, serverTimestamp, Timestamp } from "firebase/firestore";
+import { doc, updateDoc, serverTimestamp, Timestamp, collection, addDoc, deleteDoc } from "firebase/firestore";
 import { db } from "@/lib/firebase";
 import { AppHeader } from "@/components/app-header";
 import { MobileNav } from "@/components/mobile-nav";
@@ -12,7 +12,7 @@ import { AppFooter } from "@/components/footer";
 import { Button } from "@/components/button";
 import { Input } from "@/components/input";
 import { DatePicker } from "@/components/date-picker";
-import { Save, LogOut, Globe } from "@/components/icons";
+import { Save, LogOut, Globe, Plus, X, User, Mail } from "@/components/icons";
 
 const VISA_TYPES = [
   { value: "H-1B", label: "H-1B" },
@@ -41,6 +41,60 @@ export default function SettingsPage() {
   // UI state
   const [isSaving, setIsSaving] = useState(false);
   const [showSuccessBanner, setShowSuccessBanner] = useState(false);
+
+  // Family member form state
+  const [showFamilyForm, setShowFamilyForm] = useState(false);
+  const [familyName, setFamilyName] = useState("");
+  const [familyRelationship, setFamilyRelationship] = useState("");
+  const [familyVisaType, setFamilyVisaType] = useState("");
+  const [familyVisaExpiry, setFamilyVisaExpiry] = useState<Date | null>(null);
+  const [familyPriorityDate, setFamilyPriorityDate] = useState<Date | null>(null);
+  const [isSavingFamily, setIsSavingFamily] = useState(false);
+
+  const isPremium = profile?.subscription?.plan === "premium";
+
+  const RELATIONSHIPS = ["spouse", "child", "parent", "sibling", "other"] as const;
+
+  const resetFamilyForm = () => {
+    setFamilyName("");
+    setFamilyRelationship("");
+    setFamilyVisaType("");
+    setFamilyVisaExpiry(null);
+    setFamilyPriorityDate(null);
+    setShowFamilyForm(false);
+  };
+
+  const handleAddFamilyMember = async () => {
+    if (!user || !familyName || !familyRelationship) return;
+    setIsSavingFamily(true);
+    try {
+      await addDoc(collection(db, "users", user.uid, "familyMembers"), {
+        name: familyName,
+        relationship: familyRelationship,
+        visaType: familyVisaType,
+        visaExpiry: familyVisaExpiry ? Timestamp.fromDate(familyVisaExpiry) : null,
+        priorityDate: familyPriorityDate ? Timestamp.fromDate(familyPriorityDate) : null,
+        createdAt: serverTimestamp(),
+        updatedAt: serverTimestamp(),
+      });
+      resetFamilyForm();
+      await refreshProfile();
+    } catch (error) {
+      console.error("Error adding family member:", error);
+    } finally {
+      setIsSavingFamily(false);
+    }
+  };
+
+  const handleDeleteFamilyMember = async (memberId: string) => {
+    if (!user || !confirm(t("deleteFamilyConfirm"))) return;
+    try {
+      await deleteDoc(doc(db, "users", user.uid, "familyMembers", memberId));
+      await refreshProfile();
+    } catch (error) {
+      console.error("Error deleting family member:", error);
+    }
+  };
 
   // Redirect if not authenticated or onboarding incomplete
   useEffect(() => {
@@ -191,11 +245,17 @@ export default function SettingsPage() {
                   id="language"
                   value={language}
                   onChange={(e) => setLanguage(e.target.value)}
-                  className="mt-2 block w-full rounded-lg border border-border bg-surface px-4 py-2.5 text-sm text-text-primary shadow-sm transition-colors focus:border-primary-500 focus:outline-none focus:ring-2 focus:ring-primary-500/20"
+                  disabled={profile.subscription.plan === "free"}
+                  className="mt-2 block w-full rounded-lg border border-border bg-surface px-4 py-2.5 text-sm text-text-primary shadow-sm transition-colors focus:border-primary-500 focus:outline-none focus:ring-2 focus:ring-primary-500/20 disabled:cursor-not-allowed disabled:opacity-60"
                 >
                   <option value="en">{t("languages.en")}</option>
                   <option value="es">{t("languages.es")}</option>
                 </select>
+                {profile.subscription.plan === "free" && (
+                  <p className="mt-1.5 text-xs text-primary-600">
+                    <Link href="/pricing" className="underline hover:text-primary-700">{t("languageUpgradeHint")}</Link>
+                  </p>
+                )}
               </div>
 
               {/* Visa Type */}
@@ -298,7 +358,7 @@ export default function SettingsPage() {
           </section>
 
           {/* Account Section */}
-          <section className="pb-8">
+          <section className="border-b border-border-strong pb-8">
             <h2 className="font-[var(--font-display)] text-xl text-text-primary">
               {t("account")}
             </h2>
@@ -318,6 +378,145 @@ export default function SettingsPage() {
               </p>
             </div>
           </section>
+
+          {/* Family Members Section — Premium only */}
+          {isPremium && (
+            <section className="border-b border-border-strong pb-8">
+              <div className="flex items-center justify-between">
+                <h2 className="font-[var(--font-display)] text-xl text-text-primary">
+                  {t("family")}
+                </h2>
+                {!showFamilyForm && (
+                  <Button
+                    type="button"
+                    variant="secondary"
+                    onClick={() => setShowFamilyForm(true)}
+                    className="inline-flex items-center gap-1 text-sm"
+                  >
+                    <Plus className="h-4 w-4" />
+                    {t("addFamilyMember")}
+                  </Button>
+                )}
+              </div>
+
+              {/* Existing family members list */}
+              {profile.familyMembers && profile.familyMembers.length > 0 ? (
+                <ul className="mt-4 space-y-3">
+                  {profile.familyMembers.map((member) => (
+                    <li key={member.id} className="flex items-center gap-3 rounded-lg border border-border p-4">
+                      <User className="h-5 w-5 text-text-tertiary" />
+                      <div className="flex-1">
+                        <p className="text-sm font-medium text-text-primary">{member.name}</p>
+                        <p className="text-xs text-text-secondary">
+                          {t(`relationships.${member.relationship}`)} &middot; {member.visaType || "—"}
+                          {member.visaExpiry && (
+                            <> &middot; Exp: {new Date(member.visaExpiry).toLocaleDateString()}</>
+                          )}
+                        </p>
+                      </div>
+                      <button
+                        type="button"
+                        onClick={() => handleDeleteFamilyMember(member.id)}
+                        className="text-xs text-danger hover:text-danger/80"
+                      >
+                        {t("deleteFamilyMember")}
+                      </button>
+                    </li>
+                  ))}
+                </ul>
+              ) : !showFamilyForm ? (
+                <p className="mt-4 text-sm text-text-tertiary">{t("noFamilyMembers")}</p>
+              ) : null}
+
+              {/* Add family member form */}
+              {showFamilyForm && (
+                <div className="mt-4 space-y-4 rounded-lg border border-border p-4">
+                  <div className="flex items-center justify-between">
+                    <h3 className="text-sm font-medium text-text-primary">{t("addFamilyMember")}</h3>
+                    <button type="button" onClick={resetFamilyForm} className="text-text-tertiary hover:text-text-primary">
+                      <X className="h-4 w-4" />
+                    </button>
+                  </div>
+
+                  <Input
+                    type="text"
+                    value={familyName}
+                    onChange={(e) => setFamilyName(e.target.value)}
+                    placeholder={t("familyName")}
+                  />
+
+                  <select
+                    value={familyRelationship}
+                    onChange={(e) => setFamilyRelationship(e.target.value)}
+                    className="block w-full rounded-lg border border-border bg-surface px-4 py-2.5 text-sm text-text-primary shadow-sm"
+                  >
+                    <option value="">{t("relationship")}</option>
+                    {RELATIONSHIPS.map((rel) => (
+                      <option key={rel} value={rel}>
+                        {t(`relationships.${rel}`)}
+                      </option>
+                    ))}
+                  </select>
+
+                  <select
+                    value={familyVisaType}
+                    onChange={(e) => setFamilyVisaType(e.target.value)}
+                    className="block w-full rounded-lg border border-border bg-surface px-4 py-2.5 text-sm text-text-primary shadow-sm"
+                  >
+                    <option value="">{t("familyVisaType")}</option>
+                    {VISA_TYPES.map((visa) => (
+                      <option key={visa.value} value={visa.value}>
+                        {tOnboarding(`visaTypes.${visa.value}`)}
+                      </option>
+                    ))}
+                  </select>
+
+                  <DatePicker
+                    label={tOnboarding("visaExpiry")}
+                    value={familyVisaExpiry}
+                    onChange={setFamilyVisaExpiry}
+                    placeholder={t("selectDate")}
+                  />
+
+                  <DatePicker
+                    label={tOnboarding("priorityDate")}
+                    value={familyPriorityDate}
+                    onChange={setFamilyPriorityDate}
+                    placeholder={t("selectDate")}
+                  />
+
+                  <Button
+                    type="button"
+                    variant="primary"
+                    disabled={!familyName || !familyRelationship || isSavingFamily}
+                    onClick={handleAddFamilyMember}
+                    className="w-full"
+                  >
+                    {isSavingFamily ? t("saving") : t("addFamilyMember")}
+                  </Button>
+                </div>
+              )}
+            </section>
+          )}
+
+          {/* Support Section — Premium only */}
+          {isPremium && (
+            <section className="pb-8">
+              <h2 className="font-[var(--font-display)] text-xl text-text-primary">
+                {t("support")}
+              </h2>
+              <p className="mt-2 text-sm text-text-secondary">
+                {t("supportDescription")}
+              </p>
+              <a
+                href="mailto:support@migravio.ai"
+                className="mt-4 inline-flex items-center gap-2 rounded-lg border border-border bg-surface px-5 py-3 text-sm font-semibold text-text-primary shadow-sm transition-colors hover:bg-surface-alt"
+              >
+                <Mail className="h-4 w-4" />
+                {t("contactSupport")}
+              </a>
+            </section>
+          )}
 
           {/* Action Buttons */}
           <div className="flex items-center justify-between border-t border-border-strong pt-8">
