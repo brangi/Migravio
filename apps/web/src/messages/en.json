@@ -16,7 +16,8 @@
     "goHome": "Go back home",
     "notFoundTitle": "Page not found",
     "notFoundDescription": "The page you're looking for doesn't exist or has been moved.",
-    "errorDescription": "We encountered an error while loading this page."
+    "errorDescription": "We encountered an error while loading this page.",
+    "saving": "Saving..."
   },
   "nav": {
     "dashboard": "Dashboard",
@@ -90,6 +91,10 @@
     "visaExpiryHelper": "When does your current visa status expire?",
     "priorityDateHelper": "Your priority date for green card applications (if applicable)",
     "skip": "Skip for now",
+    "step1Label": "Step 1",
+    "step2Label": "Step 2",
+    "step3Label": "Step 3",
+    "proBadge": "Pro",
     "visaTypes": {
       "H-1B": "H-1B (Specialty Occupation)",
       "F-1": "F-1 / OPT (Student)",
@@ -145,7 +150,11 @@
     "familyMembers": "Family Members",
     "addFamilyMember": "Add in Settings",
     "upgradeForFamily": "Upgrade to Premium for family profiles",
-    "prioritySupport": "Priority Support"
+    "prioritySupport": "Priority Support",
+    "upgradeToPremium": "Upgrade to Premium",
+    "noFamilyMembersYet": "No family members added yet.",
+    "familyDescription": "Add family members to track their visa status.",
+    "priorityDateLabel": "Priority date:"
   },
   "chat": {
     "title": "AI Immigration Assistant",
@@ -293,7 +302,9 @@
     },
     "support": "Priority Support",
     "supportDescription": "As a Premium member, you have access to dedicated support.",
-    "contactSupport": "Contact Support"
+    "contactSupport": "Contact Support",
+    "namePlaceholder": "Your name",
+    "expiryPrefix": "Exp:"
   },
   "landing": {
     "nav": {

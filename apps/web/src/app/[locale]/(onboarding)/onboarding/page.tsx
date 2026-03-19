@@ -67,13 +67,13 @@ export default function OnboardingPage() {
           {/* Step Labels */}
           <div className="flex justify-between text-xs font-medium text-text-tertiary">
             <span className={step >= 1 ? "text-primary-600" : ""}>
-              Step 1
+              {t("step1Label")}
             </span>
             <span className={step >= 2 ? "text-primary-600" : ""}>
-              Step 2
+              {t("step2Label")}
             </span>
             <span className={step >= 3 ? "text-primary-600" : ""}>
-              Step 3
+              {t("step3Label")}
             </span>
           </div>
 
@@ -135,7 +135,7 @@ export default function OnboardingPage() {
                         </span>
                         {isLocked && (
                           <span className="ml-2 inline-flex items-center rounded-full bg-primary-100 px-2 py-0.5 text-xs font-medium text-primary-700">
-                            Pro
+                            {t("proBadge")}
                           </span>
                         )}
                       </div>
@@ -264,7 +264,7 @@ export default function OnboardingPage() {
                 {saving ? (
                   <div className="flex items-center gap-2">
                     <div className="h-4 w-4 animate-spin rounded-full border-2 border-white border-t-transparent" />
-                    <span>Saving...</span>
+                    <span>{tCommon("saving")}</span>
                   </div>
                 ) : (
                   tCommon("getStarted")

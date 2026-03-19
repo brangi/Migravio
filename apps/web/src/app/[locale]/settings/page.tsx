@@ -223,7 +223,7 @@ export default function SettingsPage() {
                   id="displayName"
                   value={displayName}
                   onChange={(e) => setDisplayName(e.target.value)}
-                  placeholder="Your name"
+                  placeholder={t("namePlaceholder")}
                   disabled
                   className="mt-2"
                 />
@@ -410,7 +410,7 @@ export default function SettingsPage() {
                         <p className="text-xs text-text-secondary">
                           {t(`relationships.${member.relationship}`)} &middot; {member.visaType || "—"}
                           {member.visaExpiry && (
-                            <> &middot; Exp: {new Date(member.visaExpiry).toLocaleDateString()}</>
+                            <> &middot; {t("expiryPrefix")} {new Date(member.visaExpiry).toLocaleDateString()}</>
                           )}
                         </p>
                       </div>

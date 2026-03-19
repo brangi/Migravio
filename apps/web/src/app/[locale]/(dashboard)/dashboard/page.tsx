@@ -358,7 +358,7 @@ export default function DashboardPage() {
             </div>
             {profile.priorityDate && (
               <p className="mt-2 text-xs text-text-tertiary">
-                Priority date: {profile.priorityDate.toLocaleDateString()}
+                {t("priorityDateLabel")} {profile.priorityDate.toLocaleDateString()}
               </p>
             )}
           </div>
@@ -564,7 +564,7 @@ export default function DashboardPage() {
                 <Lock className="h-6 w-6 text-text-tertiary" />
                 <p className="mt-2 text-sm text-text-secondary">{t("upgradeForFamily")}</p>
                 <Link href="/pricing" className="mt-3 text-sm font-semibold text-primary-600 hover:text-primary-700">
-                  {profile.subscription.plan === "free" ? t("upgradeCta") : "Upgrade to Premium"}
+                  {profile.subscription.plan === "free" ? t("upgradeCta") : t("upgradeToPremium")}
                 </Link>
               </div>
             )}
@@ -591,13 +591,13 @@ export default function DashboardPage() {
               </ul>
             ) : isPremium ? (
               <div className="mt-3">
-                <p className="text-sm text-text-tertiary">No family members added yet.</p>
+                <p className="text-sm text-text-tertiary">{t("noFamilyMembersYet")}</p>
                 <Link href="/settings" className="mt-2 inline-flex items-center gap-1 text-sm font-medium text-primary-600 hover:text-primary-700">
                   {t("addFamilyMember")} <ArrowRight className="h-4 w-4" />
                 </Link>
               </div>
             ) : (
-              <p className="mt-3 text-sm text-text-tertiary">Add family members to track their visa status.</p>
+              <p className="mt-3 text-sm text-text-tertiary">{t("familyDescription")}</p>
             )}
           </div>
         </div>

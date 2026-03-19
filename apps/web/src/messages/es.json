@@ -16,7 +16,8 @@
     "goHome": "Volver al inicio",
     "notFoundTitle": "Página no encontrada",
     "notFoundDescription": "La página que buscas no existe o ha sido movida.",
-    "errorDescription": "Encontramos un error al cargar esta página."
+    "errorDescription": "Encontramos un error al cargar esta página.",
+    "saving": "Guardando..."
   },
   "nav": {
     "dashboard": "Panel",
@@ -90,6 +91,10 @@
     "visaExpiryHelper": "¿Cuándo vence tu estatus de visa actual?",
     "priorityDateHelper": "Tu fecha de prioridad para solicitudes de green card (si aplica)",
     "skip": "Omitir por ahora",
+    "step1Label": "Paso 1",
+    "step2Label": "Paso 2",
+    "step3Label": "Paso 3",
+    "proBadge": "Pro",
     "visaTypes": {
       "H-1B": "H-1B (Ocupación especializada)",
       "F-1": "F-1 / OPT (Estudiante)",
@@ -145,7 +150,11 @@
     "familyMembers": "Miembros de la familia",
     "addFamilyMember": "Agregar en Configuración",
     "upgradeForFamily": "Actualiza a Premium para perfiles familiares",
-    "prioritySupport": "Soporte prioritario"
+    "prioritySupport": "Soporte prioritario",
+    "upgradeToPremium": "Actualizar a Premium",
+    "noFamilyMembersYet": "No se han agregado familiares aún.",
+    "familyDescription": "Agrega familiares para rastrear el estado de su visa.",
+    "priorityDateLabel": "Fecha de prioridad:"
   },
   "chat": {
     "title": "Asistente de inmigración IA",
@@ -293,7 +302,9 @@
     },
     "support": "Soporte prioritario",
     "supportDescription": "Como miembro Premium, tienes acceso a soporte dedicado.",
-    "contactSupport": "Contactar soporte"
+    "contactSupport": "Contactar soporte",
+    "namePlaceholder": "Tu nombre",
+    "expiryPrefix": "Vence:"
   },
   "landing": {
     "nav": {
