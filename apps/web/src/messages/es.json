@@ -304,7 +304,13 @@
     "supportDescription": "Como miembro Premium, tienes acceso a soporte dedicado.",
     "contactSupport": "Contactar soporte",
     "namePlaceholder": "Tu nombre",
-    "expiryPrefix": "Vence:"
+    "expiryPrefix": "Vence:",
+    "appearance": "Apariencia",
+    "theme": {
+      "light": "Claro",
+      "dark": "Oscuro",
+      "system": "Sistema"
+    }
   },
   "landing": {
     "nav": {

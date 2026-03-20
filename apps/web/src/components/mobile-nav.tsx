@@ -29,7 +29,7 @@ export function MobileNav({ activePage }: MobileNavProps) {
   const navItems = user ? authNavItems : publicNavItems;
 
   return (
-    <nav className="fixed bottom-0 left-0 right-0 z-40 border-t border-border-strong bg-white shadow-[0_-2px_8px_-2px_oklch(0.20_0.02_275_/_0.08)] md:hidden">
+    <nav className="fixed bottom-0 left-0 right-0 z-40 border-t border-border-strong bg-surface shadow-[0_-2px_8px_-2px_oklch(0.20_0.02_275_/_0.08)] md:hidden">
       <div className="flex justify-around py-2">
         {navItems.map((item) => {
           const Icon = item.icon;

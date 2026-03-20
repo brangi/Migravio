@@ -18,6 +18,7 @@ import {
   X,
 } from "@/components/icons";
 import LanguageSwitcher from "@/components/language-switcher";
+import { ThemeToggle } from "@/components/theme-toggle";
 
 export default function LandingPage() {
   const t = useTranslations();
@@ -34,7 +35,7 @@ export default function LandingPage() {
   return (
     <div className="flex min-h-screen flex-col">
       {/* Header / Navigation */}
-      <header className="sticky top-0 z-50 border-b border-border-strong bg-white shadow-sm">
+      <header className="sticky top-0 z-50 border-b border-border-strong bg-surface shadow-sm">
         <div className="mx-auto flex h-16 max-w-7xl items-center justify-between px-4 sm:px-6 lg:px-8">
           <Link href="/" className="hover:opacity-80 transition-opacity">
             <Logo size="md" variant="full" />
@@ -55,7 +56,8 @@ export default function LandingPage() {
             </Link>
           </nav>
 
-          <div className="flex items-center gap-3">
+          <div className="flex items-center gap-2">
+            <ThemeToggle />
             <LanguageSwitcher />
             {loading ? (
               <div className="w-24" />
@@ -440,7 +442,7 @@ export default function LandingPage() {
             <div className="mt-16 grid gap-12 md:grid-cols-3">
               {/* Trust 1 - USCIS Data */}
               <div className="text-center">
-                <div className="mx-auto mb-6 flex h-16 w-16 items-center justify-center rounded-2xl bg-white shadow-sm border border-primary-200">
+                <div className="mx-auto mb-6 flex h-16 w-16 items-center justify-center rounded-2xl bg-surface shadow-sm border border-primary-200">
                   <BookOpen className="h-8 w-8 text-primary-600" />
                 </div>
                 <h3 className="text-lg font-semibold text-text-primary">
@@ -453,7 +455,7 @@ export default function LandingPage() {
 
               {/* Trust 2 - Privacy */}
               <div className="text-center">
-                <div className="mx-auto mb-6 flex h-16 w-16 items-center justify-center rounded-2xl bg-white shadow-sm border border-primary-200">
+                <div className="mx-auto mb-6 flex h-16 w-16 items-center justify-center rounded-2xl bg-surface shadow-sm border border-primary-200">
                   <Shield className="h-8 w-8 text-primary-600" />
                 </div>
                 <h3 className="text-lg font-semibold text-text-primary">
@@ -466,7 +468,7 @@ export default function LandingPage() {
 
               {/* Trust 3 - Expert Network */}
               <div className="text-center">
-                <div className="mx-auto mb-6 flex h-16 w-16 items-center justify-center rounded-2xl bg-white shadow-sm border border-primary-200">
+                <div className="mx-auto mb-6 flex h-16 w-16 items-center justify-center rounded-2xl bg-surface shadow-sm border border-primary-200">
                   <Handshake className="h-8 w-8 text-primary-600" />
                 </div>
                 <h3 className="text-lg font-semibold text-text-primary">

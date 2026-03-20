@@ -12,7 +12,8 @@ import { AppFooter } from "@/components/footer";
 import { Button } from "@/components/button";
 import { Input } from "@/components/input";
 import { DatePicker } from "@/components/date-picker";
-import { Save, LogOut, Globe, Plus, X, User, Mail } from "@/components/icons";
+import { Save, LogOut, Globe, Plus, X, User, Mail, Sun, Moon, Monitor } from "@/components/icons";
+import { useTheme } from "@/lib/theme-context";
 
 const VISA_TYPES = [
   { value: "H-1B", label: "H-1B" },
@@ -29,6 +30,7 @@ export default function SettingsPage() {
   const tNav = useTranslations("nav");
   const tOnboarding = useTranslations("onboarding");
   const { user, profile, loading, signOut, refreshProfile } = useAuth();
+  const { theme, setTheme } = useTheme();
   const router = useRouter();
 
   // Form state
@@ -376,6 +378,34 @@ export default function SettingsPage() {
               <p className="mt-2 text-xs text-text-tertiary">
                 {t("emailHelper")}
               </p>
+            </div>
+          </section>
+
+          {/* Appearance Section */}
+          <section className="border-b border-border-strong pb-8">
+            <h2 className="font-[var(--font-display)] text-xl text-text-primary">
+              {t("appearance")}
+            </h2>
+            <div className="mt-6 flex gap-3">
+              {(["light", "dark", "system"] as const).map((option) => {
+                const isActive = theme === option;
+                const Icon = option === "light" ? Sun : option === "dark" ? Moon : Monitor;
+                return (
+                  <button
+                    key={option}
+                    type="button"
+                    onClick={() => setTheme(option)}
+                    className={`flex flex-1 flex-col items-center gap-2 rounded-lg border-2 px-4 py-4 text-sm font-medium transition-colors ${
+                      isActive
+                        ? "border-primary-500 bg-primary-50 text-primary-600"
+                        : "border-border bg-surface text-text-secondary hover:border-border-strong"
+                    }`}
+                  >
+                    <Icon className="h-5 w-5" />
+                    {t(`theme.${option}`)}
+                  </button>
+                );
+              })}
             </div>
           </section>
 

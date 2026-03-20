@@ -79,7 +79,7 @@ function AttorneyCard({
   const t = useTranslations("attorneys");
 
   return (
-    <div className={`flex flex-col rounded-xl border bg-white p-6 shadow-warm-sm hover:shadow-warm-md transition-shadow ${isRecommended ? "border-primary-300 ring-1 ring-primary-200" : "border-border"}`}>
+    <div className={`flex flex-col rounded-xl border bg-surface p-6 shadow-warm-sm hover:shadow-warm-md transition-shadow ${isRecommended ? "border-primary-300 ring-1 ring-primary-200" : "border-border"}`}>
       {/* Recommended badge */}
       {isRecommended && (
         <div className="mb-3 inline-flex items-center gap-1 self-start rounded-full bg-primary-50 px-3 py-1 text-xs font-semibold text-primary-700">
@@ -158,7 +158,7 @@ function ConfirmationModal({
 
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/50 px-4">
-      <div className="w-full max-w-md rounded-xl bg-white p-6 shadow-warm-xl">
+      <div className="w-full max-w-md rounded-xl bg-surface p-6 shadow-warm-xl">
         <h3 className="text-lg font-bold font-display text-text-primary">
           {t("confirmTitle", { name: attorney.name })}
         </h3>
@@ -313,7 +313,7 @@ export default function AttorneysPage() {
             className={`rounded-full px-4 py-2 text-sm font-medium transition-colors ${
               selectedSpecialty === null
                 ? "bg-primary-600 text-white"
-                : "bg-white text-text-secondary hover:bg-surface-alt border border-border"
+                : "bg-surface text-text-secondary hover:bg-surface-alt border border-border"
             }`}
           >
             {t("allSpecialties")}
@@ -325,7 +325,7 @@ export default function AttorneysPage() {
               className={`rounded-full px-4 py-2 text-sm font-medium transition-colors ${
                 selectedSpecialty === specialty
                   ? "bg-primary-600 text-white"
-                  : "bg-white text-text-secondary hover:bg-surface-alt border border-border"
+                  : "bg-surface text-text-secondary hover:bg-surface-alt border border-border"
               }`}
             >
               {specialty}
@@ -347,7 +347,7 @@ export default function AttorneysPage() {
         </div>
 
         {filteredAttorneys.length === 0 && (
-          <div className="mt-8 rounded-lg border border-border bg-white p-8 text-center">
+          <div className="mt-8 rounded-lg border border-border bg-surface p-8 text-center">
             <p className="text-text-secondary">
               {t("noResults")}
             </p>

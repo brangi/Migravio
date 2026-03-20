@@ -5,6 +5,7 @@ import { notFound } from "next/navigation";
 import { DM_Serif_Display, DM_Sans } from "next/font/google";
 import { routing } from "@/i18n/routing";
 import { AuthProvider } from "@/lib/auth-context";
+import { ThemeProvider } from "@/lib/theme-context";
 import PWARegister from "@/components/pwa-register";
 import GoogleAnalytics from "@/components/google-analytics";
 import { Analytics } from "@vercel/analytics/react";
@@ -124,8 +125,14 @@ export default async function LocaleLayout({
   const messages = await getMessages();
 
   return (
-    <html lang={locale}>
+    <html lang={locale} suppressHydrationWarning>
       <head>
+        {/* Anti-flash: apply dark class before React hydrates */}
+        <script
+          dangerouslySetInnerHTML={{
+            __html: `(function(){try{var t=localStorage.getItem('migravio_theme');var d=t==='dark'||(t!=='light'&&window.matchMedia('(prefers-color-scheme:dark)').matches);if(d)document.documentElement.classList.add('dark')}catch(e){}})()`,
+          }}
+        />
         {/* Favicon & PWA icons */}
         <link rel="icon" href="/favicon.ico" sizes="32x32" />
         <link rel="icon" href="/icon.svg" type="image/svg+xml" />
@@ -179,10 +186,12 @@ export default async function LocaleLayout({
       </head>
       <body className={`${dmSerifDisplay.variable} ${dmSans.variable} font-sans antialiased`}>
         <NextIntlClientProvider messages={messages}>
-          <AuthProvider>
-            <PWARegister />
-            {children}
-          </AuthProvider>
+          <ThemeProvider>
+            <AuthProvider>
+              <PWARegister />
+              {children}
+            </AuthProvider>
+          </ThemeProvider>
         </NextIntlClientProvider>
         <GoogleAnalytics />
         <Analytics />

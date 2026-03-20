@@ -197,7 +197,7 @@ export default function SignupPage() {
           {/* Google button */}
           <button
             onClick={handleGoogle}
-            className="flex w-full items-center justify-center gap-2 rounded-lg border border-border bg-white px-4 py-2.5 text-sm font-medium text-text-primary shadow-sm hover:bg-surface-alt transition-colors"
+            className="flex w-full items-center justify-center gap-2 rounded-lg border border-border bg-surface px-4 py-2.5 text-sm font-medium text-text-primary shadow-sm hover:bg-surface-alt transition-colors"
           >
             <svg className="h-5 w-5" viewBox="0 0 24 24">
               <path

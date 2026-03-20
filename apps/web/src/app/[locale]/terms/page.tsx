@@ -18,7 +18,7 @@ export default function TermsPage() {
       {user ? (
         <AppHeader />
       ) : (
-        <header className="border-b border-border-strong bg-white shadow-sm">
+        <header className="border-b border-border-strong bg-surface shadow-sm">
           <div className="mx-auto flex h-16 max-w-4xl items-center justify-between px-4">
             <Link href="/" className="transition-opacity hover:opacity-80">
               <Logo size="sm" variant="full" />

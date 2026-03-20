@@ -304,7 +304,13 @@
     "supportDescription": "As a Premium member, you have access to dedicated support.",
     "contactSupport": "Contact Support",
     "namePlaceholder": "Your name",
-    "expiryPrefix": "Exp:"
+    "expiryPrefix": "Exp:",
+    "appearance": "Appearance",
+    "theme": {
+      "light": "Light",
+      "dark": "Dark",
+      "system": "System"
+    }
   },
   "landing": {
     "nav": {

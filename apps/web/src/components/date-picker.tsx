@@ -205,7 +205,7 @@ export function DatePicker({
           onClick={() => setIsOpen(!isOpen)}
           onKeyDown={handleKeyDown}
           placeholder={placeholder}
-          className={`w-full min-h-[48px] rounded-lg border px-4 py-2.5 pr-11 text-base text-text-primary bg-white transition-all placeholder:text-text-tertiary focus:outline-none focus:ring-2 focus:ring-primary-500 focus:ring-offset-1 cursor-pointer ${
+          className={`w-full min-h-[48px] rounded-lg border px-4 py-2.5 pr-11 text-base text-text-primary bg-surface transition-all placeholder:text-text-tertiary focus:outline-none focus:ring-2 focus:ring-primary-500 focus:ring-offset-1 cursor-pointer ${
             error
               ? "border-danger focus:ring-danger"
               : "border-border-strong hover:border-border-strong/80"
@@ -222,7 +222,7 @@ export function DatePicker({
       {/* Calendar Dropdown */}
       {isOpen && (
         <div
-          className="absolute left-0 right-0 z-[var(--z-dropdown)] mt-2 rounded-xl border border-border bg-white shadow-lg animate-slide-down"
+          className="absolute left-0 right-0 z-[var(--z-dropdown)] mt-2 rounded-xl border border-border bg-surface shadow-lg animate-slide-down"
           role="dialog"
           aria-label="Calendar"
           style={{

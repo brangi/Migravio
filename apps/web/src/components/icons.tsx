@@ -40,4 +40,7 @@ export {
   Eye,
   EyeOff,
   Lock,
+  Sun,
+  Moon,
+  Monitor,
 } from "lucide-react";

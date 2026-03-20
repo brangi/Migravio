@@ -13,10 +13,10 @@ export function Badge({
 }: BadgeProps) {
   const variantStyles = {
     default: "bg-surface-alt text-text-secondary border-border",
-    success: "bg-green-50 text-green-700 border-green-200",
-    warning: "bg-yellow-50 text-yellow-700 border-yellow-200",
-    danger: "bg-red-50 text-red-700 border-red-200",
-    info: "bg-primary-50 text-primary-700 border-primary-200",
+    success: "bg-success/10 text-success border-success/20",
+    warning: "bg-warning/10 text-warning border-warning/20",
+    danger: "bg-danger/10 text-danger border-danger/20",
+    info: "bg-info/10 text-info border-info/20",
   };
 
   const sizeStyles = {

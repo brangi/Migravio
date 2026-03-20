@@ -5,6 +5,7 @@ import { Link } from "@/i18n/navigation";
 import { useAuth } from "@/lib/auth-context";
 import { Logo } from "./logo";
 import LanguageSwitcher from "./language-switcher";
+import { ThemeToggle } from "./theme-toggle";
 import { LayoutDashboard, MessageCircle, Scale, CreditCard, LogOut, ArrowRight } from "./icons";
 
 interface AppHeaderProps {
@@ -30,7 +31,7 @@ export function AppHeader({ activePage }: AppHeaderProps) {
   const navItems = user ? authNavItems : publicNavItems;
 
   return (
-    <header className="sticky top-0 z-40 border-b border-border-strong bg-white shadow-sm">
+    <header className="sticky top-0 z-40 border-b border-border-strong bg-surface shadow-sm">
       <div className="mx-auto flex h-16 max-w-7xl items-center justify-between px-4 lg:px-6">
         {/* Logo */}
         <Link href={user ? "/dashboard" : "/"} className="flex-shrink-0">
@@ -64,7 +65,8 @@ export function AppHeader({ activePage }: AppHeaderProps) {
         </nav>
 
         {/* Right Actions */}
-        <div className="flex items-center gap-3">
+        <div className="flex items-center gap-2">
+          <ThemeToggle />
           <LanguageSwitcher />
           {user ? (
             <button

@@ -160,7 +160,7 @@ export default function PricingPage() {
           </h1>
 
           {/* Billing interval toggle - only shown for Pro plan */}
-          <div className="mt-8 inline-flex items-center rounded-lg border border-border bg-white p-1 shadow-sm">
+          <div className="mt-8 inline-flex items-center rounded-lg border border-border bg-surface p-1 shadow-sm">
             <button
               onClick={() => setBillingInterval("monthly")}
               className={`rounded-md px-4 py-2 text-sm font-medium transition-colors ${
@@ -268,7 +268,7 @@ function PricingCard({
 
   return (
     <div
-      className={`relative rounded-2xl border-2 bg-white p-8 shadow-sm transition-all ${getCardBorderClass()} ${
+      className={`relative rounded-2xl border-2 bg-surface p-8 shadow-sm transition-all ${getCardBorderClass()} ${
         planData.popular ? "scale-105 md:scale-110" : ""
       }`}
     >
@@ -332,7 +332,7 @@ function PricingCard({
             ? "cursor-not-allowed bg-surface-alt text-text-tertiary"
             : planData.popular
               ? "bg-primary-600 text-white hover:bg-primary-700"
-              : "border-2 border-border bg-white text-text-secondary hover:border-primary-500 hover:text-primary-600"
+              : "border-2 border-border bg-surface text-text-secondary hover:border-primary-500 hover:text-primary-600"
         }`}
       >
         {isLoading ? (

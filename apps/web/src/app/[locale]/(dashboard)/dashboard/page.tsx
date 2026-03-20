@@ -464,7 +464,7 @@ export default function DashboardPage() {
           {/* Policy Alerts Card */}
           <div className="relative rounded-xl bg-surface-alt border border-border p-6 shadow-sm overflow-hidden">
             {isFreeUser && (
-              <div className="absolute inset-0 z-10 flex flex-col items-center justify-center rounded-xl bg-white/80 backdrop-blur-sm">
+              <div className="absolute inset-0 z-10 flex flex-col items-center justify-center rounded-xl bg-surface/80 backdrop-blur-sm">
                 <Lock className="h-6 w-6 text-text-tertiary" />
                 <p className="mt-2 text-sm text-text-secondary">{t("upgradeForAlerts")}</p>
                 <Link href="/pricing" className="mt-3 text-sm font-semibold text-primary-600 hover:text-primary-700">{t("upgradeCta")}</Link>
@@ -516,7 +516,7 @@ export default function DashboardPage() {
           {/* Action Checklist Card */}
           <div className="relative rounded-xl bg-surface-alt border border-border p-6 shadow-sm md:col-span-2 lg:col-span-3 overflow-hidden">
             {isFreeUser && (
-              <div className="absolute inset-0 z-10 flex flex-col items-center justify-center rounded-xl bg-white/80 backdrop-blur-sm">
+              <div className="absolute inset-0 z-10 flex flex-col items-center justify-center rounded-xl bg-surface/80 backdrop-blur-sm">
                 <Lock className="h-6 w-6 text-text-tertiary" />
                 <p className="mt-2 text-sm text-text-secondary">{t("upgradeForChecklist")}</p>
                 <Link href="/pricing" className="mt-3 text-sm font-semibold text-primary-600 hover:text-primary-700">{t("upgradeCta")}</Link>
@@ -560,7 +560,7 @@ export default function DashboardPage() {
           {/* Family Members Card */}
           <div className="relative rounded-xl bg-surface-alt border border-border p-6 shadow-sm overflow-hidden">
             {!isPremium && (
-              <div className="absolute inset-0 z-10 flex flex-col items-center justify-center rounded-xl bg-white/80 backdrop-blur-sm">
+              <div className="absolute inset-0 z-10 flex flex-col items-center justify-center rounded-xl bg-surface/80 backdrop-blur-sm">
                 <Lock className="h-6 w-6 text-text-tertiary" />
                 <p className="mt-2 text-sm text-text-secondary">{t("upgradeForFamily")}</p>
                 <Link href="/pricing" className="mt-3 text-sm font-semibold text-primary-600 hover:text-primary-700">
