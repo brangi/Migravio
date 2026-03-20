@@ -510,7 +510,7 @@ export default function ChatPage() {
                     <h2 className="font-display text-2xl font-semibold text-text-primary">
                       {t("title")}
                     </h2>
-                    <p className="mt-2 text-sm text-text-secondary">
+                    <p className="mt-2 text-base text-text-secondary">
                       {t("subtitle")}
                     </p>
                   </div>
@@ -527,7 +527,7 @@ export default function ChatPage() {
                         key={prompt.labelKey}
                         type="button"
                         onClick={() => setInput(t(prompt.labelKey))}
-                        className="group flex items-start gap-3 rounded-xl border border-border bg-surface p-4 text-left text-sm text-text-secondary shadow-sm transition-all hover:border-primary-300 hover:shadow-md hover:text-text-primary"
+                        className="group flex items-start gap-3 rounded-xl border border-border bg-surface p-4 text-left text-base text-text-secondary shadow-sm transition-all hover:border-primary-300 hover:shadow-md hover:text-text-primary"
                       >
                         <prompt.icon className="mt-0.5 h-4 w-4 flex-shrink-0 text-primary-400 transition-colors group-hover:text-primary-600" />
                         <span>{t(prompt.labelKey)}</span>

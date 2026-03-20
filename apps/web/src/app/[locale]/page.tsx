@@ -119,7 +119,7 @@ export default function LandingPage() {
             </div>
 
             {/* Trust Indicators */}
-            <div className="mt-12 flex flex-wrap items-center justify-center gap-4 text-sm text-text-tertiary">
+            <div className="mt-12 flex flex-wrap items-center justify-center gap-4 text-base text-text-tertiary">
               <div className="flex items-center gap-2">
                 <Shield className="h-4 w-4 text-primary-500" />
                 <span>{t("landing.hero.trustBadge1")}</span>
@@ -297,7 +297,7 @@ export default function LandingPage() {
                 <h3 className="text-2xl font-bold text-text-primary font-[var(--font-display)]">
                   {t("pricing.free")}
                 </h3>
-                <p className="mt-2 text-sm text-text-tertiary">
+                <p className="mt-2 text-base text-text-tertiary">
                   {t("pricing.freeDescription")}
                 </p>
                 <p className="mt-6 text-4xl font-bold text-text-primary">
@@ -308,21 +308,21 @@ export default function LandingPage() {
                 <ul className="mt-8 space-y-3 flex-1">
                   <li className="flex items-start gap-3">
                     <Check className="h-5 w-5 flex-shrink-0 text-success" />
-                    <span className="text-sm text-text-secondary">
+                    <span className="text-base text-text-secondary">
                       {t("pricing.freeFeature1")}
                     </span>
                   </li>
                   <li className="flex items-start gap-3">
                     <Check className="h-5 w-5 flex-shrink-0 text-success" />
-                    <span className="text-sm text-text-secondary">{t("pricing.freeFeature2")}</span>
+                    <span className="text-base text-text-secondary">{t("pricing.freeFeature2")}</span>
                   </li>
                   <li className="flex items-start gap-3">
                     <Check className="h-5 w-5 flex-shrink-0 text-success" />
-                    <span className="text-sm text-text-secondary">{t("pricing.freeFeature3")}</span>
+                    <span className="text-base text-text-secondary">{t("pricing.freeFeature3")}</span>
                   </li>
                   <li className="flex items-start gap-3">
                     <X className="h-5 w-5 flex-shrink-0 text-text-tertiary" />
-                    <span className="text-sm text-text-tertiary">{t("pricing.freeFeature4")}</span>
+                    <span className="text-base text-text-tertiary">{t("pricing.freeFeature4")}</span>
                   </li>
                 </ul>
 
@@ -341,7 +341,7 @@ export default function LandingPage() {
                 <h3 className="text-2xl font-bold text-text-primary font-[var(--font-display)]">
                   {t("pricing.pro")}
                 </h3>
-                <p className="mt-2 text-sm text-text-tertiary">
+                <p className="mt-2 text-base text-text-tertiary">
                   {t("pricing.proDescription")}
                 </p>
                 <p className="mt-6">
@@ -352,23 +352,23 @@ export default function LandingPage() {
                 <ul className="mt-8 space-y-3 flex-1">
                   <li className="flex items-start gap-3">
                     <Check className="h-5 w-5 flex-shrink-0 text-success" />
-                    <span className="text-sm text-text-secondary">{t("pricing.proFeature1")}</span>
+                    <span className="text-base text-text-secondary">{t("pricing.proFeature1")}</span>
                   </li>
                   <li className="flex items-start gap-3">
                     <Check className="h-5 w-5 flex-shrink-0 text-success" />
-                    <span className="text-sm text-text-secondary">{t("pricing.proFeature2")}</span>
+                    <span className="text-base text-text-secondary">{t("pricing.proFeature2")}</span>
                   </li>
                   <li className="flex items-start gap-3">
                     <Check className="h-5 w-5 flex-shrink-0 text-success" />
-                    <span className="text-sm text-text-secondary">{t("pricing.proFeature3")}</span>
+                    <span className="text-base text-text-secondary">{t("pricing.proFeature3")}</span>
                   </li>
                   <li className="flex items-start gap-3">
                     <Check className="h-5 w-5 flex-shrink-0 text-success" />
-                    <span className="text-sm text-text-secondary">{t("pricing.proFeature4")}</span>
+                    <span className="text-base text-text-secondary">{t("pricing.proFeature4")}</span>
                   </li>
                   <li className="flex items-start gap-3">
                     <Check className="h-5 w-5 flex-shrink-0 text-success" />
-                    <span className="text-sm text-text-secondary">{t("pricing.proFeature5")}</span>
+                    <span className="text-base text-text-secondary">{t("pricing.proFeature5")}</span>
                   </li>
                 </ul>
 
@@ -384,7 +384,7 @@ export default function LandingPage() {
                 <h3 className="text-2xl font-bold text-text-primary font-[var(--font-display)]">
                   {t("pricing.premium")}
                 </h3>
-                <p className="mt-2 text-sm text-text-tertiary">
+                <p className="mt-2 text-base text-text-tertiary">
                   {t("pricing.premiumDescription")}
                 </p>
                 <p className="mt-6">
@@ -395,19 +395,19 @@ export default function LandingPage() {
                 <ul className="mt-8 space-y-3 flex-1">
                   <li className="flex items-start gap-3">
                     <Check className="h-5 w-5 flex-shrink-0 text-success" />
-                    <span className="text-sm text-text-secondary">{t("pricing.premiumFeature1")}</span>
+                    <span className="text-base text-text-secondary">{t("pricing.premiumFeature1")}</span>
                   </li>
                   <li className="flex items-start gap-3">
                     <Check className="h-5 w-5 flex-shrink-0 text-success" />
-                    <span className="text-sm text-text-secondary">{t("pricing.premiumFeature2")}</span>
+                    <span className="text-base text-text-secondary">{t("pricing.premiumFeature2")}</span>
                   </li>
                   <li className="flex items-start gap-3">
                     <Check className="h-5 w-5 flex-shrink-0 text-success" />
-                    <span className="text-sm text-text-secondary">{t("pricing.premiumFeature3")}</span>
+                    <span className="text-base text-text-secondary">{t("pricing.premiumFeature3")}</span>
                   </li>
                   <li className="flex items-start gap-3">
                     <Check className="h-5 w-5 flex-shrink-0 text-success" />
-                    <span className="text-sm text-text-secondary">{t("pricing.premiumFeature4")}</span>
+                    <span className="text-base text-text-secondary">{t("pricing.premiumFeature4")}</span>
                   </li>
                 </ul>
 
@@ -448,7 +448,7 @@ export default function LandingPage() {
                 <h3 className="text-lg font-semibold text-text-primary">
                   {t("landing.trust.trust1.title")}
                 </h3>
-                <p className="mt-3 text-sm text-text-secondary">
+                <p className="mt-3 text-base text-text-secondary">
                   {t("landing.trust.trust1.description")}
                 </p>
               </div>
@@ -461,7 +461,7 @@ export default function LandingPage() {
                 <h3 className="text-lg font-semibold text-text-primary">
                   {t("landing.trust.trust2.title")}
                 </h3>
-                <p className="mt-3 text-sm text-text-secondary">
+                <p className="mt-3 text-base text-text-secondary">
                   {t("landing.trust.trust2.description")}
                 </p>
               </div>
@@ -474,7 +474,7 @@ export default function LandingPage() {
                 <h3 className="text-lg font-semibold text-text-primary">
                   {t("landing.trust.trust3.title")}
                 </h3>
-                <p className="mt-3 text-sm text-text-secondary">
+                <p className="mt-3 text-base text-text-secondary">
                   {t("landing.trust.trust3.description")}
                 </p>
               </div>

@@ -163,7 +163,7 @@ export default function PricingPage() {
           <div className="mt-8 inline-flex items-center rounded-lg border border-border bg-surface p-1 shadow-sm">
             <button
               onClick={() => setBillingInterval("monthly")}
-              className={`rounded-md px-4 py-2 text-sm font-medium transition-colors ${
+              className={`rounded-md px-4 py-2 text-base font-medium transition-colors ${
                 billingInterval === "monthly"
                   ? "bg-primary-600 text-white"
                   : "text-text-secondary hover:bg-surface-alt"
@@ -173,7 +173,7 @@ export default function PricingPage() {
             </button>
             <button
               onClick={() => setBillingInterval("yearly")}
-              className={`rounded-md px-4 py-2 text-sm font-medium transition-colors ${
+              className={`rounded-md px-4 py-2 text-base font-medium transition-colors ${
                 billingInterval === "yearly"
                   ? "bg-primary-600 text-white"
                   : "text-text-secondary hover:bg-surface-alt"
@@ -290,7 +290,7 @@ function PricingCard({
 
       <div className="text-center">
         <h3 className="text-xl font-bold text-text-primary">{planData.name}</h3>
-        <p className="mt-2 text-sm text-text-tertiary">{planData.description}</p>
+        <p className="mt-2 text-base text-text-tertiary">{planData.description}</p>
 
         <div className="mt-6">
           <div className="flex items-baseline justify-center gap-1">
@@ -314,7 +314,7 @@ function PricingCard({
               <X className="mt-0.5 h-5 w-5 shrink-0 text-text-tertiary opacity-40" />
             )}
             <span
-              className={`text-sm ${
+              className={`text-base ${
                 feature.included ? "text-text-secondary" : "text-text-tertiary line-through"
               }`}
             >

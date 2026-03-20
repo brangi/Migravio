@@ -220,7 +220,7 @@ export default function SignupPage() {
             {t("googleSignIn")}
           </button>
 
-          <p className="text-center text-sm text-text-secondary">
+          <p className="text-center text-base text-text-secondary">
             {t("hasAccount")}{" "}
             <Link href="/login" className="font-medium text-primary-600 hover:text-primary-700">
               {t("login")}

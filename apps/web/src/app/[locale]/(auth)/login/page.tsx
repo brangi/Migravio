@@ -120,7 +120,7 @@ export default function LoginPage() {
           <h2 className="text-xl font-semibold font-[var(--font-display)] text-text-primary">
             {t("magicLinkSent")}
           </h2>
-          <p className="text-sm text-text-secondary">
+          <p className="text-base text-text-secondary">
             {t("magicLinkSentDescription", { email })}
           </p>
           <button
@@ -215,7 +215,7 @@ export default function LoginPage() {
           {/* Magic Link tab */}
           {tab === "magic-link" && (
             <form onSubmit={handleMagicLink} className="space-y-6">
-              <p className="text-sm text-text-secondary">{t("magicLinkEnterEmail")}</p>
+              <p className="text-base text-text-secondary">{t("magicLinkEnterEmail")}</p>
               <Input
                 id="email-magic"
                 type="email"
@@ -256,7 +256,7 @@ export default function LoginPage() {
                 label={t("password")}
               />
               <div className="text-right">
-                <Link href="/forgot-password" className="text-sm text-primary-600 hover:text-primary-700">
+                <Link href="/forgot-password" className="text-base text-primary-600 hover:text-primary-700">
                   {t("forgotPassword")}
                 </Link>
               </div>
@@ -296,7 +296,7 @@ export default function LoginPage() {
             {t("googleSignIn")}
           </button>
 
-          <p className="text-center text-sm text-text-secondary">
+          <p className="text-center text-base text-text-secondary">
             {t("noAccount")}{" "}
             <Link href="/signup" className="font-medium text-primary-600 hover:text-primary-700">
               {t("signup")}

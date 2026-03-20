@@ -347,7 +347,7 @@ export default function DashboardPage() {
         <div className="mt-6 grid animate-stagger gap-6 md:grid-cols-2 lg:grid-cols-3">
           {/* Visa Status Card */}
           <div className="rounded-xl border-l-4 border-primary-500 bg-surface-alt p-6 shadow-sm">
-            <h2 className="text-sm font-medium text-text-secondary">
+            <h2 className="text-base font-semibold text-text-secondary">
               {t("visaStatus")}
             </h2>
             <div className="mt-3 flex items-center justify-between">
@@ -365,7 +365,7 @@ export default function DashboardPage() {
 
           {/* Subscription Card */}
           <div className="rounded-xl bg-surface-alt border border-border p-6 shadow-sm">
-            <h2 className="text-sm font-medium text-text-secondary">
+            <h2 className="text-base font-semibold text-text-secondary">
               {t("subscription")}
             </h2>
             <div className="mt-3 flex items-center justify-between">
@@ -419,7 +419,7 @@ export default function DashboardPage() {
 
           {/* Recent Chats Card */}
           <div className="rounded-xl bg-surface-alt border border-border p-6 shadow-sm">
-            <h2 className="text-sm font-medium text-text-secondary">
+            <h2 className="text-base font-semibold text-text-secondary">
               {t("recentChats")}
             </h2>
             {recentChats.length === 0 ? (
@@ -470,7 +470,7 @@ export default function DashboardPage() {
                 <Link href="/pricing" className="mt-3 text-sm font-semibold text-primary-600 hover:text-primary-700">{t("upgradeCta")}</Link>
               </div>
             )}
-            <h2 className="text-sm font-medium text-text-secondary">
+            <h2 className="text-base font-semibold text-text-secondary">
               {t("policyAlerts")}
             </h2>
             {alerts.length === 0 ? (
@@ -489,7 +489,7 @@ export default function DashboardPage() {
                         rel="noopener noreferrer"
                         className={`block rounded-lg border border-border border-l-2 ${borderColor} p-3 hover:bg-surface`}
                       >
-                        <p className="line-clamp-2 text-sm font-medium text-text-primary">
+                        <p className="line-clamp-2 text-base font-medium text-text-primary">
                           {alert.title}
                         </p>
                         <p className="mt-1 line-clamp-2 text-xs text-text-secondary">
@@ -522,7 +522,7 @@ export default function DashboardPage() {
                 <Link href="/pricing" className="mt-3 text-sm font-semibold text-primary-600 hover:text-primary-700">{t("upgradeCta")}</Link>
               </div>
             )}
-            <h2 className="text-sm font-medium text-text-secondary">
+            <h2 className="text-base font-semibold text-text-secondary">
               {t("actionChecklist")}
             </h2>
             {checklist.length === 0 ? (
@@ -543,7 +543,7 @@ export default function DashboardPage() {
                       {item.urgent ? <AlertTriangle className="h-3 w-3" /> : <CheckCircle2 className="h-3 w-3" />}
                     </span>
                     <span
-                      className={`text-sm ${
+                      className={`text-base ${
                         item.urgent
                           ? "font-medium text-danger"
                           : "text-text-primary"
@@ -568,7 +568,7 @@ export default function DashboardPage() {
                 </Link>
               </div>
             )}
-            <h2 className="text-sm font-medium text-text-secondary">
+            <h2 className="text-base font-semibold text-text-secondary">
               {t("familyMembers")}
             </h2>
             {isPremium && profile.familyMembers && profile.familyMembers.length > 0 ? (

@@ -103,7 +103,7 @@ function AttorneyCard({
       </div>
 
       {/* Bio */}
-      <p className="mt-4 flex-1 text-sm text-text-secondary">{attorney.bio}</p>
+      <p className="mt-4 flex-1 text-base text-text-secondary">{attorney.bio}</p>
 
       {/* Languages */}
       <div className="mt-4 text-sm flex items-center gap-2">
@@ -162,7 +162,7 @@ function ConfirmationModal({
         <h3 className="text-lg font-bold font-display text-text-primary">
           {t("confirmTitle", { name: attorney.name })}
         </h3>
-        <p className="mt-3 text-sm text-text-secondary">{t("introDescription")}</p>
+        <p className="mt-3 text-base text-text-secondary">{t("introDescription")}</p>
 
         <div className="mt-6 flex gap-3">
           <Button variant="secondary" onClick={onCancel} className="flex-1">

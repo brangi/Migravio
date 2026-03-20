@@ -331,7 +331,7 @@ export default function SettingsPage() {
               </div>
 
               {profile.subscription.cancelAt && (
-                <p className="mt-3 text-sm text-warning">
+                <p className="mt-3 text-base text-warning">
                   {t("canceledNotice", {
                     date: new Date(
                       ((profile.subscription.cancelAt.seconds ?? profile.subscription.cancelAt._seconds) || 0) * 1000
@@ -535,7 +535,7 @@ export default function SettingsPage() {
               <h2 className="font-[var(--font-display)] text-xl text-text-primary">
                 {t("support")}
               </h2>
-              <p className="mt-2 text-sm text-text-secondary">
+              <p className="mt-2 text-base text-text-secondary">
                 {t("supportDescription")}
               </p>
               <a
