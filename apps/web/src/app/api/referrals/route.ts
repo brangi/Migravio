@@ -98,7 +98,7 @@ function generateAttorneyEmail(
     <p style="font-size: 12px; color: #9ca3af; margin-bottom: 10px;">
       <strong>Migravio</strong><br>
       AI-Powered Immigration Legal Platform<br>
-      <a href="https://migravio.ai" style="color: #667eea; text-decoration: none;">migravio.ai</a>
+      <a href="https://migravio.com" style="color: #667eea; text-decoration: none;">migravio.com</a>
     </p>
 
     <p style="font-size: 11px; color: #9ca3af; line-height: 1.4;">
@@ -156,7 +156,7 @@ function generateUserConfirmationEmail(
     </p>
 
     <div style="text-align: center; margin: 30px 0;">
-      <a href="https://migravio.ai/dashboard"
+      <a href="https://migravio.com/dashboard"
          style="display: inline-block; background: #667eea; color: white; padding: 14px 28px; text-decoration: none; border-radius: 6px; font-weight: 600; font-size: 16px;">
         Go to Dashboard
       </a>
@@ -164,7 +164,7 @@ function generateUserConfirmationEmail(
 
     <p style="font-size: 14px; color: #6b7280; margin-top: 30px;">
       If you don't hear back within 2 business days, please contact us at
-      <a href="mailto:support@migravio.ai" style="color: #667eea; text-decoration: none;">support@migravio.ai</a>.
+      <a href="mailto:support@migravio.com" style="color: #667eea; text-decoration: none;">support@migravio.com</a>.
     </p>
 
     <hr style="border: none; border-top: 1px solid #e5e7eb; margin: 30px 0;">
@@ -172,7 +172,7 @@ function generateUserConfirmationEmail(
     <p style="font-size: 12px; color: #9ca3af; margin-bottom: 10px;">
       <strong>Migravio</strong><br>
       AI-Powered Immigration Legal Platform<br>
-      <a href="https://migravio.ai" style="color: #667eea; text-decoration: none;">migravio.ai</a>
+      <a href="https://migravio.com" style="color: #667eea; text-decoration: none;">migravio.com</a>
     </p>
 
     <p style="font-size: 11px; color: #9ca3af; line-height: 1.4;">
@@ -296,7 +296,7 @@ export async function POST(request: NextRequest) {
 
     try {
       // Send email to attorney
-      // TODO: Switch to "Migravio <hello@migravio.ai>" after domain verification
+      // TODO: Switch to "Migravio <hello@migravio.com>" after domain verification
       const resend = getResend();
       const fromAddress = "Migravio <onboarding@resend.dev>";
       await resend.emails.send({

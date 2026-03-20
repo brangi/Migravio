@@ -509,7 +509,7 @@ export default function SettingsPage() {
                 {t("supportDescription")}
               </p>
               <a
-                href="mailto:support@migravio.ai"
+                href="mailto:support@migravio.com"
                 className="mt-4 inline-flex items-center gap-2 rounded-lg border border-border bg-surface px-5 py-3 text-sm font-semibold text-text-primary shadow-sm transition-colors hover:bg-surface-alt"
               >
                 <Mail className="h-4 w-4" />

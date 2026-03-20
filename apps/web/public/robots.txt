@@ -1,7 +1,7 @@
 User-agent: *
 Allow: /
 
-Sitemap: https://migravio.ai/sitemap.xml
+Sitemap: https://migravio.com/sitemap.xml
 
 # Block internal paths
 Disallow: /api/

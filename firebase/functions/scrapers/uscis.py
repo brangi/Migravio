@@ -21,7 +21,7 @@ SCRAPE_DELAY_SECONDS = 2
 
 # Request headers to identify ourselves
 HEADERS = {
-    'User-Agent': 'Migravio Immigration Assistant (migravio.ai) - Policy Monitoring',
+    'User-Agent': 'Migravio Immigration Assistant (migravio.com) - Policy Monitoring',
     'Accept': 'text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8',
     'Accept-Language': 'en-US,en;q=0.9',
 }

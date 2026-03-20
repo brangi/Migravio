@@ -85,7 +85,7 @@ export function LandingFooter() {
             </h3>
             <ul className="space-y-2 text-sm">
               <li>
-                <a href="mailto:support@migravio.ai" className="text-text-secondary hover:text-text-primary transition-colors">
+                <a href="mailto:support@migravio.com" className="text-text-secondary hover:text-text-primary transition-colors">
                   {t("contact")}
                 </a>
               </li>

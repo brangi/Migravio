@@ -122,7 +122,7 @@ def scrape_visa_bulletin() -> list[dict[str, Any]]:
     try:
         response = httpx.get(
             VISA_BULLETIN_URL,
-            headers={"User-Agent": "Migravio Immigration Assistant (migravio.ai)"},
+            headers={"User-Agent": "Migravio Immigration Assistant (migravio.com)"},
             follow_redirects=True,
             timeout=30.0,
         )
@@ -152,7 +152,7 @@ def scrape_visa_bulletin() -> list[dict[str, Any]]:
     try:
         response = httpx.get(
             bulletin_link,
-            headers={"User-Agent": "Migravio Immigration Assistant (migravio.ai)"},
+            headers={"User-Agent": "Migravio Immigration Assistant (migravio.com)"},
             follow_redirects=True,
             timeout=30.0,
         )

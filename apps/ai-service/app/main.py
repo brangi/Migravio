@@ -20,8 +20,8 @@ app.add_middleware(
     CORSMiddleware,
     allow_origins=[
         "http://localhost:3000",
-        "https://migravio.ai",
-        "https://www.migravio.ai",
+        "https://migravio.com",
+        "https://www.migravio.com",
         "https://migravio-web.vercel.app",
     ],
     allow_credentials=True,

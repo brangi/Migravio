@@ -16,7 +16,7 @@ Migravio helps immigrants in the United States navigate the immigration system �
 
 **The founder**: An immigrant building for his own community. Trust, privacy, and multilingual quality are non-negotiable from day one.
 
-**Domains**: `migravio.ai` (primary) · `migravio.com` (redirects to .ai)
+**Domains**: `migravio.com` (primary)
 **Name etymology**: *migra* (migrate) + *vio* (via — Latin/Spanish for path) = migration path
 
 ---
@@ -186,5 +186,5 @@ FIREBASE_ADMIN_SERVICE_ACCOUNT=   # JSON string
 
 ---
 
-*Product: Migravio · migravio.ai · migravio.com*
+*Product: Migravio · migravio.com*
 *Founder: Gibran · Build partner: Claude · Last updated: March 2026*

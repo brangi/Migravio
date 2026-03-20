@@ -392,7 +392,7 @@ export default function PrivacyPage() {
                 <p className="font-medium text-primary-900">Delete Your Data</p>
                 <p className="mt-1 text-base text-primary-800">
                   You can request deletion of your account and all associated data by contacting us at
-                  privacy@migravio.ai. We will process your request within 30 days.
+                  privacy@migravio.com. We will process your request within 30 days.
                 </p>
               </div>
 
@@ -462,7 +462,7 @@ export default function PrivacyPage() {
             </p>
             <p className="text-base leading-relaxed text-text-secondary">
               If you are a parent or guardian and believe your child has provided us with personal information,
-              please contact us immediately at privacy@migravio.ai, and we will delete the information.
+              please contact us immediately at privacy@migravio.com, and we will delete the information.
             </p>
           </section>
 
@@ -517,14 +517,14 @@ export default function PrivacyPage() {
             <div className="rounded-lg border border-border bg-surface-alt p-4">
               <p className="mb-2 text-base text-text-primary">
                 <strong>Email:</strong>{" "}
-                <a href="mailto:privacy@migravio.ai" className="text-primary-600 hover:text-primary-700">
-                  privacy@migravio.ai
+                <a href="mailto:privacy@migravio.com" className="text-primary-600 hover:text-primary-700">
+                  privacy@migravio.com
                 </a>
               </p>
               <p className="text-base text-text-primary">
                 <strong>For general support:</strong>{" "}
-                <a href="mailto:support@migravio.ai" className="text-primary-600 hover:text-primary-700">
-                  support@migravio.ai
+                <a href="mailto:support@migravio.com" className="text-primary-600 hover:text-primary-700">
+                  support@migravio.com
                 </a>
               </p>
             </div>
@@ -554,7 +554,7 @@ export default function PrivacyPage() {
               </li>
             </ul>
             <p className="text-base leading-relaxed text-text-secondary">
-              To exercise these rights, contact us at privacy@migravio.ai with "CCPA Request" in the
+              To exercise these rights, contact us at privacy@migravio.com with "CCPA Request" in the
               subject line.
             </p>
           </section>

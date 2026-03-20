@@ -408,7 +408,7 @@ export default function DashboardPage() {
             )}
             {isPremium && (
               <a
-                href="mailto:support@migravio.ai"
+                href="mailto:support@migravio.com"
                 className="mt-2 inline-flex items-center gap-1 text-xs text-primary-600 hover:text-primary-700"
               >
                 <Mail className="h-3 w-3" />

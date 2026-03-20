@@ -330,8 +330,8 @@ export default function TermsPage() {
             <div className="rounded-lg border border-border bg-surface-alt p-4">
               <p className="text-base text-text-primary">
                 <strong>Email:</strong>{" "}
-                <a href="mailto:support@migravio.ai" className="text-primary-600 hover:text-primary-700">
-                  support@migravio.ai
+                <a href="mailto:support@migravio.com" className="text-primary-600 hover:text-primary-700">
+                  support@migravio.com
                 </a>
               </p>
             </div>
