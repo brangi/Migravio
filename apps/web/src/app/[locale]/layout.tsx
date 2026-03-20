@@ -130,7 +130,7 @@ export default async function LocaleLayout({
         {/* Anti-flash: apply dark class before React hydrates */}
         <script
           dangerouslySetInnerHTML={{
-            __html: `(function(){try{var t=localStorage.getItem('migravio_theme');var d=t==='dark'||(t!=='light'&&window.matchMedia('(prefers-color-scheme:dark)').matches);if(d)document.documentElement.classList.add('dark')}catch(e){}})()`,
+            __html: `(function(){try{var t=localStorage.getItem('migravio_theme');if(t==='dark')document.documentElement.classList.add('dark');if(t==='system'&&window.matchMedia('(prefers-color-scheme:dark)').matches)document.documentElement.classList.add('dark')}catch(e){}})()`,
           }}
         />
         {/* Favicon & PWA icons */}
