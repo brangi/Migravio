@@ -88,7 +88,7 @@ export default function ForgotPasswordPage() {
             <h2 className="text-xl font-semibold font-[var(--font-display)] text-text-primary">
               {t("forgotPasswordSent")}
             </h2>
-            <p className="text-sm text-text-secondary">
+            <p className="text-base text-text-secondary">
               {t("forgotPasswordSentDescription", { email })}
             </p>
             <Link
@@ -139,14 +139,14 @@ export default function ForgotPasswordPage() {
             <h2 className="text-2xl font-semibold font-[var(--font-display)] text-text-primary">
               {t("forgotPasswordTitle")}
             </h2>
-            <p className="mt-2 text-sm text-text-secondary">
+            <p className="mt-2 text-base text-text-secondary">
               {t("forgotPasswordDescription")}
             </p>
           </div>
 
           <form onSubmit={handleSubmit} className="space-y-6">
             {error && (
-              <div className="rounded-lg bg-red-50 border border-red-200 p-3 text-sm text-red-700">
+              <div className="rounded-lg bg-red-50 border border-red-200 p-3 text-base text-red-700">
                 {error}
               </div>
             )}

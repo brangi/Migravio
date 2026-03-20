@@ -100,7 +100,7 @@ export default function OnboardingPage() {
               <h2 className="font-[var(--font-display)] text-xl text-text-primary">
                 {t("step1Title")}
               </h2>
-              <p className="text-sm text-text-secondary">{t("step1Subtitle")}</p>
+              <p className="text-base text-text-secondary">{t("step1Subtitle")}</p>
             </div>
 
             <div className="space-y-3">
@@ -167,7 +167,7 @@ export default function OnboardingPage() {
               <h2 className="font-[var(--font-display)] text-xl text-text-primary">
                 {t("step2Title")}
               </h2>
-              <p className="text-sm text-text-secondary">{t("step2Subtitle")}</p>
+              <p className="text-base text-text-secondary">{t("step2Subtitle")}</p>
             </div>
 
             <div className="space-y-3">
@@ -226,7 +226,7 @@ export default function OnboardingPage() {
               <h2 className="font-[var(--font-display)] text-xl text-text-primary">
                 {t("step3Title")}
               </h2>
-              <p className="text-sm text-text-secondary">{t("step3Subtitle")}</p>
+              <p className="text-base text-text-secondary">{t("step3Subtitle")}</p>
             </div>
 
             <div className="space-y-5">

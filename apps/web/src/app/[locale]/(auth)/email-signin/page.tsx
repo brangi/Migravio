@@ -85,7 +85,7 @@ export default function EmailSignInPage() {
             <h2 className="text-xl font-semibold font-[var(--font-display)] text-text-primary">
               {t("brandedPanel.unableToSignIn")}
             </h2>
-            <p className="text-sm text-text-secondary">
+            <p className="text-base text-text-secondary">
               {t("magicLinkError")}
             </p>
             <Link
@@ -129,7 +129,7 @@ export default function EmailSignInPage() {
         <div className="flex w-full lg:w-1/2 items-center justify-center bg-surface px-4 py-12">
           <div className="w-full max-w-md space-y-6 text-center">
             <div className="h-12 w-12 mx-auto animate-spin rounded-full border-4 border-primary-600 border-t-transparent" />
-            <p className="text-sm text-text-secondary">
+            <p className="text-base text-text-secondary">
               {t("magicLinkCompleting")}
             </p>
           </div>

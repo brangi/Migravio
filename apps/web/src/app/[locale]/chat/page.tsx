@@ -551,7 +551,7 @@ export default function ChatPage() {
                             : "bg-surface-alt border border-border text-text-primary rounded-2xl rounded-bl-md"
                         }`}
                       >
-                        <div className="text-sm leading-relaxed">
+                        <div className="text-base leading-relaxed">
                           {message.role === "user" ? (
                             message.content
                           ) : (
@@ -595,7 +595,7 @@ export default function ChatPage() {
                             <h3 className="font-semibold text-text-primary">
                               {t("escalation.title")}
                             </h3>
-                            <p className="mt-1 text-sm text-text-secondary">
+                            <p className="mt-1 text-base text-text-secondary">
                               {t("escalation.description")}
                             </p>
                             <Link
@@ -651,7 +651,7 @@ export default function ChatPage() {
                     onKeyDown={handleKeyDown}
                     placeholder={t("placeholder")}
                     disabled={isStreaming || (isFreeUser && messagesRemaining === 0)}
-                    className="block flex-1 resize-none border-0 bg-transparent px-1 py-1 text-sm text-text-primary placeholder:text-text-tertiary focus:outline-none focus:ring-0 disabled:text-text-tertiary"
+                    className="block flex-1 resize-none border-0 bg-transparent px-1 py-1 text-base text-text-primary placeholder:text-text-tertiary focus:outline-none focus:ring-0 disabled:text-text-tertiary"
                     rows={1}
                     style={{
                       minHeight: "36px",
