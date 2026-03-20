@@ -6,6 +6,8 @@ import { DM_Serif_Display, DM_Sans } from "next/font/google";
 import { routing } from "@/i18n/routing";
 import { AuthProvider } from "@/lib/auth-context";
 import PWARegister from "@/components/pwa-register";
+import GoogleAnalytics from "@/components/google-analytics";
+import { Analytics } from "@vercel/analytics/react";
 import "../globals.css";
 
 const dmSerifDisplay = DM_Serif_Display({
@@ -59,14 +61,14 @@ export const metadata: Metadata = {
     type: "website",
     locale: "en_US",
     alternateLocale: ["es_US"],
-    url: "https://migravio.ai",
+    url: "https://migravio.com",
     siteName: "Migravio",
     title: "Migravio - Navigate U.S. Immigration in Your Language",
     description:
       "AI-powered immigration assistant that answers 80% of your questions instantly. For the complex 20%, we connect you with vetted attorneys.",
     images: [
       {
-        url: "https://migravio.ai/og-image.png",
+        url: "https://migravio.com/og-image.png",
         width: 1200,
         height: 630,
         alt: "Migravio - Your Trusted Immigration Guide",
@@ -78,14 +80,14 @@ export const metadata: Metadata = {
     title: "Migravio - Navigate U.S. Immigration in Your Language",
     description:
       "AI-powered immigration assistant that answers 80% of your questions instantly. For the complex 20%, we connect you with vetted attorneys.",
-    images: ["https://migravio.ai/og-image.png"],
+    images: ["https://migravio.com/og-image.png"],
     creator: "@migravio",
   },
   alternates: {
-    canonical: "https://migravio.ai",
+    canonical: "https://migravio.com",
     languages: {
-      en: "https://migravio.ai/en",
-      es: "https://migravio.ai/es",
+      en: "https://migravio.com/en",
+      es: "https://migravio.com/es",
     },
   },
   verification: {
@@ -133,7 +135,7 @@ export default async function LocaleLayout({
         <link rel="manifest" href="/manifest.json" />
 
         {/* Canonical URL */}
-        <link rel="canonical" href={`https://migravio.ai/${locale}`} />
+        <link rel="canonical" href={`https://migravio.com/${locale}`} />
 
         {/* Preconnect to external domains for better performance */}
         <link rel="preconnect" href="https://fonts.googleapis.com" />
@@ -161,7 +163,7 @@ export default async function LocaleLayout({
               name: "Migravio",
               description:
                 "AI-powered immigration assistant for navigating the U.S. immigration system",
-              url: "https://migravio.ai",
+              url: "https://migravio.com",
               applicationCategory: "LegalService",
               offers: {
                 "@type": "AggregateOffer",
@@ -182,6 +184,8 @@ export default async function LocaleLayout({
             {children}
           </AuthProvider>
         </NextIntlClientProvider>
+        <GoogleAnalytics />
+        <Analytics />
       </body>
     </html>
   );
