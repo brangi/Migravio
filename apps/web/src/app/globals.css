@@ -152,9 +152,9 @@
 
 .dark {
   /* Primary Scale - Adjusted for dark backgrounds */
-  --color-primary-50:  oklch(0.18 0.03 275);
-  --color-primary-100: oklch(0.22 0.05 275);
-  --color-primary-200: oklch(0.30 0.08 275);
+  --color-primary-50:  oklch(0.20 0.03 275);
+  --color-primary-100: oklch(0.24 0.05 275);
+  --color-primary-200: oklch(0.32 0.08 275);
   --color-primary-300: oklch(0.40 0.12 275);
   --color-primary-400: oklch(0.55 0.14 275);
   --color-primary-500: oklch(0.60 0.16 275);
@@ -172,14 +172,14 @@
   --color-accent-500: oklch(0.68 0.16 50);
   --color-accent-600: oklch(0.75 0.14 48);
 
-  /* Neutral Scale - Dark surfaces */
-  --color-surface:       oklch(0.13 0.005 275);
-  --color-surface-alt:   oklch(0.17 0.008 275);
-  --color-border:        oklch(0.25 0.01 275);
-  --color-border-strong: oklch(0.32 0.015 275);
-  --color-text-primary:  oklch(0.93 0.005 80);
-  --color-text-secondary: oklch(0.70 0.01 270);
-  --color-text-tertiary: oklch(0.55 0.008 270);
+  /* Neutral Scale - Dark surfaces (GitHub Dark inspired) */
+  --color-surface:       oklch(0.15 0.005 275);
+  --color-surface-alt:   oklch(0.20 0.008 275);
+  --color-border:        oklch(0.30 0.012 275);
+  --color-border-strong: oklch(0.38 0.015 275);
+  --color-text-primary:  oklch(0.95 0.005 80);
+  --color-text-secondary: oklch(0.74 0.01 270);
+  --color-text-tertiary: oklch(0.60 0.008 270);
 
   /* Semantic Colors - Brighter for dark backgrounds */
   --color-success: oklch(0.65 0.15 145);
@@ -187,13 +187,13 @@
   --color-danger:  oklch(0.65 0.18 25);
   --color-info:    oklch(0.65 0.12 240);
 
-  /* Shadows - More transparent on dark */
-  --shadow-sm: 0 1px 2px 0 oklch(0 0 0 / 0.3);
-  --shadow-base: 0 1px 3px 0 oklch(0 0 0 / 0.4), 0 1px 2px -1px oklch(0 0 0 / 0.4);
-  --shadow-md: 0 4px 6px -1px oklch(0 0 0 / 0.4), 0 2px 4px -2px oklch(0 0 0 / 0.4);
-  --shadow-lg: 0 10px 15px -3px oklch(0 0 0 / 0.4), 0 4px 6px -4px oklch(0 0 0 / 0.4);
-  --shadow-xl: 0 20px 25px -5px oklch(0 0 0 / 0.4), 0 8px 10px -6px oklch(0 0 0 / 0.4);
-  --shadow-2xl: 0 25px 50px -12px oklch(0 0 0 / 0.5);
+  /* Shadows - Brand-tinted, softer on dark */
+  --shadow-sm: 0 1px 2px 0 oklch(0.08 0.01 275 / 0.20);
+  --shadow-base: 0 1px 3px 0 oklch(0.08 0.01 275 / 0.25), 0 1px 2px -1px oklch(0.08 0.01 275 / 0.25);
+  --shadow-md: 0 4px 6px -1px oklch(0.08 0.01 275 / 0.25), 0 2px 4px -2px oklch(0.08 0.01 275 / 0.25);
+  --shadow-lg: 0 10px 15px -3px oklch(0.08 0.01 275 / 0.28), 0 4px 6px -4px oklch(0.08 0.01 275 / 0.28);
+  --shadow-xl: 0 20px 25px -5px oklch(0.08 0.01 275 / 0.30), 0 8px 10px -6px oklch(0.08 0.01 275 / 0.30);
+  --shadow-2xl: 0 25px 50px -12px oklch(0.08 0.01 275 / 0.35);
 
   color-scheme: dark;
 }
